@@ -3,6 +3,8 @@ import fei.stuba.bp.rigo.preteky.models.sql.Race;
 import fei.stuba.bp.rigo.preteky.models.sql.Settings;
 import fei.stuba.bp.rigo.preteky.models.sql.Track;
 import fei.stuba.bp.rigo.preteky.repository.RaceRepository;
+import fei.stuba.bp.rigo.preteky.repository.SettingsRepository;
+import fei.stuba.bp.rigo.preteky.repository.TrackRepository;
 import fei.stuba.bp.rigo.preteky.service.service.RaceService;
 import fei.stuba.bp.rigo.preteky.web.dto.RaceRegistrationDto;
 import fei.stuba.bp.rigo.preteky.web.dto.SettingsDto;
@@ -19,10 +21,14 @@ import java.util.Optional;
 public class RaceImp implements RaceService {
     @Autowired
     private RaceRepository raceRepository;
+    private SettingsRepository settingsRepository;
+    private TrackRepository trackRepository;
 
-    public RaceImp(RaceRepository raceRepository){
+    public RaceImp(RaceRepository raceRepository,SettingsRepository settingsRepository,TrackRepository trackRepository){
         super();
         this.raceRepository = raceRepository;
+        this.settingsRepository=settingsRepository;
+        this.trackRepository=trackRepository;
     }
     @Override
     public Race save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto){
@@ -37,12 +43,15 @@ public class RaceImp implements RaceService {
                 raceRegistrationDto.getPhone(),raceRegistrationDto.getStartDate(),raceRegistrationDto.getEndDate(),raceRegistrationDto.getRaceType(),raceRegistrationDto.getNote(),
                 raceRegistrationDto.getDirector(),raceRegistrationDto.getArbitrator(),raceRegistrationDto.getTechnicalDelegate(),settings
         );
+
+        settingsRepository.save(settings);
+        trackRepository.save(track);
         return raceRepository.save(race);
     }
 
 
     @Override
-    public Race edit(Race race ){
+    public Race edit(Race race){
 
         return raceRepository.save(race);
     }
