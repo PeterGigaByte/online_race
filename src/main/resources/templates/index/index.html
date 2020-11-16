@@ -1,11 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Preteky</title>
-    <link rel="stylesheet" href="stylesheet.css">
+    <title>Systém pre organizáciu Atl.Pretekov</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+
+
 </head>
 <body>
+    <div class="topnav">
+        <a class="active" href="#home">Preteky</a>
+        <a href="#news">Disciplíny</a>
+        <a href="#contact">Prihlášky</a>
+        <a href="#about">Výsledky</a>
+    </div>
 
+    <main>
+
+        <div class="activeRace">
+            <a href="#">
+            <div class="race">MSR Slovenska - Bratislava - 1.1.2020 - 2.1.2020</div>
+            </a>
+        </div>
+
+        <div class="heading_t">
+            <!-- aktivny pretek -->
+            <a href="#">
+                <div class="addRace">
+                    <label>
+                        <img alt="addRace" class="plus" th:src="@{/images/plus.png}">
+                    Nový pretek
+                    </label>
+                </div>
+            </a>
+            <div class="editActiveRace">
+                <label>
+                    <img alt="addRace" class="plus" th:src="@{/images/Editing-Edit-icon.png}">
+                Editovať závod
+                </label>
+            </div>
+            <div class="search">
+                <label>
+                    <img alt="searchRace" class="plus" th:src="@{/images/Search-icon.png}">
+                    Hladať pretek
+                    <input th:id="searchRace" type="text" placeholder="Vyhladať závod">
+                </label>
+            </div>
+            <div class="minDate">
+                    <label th:for="from">
+                        <img alt="addRace" class="plus" th:src="@{/images/date-and-time.png}"> odkedy
+                    <input th:id="from" type="date">
+                    </label>
+            </div>
+            <div class="maxDate">
+                    <label th:for="to">
+                        <img alt="addRace" class="plus" th:src="@{/images/date-and-time.png}"> dokedy
+                    <input th:id="to" type="date">
+                    </label>
+
+            </div>
+        </div>
+        <hr>
+
+        <table th:id="table">
+            <thead>
+            <tr>
+                <th>Dátum</th>
+                <th>Názov</th>
+                <th>Miesto konania</th>
+                <th>Organizátor</th>
+            </tr>
+            <tr>
+                <th>11.2.2020</th>
+                <th>Msr Slovenska</th>
+                <th>Trnava</th>
+                <th>AZB</th>
+                <th><img alt="active" class="activeButton" th:src="@{/images/active.png}"></th>
+                <th><img alt="active" class="activatedButton" th:src="@{/images/edit.png}"></th>
+                <th><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></th>
+            </tr>
+            <tr>
+                <th>07.11.2020</th>
+                <th>Chodecké preteky</th>
+                <th>Nitra</th>
+                <th>ŠOG Nitra</th>
+                <th><img alt="active" class="activeButton" th:src="@{/images/active.png}"></th>
+                <th><img alt="active" class="activatedButton" th:src="@{/images/edit.png}"></th>
+                <th><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></th>
+            </tr>
+            <tr>
+                <th>14.11.2020</th>
+                <th>XIII. ročník Memoriálu Š.Kotiana</th>
+                <th>Ráztočno-Morovno</th>
+                <th>ZSAZ</th>
+                <th><img alt="active" class="activeButton" th:src="@{/images/active.png}"></th>
+                <th><img alt="active" class="activatedButton" th:src="@{/images/edit.png}"></th>
+                <th><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></th>
+            </tr>
+
+
+            </thead>
+        </table>
+    </main>
+
+    <footer class="footer">
+        ©PeterRigoDevelopment
+    </footer>
+    <script th:src="@{/js/index.js}"></script>
 </body>
 </html>

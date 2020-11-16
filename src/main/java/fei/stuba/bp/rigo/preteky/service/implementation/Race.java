@@ -13,6 +13,4 @@ public class Race implements fei.stuba.bp.rigo.preteky.service.service.Race {
         super();
         this.raceRepository = raceRepository;
     }
-
-
 }
