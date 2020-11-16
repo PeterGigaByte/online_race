@@ -23,8 +23,9 @@ public class Settings implements Serializable {
     /**
      * nastavenia dráh - radenie do dráh a počet dráh
      */
-    @Column(name = "id_track", nullable = false)
-    private Integer idTrack;
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_Track",referencedColumnName = "id")
+    private Track track;
 
     @Column(name = "camera_type", nullable = false)
     private String cameraType = "OMEGA";
@@ -59,4 +60,15 @@ public class Settings implements Serializable {
     @Column(name = "reactions", nullable = false)
     private Integer reactions = 0;
 
+    public Settings() {
+    }
+
+    public Settings(String cameraType, Integer typeRace, String typeScoring, Integer outCompetition, Integer reactions, Track track) {
+        this.cameraType = cameraType;
+        this.typeRace = typeRace;
+        this.typeScoring = typeScoring;
+        this.outCompetition = outCompetition;
+        this.reactions = reactions;
+        this.track=track;
+    }
 }

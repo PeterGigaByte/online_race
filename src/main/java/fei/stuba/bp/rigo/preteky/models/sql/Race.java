@@ -21,8 +21,9 @@ public class Race implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "id_settings", nullable = false)
-    private Integer idSettings;
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_settings", referencedColumnName = "id")
+    private Settings settings;
 
     /**
      * aktívny pretek
@@ -71,5 +72,27 @@ public class Race implements Serializable {
 
     @Column(name = "technical_delegate")
     private String technicalDelegate;
+    public Race(){
 
+    }
+    public Race(Integer activity, String raceName, String place, String organizer,
+                String resultsManager, String phone, Date startDate, Date endDate,
+                Integer raceType, String note, String director, String arbitrator,
+                String technicalDelegate,Settings settings) {
+        super();
+        this.activity = activity;
+        this.raceName = raceName;
+        this.place = place;
+        this.organizer = organizer;
+        this.resultsManager = resultsManager;
+        this.phone = phone;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.raceType = raceType;
+        this.note = note;
+        this.director = director;
+        this.arbitrator = arbitrator;
+        this.technicalDelegate = technicalDelegate;
+        this.settings=settings;
+    }
 }

@@ -1,8 +1,6 @@
 package fei.stuba.bp.rigo.preteky.web.controllers.index;
 
-import fei.stuba.bp.rigo.preteky.service.service.Race;
-import fei.stuba.bp.rigo.preteky.service.service.Settings;
-import fei.stuba.bp.rigo.preteky.service.service.Track;
+import fei.stuba.bp.rigo.preteky.service.service.RaceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -10,15 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class Index {
 
-    private Race race;
-    private Settings settings;
-    private Track track;
+    private RaceService raceService;
 
-    public Index(Race race,Settings settings, Track track){
+
+    public Index(RaceService raceService){
         super();
-        this.race=race;
-        this.settings=settings;
-        this.track=track;
+        this.raceService = raceService;
+
     }
 
     @GetMapping("/")

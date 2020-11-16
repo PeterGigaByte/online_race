@@ -53,4 +53,25 @@ public class Track implements Serializable {
     @Column(name = "type_track")
     private Integer typeTrack = 1;
 
+    public Track() {
+    }
+
+    public Track(Integer numberOfTracks, Integer one,
+                 Integer two, Integer three, Integer four,
+                 Integer five, Integer six, Integer seven,
+                 Integer eight, Integer nine, Integer ten,
+                 Integer typeTrack) {
+        this.numberOfTracks = numberOfTracks;
+        this.one = one;
+        this.two = two;
+        this.three = three;
+        this.four = four;
+        this.five = five;
+        this.six = six;
+        this.seven = seven;
+        this.eight = eight;
+        this.nine = nine;
+        this.ten = ten;
+        this.typeTrack = typeTrack;
+    }
 }
