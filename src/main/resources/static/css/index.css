@@ -135,9 +135,10 @@ a:link,a:visited{
 
 }
 .div-button:hover{
+    cursor: pointer;
     color: green;
     opacity: 0.9;
-    background: #94b5d9;
+
 }
 .behind-scene{
     position: fixed;
@@ -156,11 +157,14 @@ a:link,a:visited{
     max-width: 80%;
 }
 .behind-scene-header .title{
+    padding-left: 5px;
     font-size: 1.25rem;
     font-weight: bold;
 }
 .behind-scene-body{
+    height: 100%;
     width: 100%;
+    min-width: 500px;
     padding:10px 15px;
 }
 .behind-scene.active{
@@ -191,15 +195,83 @@ a:link,a:visited{
 }
 .center {
     margin: auto;
-    width: 50%;
-    border: 3px solid green;
+    width: 100%;
     padding: 10px;
 }
 .input-div{
+    font: 15px Arial, sans-serif;
     padding-bottom: 20px;
 }
 .input-box{
-    margin-top: 5px;
+    width: 60%;
+    margin-top: 15px;
     margin-left: 20px;
-    padding-bottom: 5px;
+    display: block;
+    font: 20px Arial, sans-serif;
+}
+.inlineDescription{
+    padding-top: 10px;
+    padding-left: 16px;
+    padding-bottom: 10px;
+}
+.first,.second,.third{
+    border-radius: 5px;
+    width: 32%;
+    display: inline-block;
+    font-size: 20px;
+    text-align: center;
+
+}
+.first{
+    background: cadetblue;
+}
+.second{
+    background: silver;
+}
+.third{
+    background: #94b5d9;
+}
+.first:hover{
+    cursor: pointer;
+    background: greenyellow;
+}
+.second:hover{
+    cursor: pointer;
+    background: greenyellow;
+}
+.third:hover{
+    cursor: pointer;
+    background: greenyellow;
+}
+.button-submit{
+    font-size: 15px;
+    margin-left: 32%;
+    text-align: center;
+    width: 120px;
+    height: 25px;
+    padding-bottom:25px;
+    color: blue;
+    background: lawngreen;
+}
+#checkboxH,checkboxH2,#checkboxO,#checkboxR{
+    width: 20px;
+    height: 15px;
+}
+#detailsBlock{
+    display: none;
+}
+.necessary{
+    color: red;
+    font-size: 15px;
+}
+#settingsBlock{
+    display: none;
+}
+.firstColumn{
+    float: left;
+    display: inline-block;
+}
+.secondColumn{
+    float: left;
+    display: inline-block;
 }
