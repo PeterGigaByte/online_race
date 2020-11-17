@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Systém pre organizáciu Atl.Pretekov</title>
-    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link th:rel="icon"
+          th:href="@{../../static/images/race.png}">
+    <link th:rel="stylesheet" th:href="@{/css/index.css}">
 
 
 </head>
@@ -17,46 +19,56 @@
 
     <main>
 
-        <div class="activeRace">
+        <div th:class="activeRace">
             <a href="#">
-            <div class="raceService">MSR Slovenska - Bratislava - 1.1.2020 - 2.1.2020</div>
+            <div th:class="raceService">MSR Slovenska - Bratislava - 1.1.2020 - 2.1.2020</div>
             </a>
         </div>
 
-        <div class="heading_t">
+        <div th:class="heading_t">
             <!-- aktivny pretek -->
-            <a href="#">
-                <div class="addRace">
-                    <label>
-                        <img alt="addRace" class="plus" th:src="@{/images/plus.png}">
-                    Nový pretek
-                    </label>
+
+                <div th:class="addRace">
+
+                        <label th:class="div-button">
+                            <img alt="addRace" class="plus" th:src="@{/images/plus.png}">
+                        Nový pretek
+                        </label>
+
+
                 </div>
-            </a>
-            <div class="editActiveRace">
-                <label>
-                    <img alt="addRace" class="plus" th:src="@{/images/Editing-Edit-icon.png}">
-                Editovať závod
-                </label>
+
+            <div th:class="editActiveRace">
+
+                    <label th:class="div-button">
+                        <img alt="addRace" class="plus" th:src="@{/images/Editing-Edit-icon.png}">
+                    Editovať závod
+                    </label>
             </div>
-            <div class="search">
-                <label>
-                    <img alt="searchRace" class="plus" th:src="@{/images/Search-icon.png}">
-                    Hladať pretek
-                    <input th:id="searchRace" type="text" placeholder="Vyhladať závod">
-                </label>
+            <div th:class="search">
+
+                    <label>
+                        <img alt="searchRace" class="plus" th:src="@{/images/Search-icon.png}">
+                        Hladať pretek
+                        <input th:id="searchRace" type="text" placeholder="Vyhladať závod">
+                    </label>
+
             </div>
-            <div class="minDate">
+            <div th:class="minDate">
+
                     <label th:for="from">
                         <img alt="addRace" class="plus" th:src="@{/images/date-and-time.png}"> odkedy
                     <input th:id="from" type="date">
                     </label>
+
             </div>
-            <div class="maxDate">
+            <div th:class="maxDate">
+
                     <label th:for="to">
                         <img alt="addRace" class="plus" th:src="@{/images/date-and-time.png}"> dokedy
                     <input th:id="to" type="date">
                     </label>
+
 
             </div>
         </div>
@@ -102,10 +114,106 @@
             </thead>
         </table>
     </main>
+    <section>
+        <form th:action="@{/}">
+            <div th:id="behind-scene" class="behind-scene active">
+                <div th:id="behind-scene-header" th:class="behind-scene-header">
 
-    <footer class="footer">
+                    <div th:id="title" th:class="title">
+                        Registrácia preteku
+                    </div>
+                    <input type="image" th:class="exit" th:src="@{/images/exit.png}" alt="exit">
+                    <div th:id="behind-scene-body" th:class="behind-scene-body">
+                        <div th:class="center">
+                            <div th:class="input-div">
+                                <label>
+                                    Názov závodu
+                                    <input th:class="input-box" placeholder="Názov závodu" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Miesto Konania
+                                    <input th:class="input-box" placeholder="Miesto konania" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Organizátor
+                                    <input th:class="input-box" placeholder="Organizátor" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Spracovateľ výsledkov
+                                    <input th:class="input-box" placeholder="Spracovateľ výsledkov" th:type="text">
+                                </label>
+                            </div>
+
+                            <div th:class="input-div">
+                                <label>
+                                    Telefón
+                                    <input th:class="input-box" placeholder="Telefón" th:type="tel"  pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" >
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Dátum začiatku
+                                    <input th:class="input-box" th:type="date">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Dátum konca
+                                    <input th:class="input-box" th:type="date">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Halová sezóna
+                                    <input th:class="input-box" th:type="checkbox">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Poznámky
+                                    <input th:class="input-box" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+
+                                <label>
+                                    Riaditeľ
+                                    <input th:class="input-box" placeholder="Riaditeľ" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Rozhodca
+                                    <input th:class="input-box" placeholder="Rozhodca" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Technický delegát
+                                    <input th:class="input-box" placeholder="Technický delegát" th:type="text">
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </form>
+    </section>
+
+    <footer th:class="footer">
         ©PeterRigoDevelopment
     </footer>
+    <div th:id="overlay" th:class="active"></div>
     <script th:src="@{/js/index.js}"></script>
 </body>
 </html>

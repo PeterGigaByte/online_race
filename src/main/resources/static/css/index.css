@@ -43,6 +43,10 @@ tr:nth-child(even) {
 
     background-color: #dddddd;
 }
+.raceService{
+    color: green;
+    font-size: 20px;
+}
 .activeRace{
     padding-top: 10px;
     width: 100%;
@@ -126,4 +130,76 @@ a:link,a:visited{
     background-color: gray;
     color: white;
     text-align: center;
+}
+.div-button:visited{
+
+}
+.div-button:hover{
+    color: green;
+    opacity: 0.9;
+    background: #94b5d9;
+}
+.behind-scene{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 10;
+    background-color: white;
+
+    max-width: 80%;
+}
+.behind-scene-header .title{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.behind-scene-body{
+    width: 100%;
+    padding:10px 15px;
+}
+.behind-scene.active{
+    transform: translate(-50%,-50%) scale(1);
+}
+.exit{
+     float: right;
+     width: 50px;
+     height: 50px;
+}
+#overlay{
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0, .5);
+    pointer-events: none;
+}
+#overlay.active{
+    opacity: 1;
+    pointer-events: all;
+}
+.behind-scene-header .title{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}
+.input-div{
+    padding-bottom: 20px;
+}
+.input-box{
+    margin-top: 5px;
+    margin-left: 20px;
+    padding-bottom: 5px;
 }
