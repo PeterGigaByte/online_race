@@ -22,7 +22,7 @@ public class SettingsDto {
      * kde získava pretekár body pre klub
      */
 
-    private String typeScoring = "žiadne";
+    private String typeScoring = "comptetitor_race";
 
     /**
      * ak bude mimo súťaž, čo s ním?

@@ -38,7 +38,7 @@
 
                 </div>
 
-            <div th:class="editActiveRace">
+            <div th:id="editActiveRace" th:class="editActiveRace">
 
                     <label th:class="div-button">
                         <img alt="addRace" class="plus" th:src="@{/images/Editing-Edit-icon.png}">
@@ -115,8 +115,8 @@
         </table>
     </main>
     <section>
-        <form th:action="@{/}">
-            <div th:id="behind-scene" class="behind-scene active">
+        <form th:action="@{/}" method="post" th:object = "${raceRegister}">
+            <div th:id="behind-scene" class="behind-scene">
                 <div th:id="behind-scene-header" th:class="behind-scene-header">
                     <div th:class="inlineDescription">
                         <div th:id="first" class="first div-button">
@@ -144,53 +144,67 @@
                                 <div th:class="input-div">
                                     <label>
                                         Názov závodu<span th:class="necessary"> *</span>
-                                        <input th:class="input-box" placeholder="Názov závodu" th:type="text">
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Názov nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:field="*{raceName}" th:class="input-box" placeholder="Názov závodu" th:type="text">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Miesto Konania<span th:class="necessary"> *</span>
-                                        <input th:class="input-box" placeholder="Miesto konania" th:type="text">
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Miesto nesmie byť prázdne.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:field="*{place}" th:class="input-box" placeholder="Miesto konania" th:type="text">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Organizátor<span th:class="necessary"> *</span>
-                                        <input th:class="input-box" placeholder="Organizátor" th:type="text">
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Pole organizátora nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:field="*{organizer}" th:class="input-box" placeholder="Organizátor" th:type="text">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Spracovateľ výsledkov<span th:class="necessary"> *</span>
-                                        <input th:class="input-box" placeholder="Spracovateľ výsledkov" th:type="text">
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Pole spracovateľa nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:field="*{resultsManager}" th:class="input-box" placeholder="Spracovateľ výsledkov" th:type="text">
                                     </label>
                                 </div>
 
                                 <div th:class="input-div">
                                     <label>
                                         Telefón<span th:class="necessary"> *</span>
-                                        <input th:class="input-box" placeholder="Telefón" th:type="tel"  pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" >
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Telefón nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:field="*{phone}" th:class="input-box" placeholder="Telefón" th:type="tel" >
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Dátum začiatku<span th:class="necessary"> *</span>
-                                        <input th:class="input-box" th:type="date">
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Dátum nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:field="*{startDate}" th:class="input-box" th:type="date">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Dátum konca<span th:class="necessary"> *</span>&nbsp;
-                                        <input th:class="input-box" th:type="date">
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Dátum nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:field="*{endDate}" th:class="input-box" th:type="date">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Halová sezóna
-                                        <input th:id="checkboxH" th:class="input-box" th:type="checkbox">
+                                        <input th:id="checkboxH" th:value="false" th:class="input-box" th:type="checkbox">
                                     </label>
                                 </div>
-                                <button value="Vytvoriť" th:type="submit" class="button-submit center">Vytvoriť</button>
+                                <button value="Vytvoriť" type="submit" class="button-submit center">Vytvoriť</button>
                             </div>
 
                             <!--                           -->
@@ -231,7 +245,7 @@
                                     <div th:class="input-div">
                                         <label>
                                             Typ kamery
-                                            <select th:class="input-box" th:type="select">
+                                            <select th:object = "${settingsRegister}" th:field="*{cameraType}" th:class="input-box" th:type="select">
                                                 <option value="omega">
                                                     Omega
                                                 </option>
@@ -241,15 +255,15 @@
                                     <div th:class="input-div">
                                         <label>
                                             Typ Bodovania
-                                            <select th:class="input-box" th:type="select">
+                                            <select th:object = "${settingsRegister}" th:field="*{typeScoring}" th:class="input-box" th:type="select">
+                                                <option value="comptetitor_race">
+                                                    Súťaž jednotlivcov
+                                                </option>
                                                 <option value="club_race">
                                                     Súťaž družstiev
                                                 </option>
                                                 <option value="multiDisciplines">
                                                     Viacboj
-                                                </option>
-                                                <option value="comptetitor_race">
-                                                    Súťaž jednotlivcov
                                                 </option>
                                             </select>
                                         </label>
@@ -257,19 +271,19 @@
                                     <div th:class="input-div">
                                         <label>
                                             Hala
-                                            <input th:id="checkboxH2" th:class="input-box" th:type="checkbox">
+                                            <input th:id="checkboxH2" th:value="false" th:class="input-box" th:type="checkbox">
                                         </label>
                                     </div>
                                     <div th:class="input-div">
                                         <label>
                                             Mimo súťaž
-                                            <input th:id="checkboxO" th:class="input-box" th:type="checkbox">
+                                            <input   th:id="checkboxO" th:class="input-box" th:type="checkbox">
                                         </label>
                                     </div>
                                     <div th:class="input-div">
                                         <label>
                                              Reakcie
-                                            <input th:id="checkboxR" th:class="input-box" th:type="checkbox">
+                                            <input  th:id="checkboxR" th:class="input-box" th:type="checkbox">
                                         </label>
                                     </div>
 
@@ -281,7 +295,7 @@
                                     <div th:class="input-div">
                                         <label>
                                             Počet dráh
-                                            <input  th:id="tracksNumber" th:class="input-box" th:type="number" min="1" max="10">
+                                            <input th:object = "${trackDto}" th:field="*{numberOfTracks}"  th:id="tracksNumber" th:value="8" th:class="input-box" th:type="number" min="1" max="10">
                                         </label>
                                     </div>
 
@@ -305,7 +319,7 @@
     <footer th:class="footer">
         ©PeterRigoDevelopment
     </footer>
-    <div th:id="overlay" th:class="active"></div>
+    <div th:id="overlay"></div>
     <script th:src="@{/js/index.js}"></script>
 </body>
 </html>

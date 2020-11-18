@@ -1,3 +1,6 @@
+body{
+    min-width: 960px;
+}
 /* Add a black background color to the top navigation */
 .topnav {
     background-color: #333;
@@ -149,7 +152,6 @@ a:link,a:visited{
     -moz-transition: all 1s ease-in-out;
     -o-transition: all 1s ease-in-out;
     transition: all 1s ease-in-out;
-    border: 1px solid black;
     border-radius: 10px;
     z-index: 10;
     background-color: white;
@@ -253,7 +255,7 @@ a:link,a:visited{
     color: blue;
     background: lawngreen;
 }
-#checkboxH,checkboxH2,#checkboxO,#checkboxR{
+#checkboxH,#checkboxH2,#checkboxO,#checkboxR{
     width: 20px;
     height: 15px;
 }
