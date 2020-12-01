@@ -277,3 +277,6 @@ a:link,a:visited{
     float: left;
     display: inline-block;
 }
+.hidden{
+    display: none;
+}

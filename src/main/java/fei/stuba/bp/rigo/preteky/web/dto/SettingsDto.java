@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class SettingsDto {
 
-    private Integer idTrack;
 
 
     private String cameraType = "OMEGA";
@@ -39,4 +38,14 @@ public class SettingsDto {
      */
 
     private Integer reactions = 0;
+    public void checkForNulls(){
+        if(this.typeRace==null){
+            this.typeRace=1;
+        }if(this.outCompetition==null){
+            this.outCompetition=1;
+        }if(this.reactions==null){
+            this.reactions=0;
+        }
+    }
 }
+

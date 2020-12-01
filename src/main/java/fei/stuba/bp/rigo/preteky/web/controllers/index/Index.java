@@ -15,11 +15,11 @@ public class Index {
 
     private RaceService raceService;
 
-
     public Index(RaceService raceService){
         super();
         this.raceService = raceService;
     }
+
     @ModelAttribute("raceRegister")
     public RaceRegistrationDto raceRegistrationDto(){
         return  new RaceRegistrationDto();
@@ -29,6 +29,7 @@ public class Index {
     public SettingsDto settingsDto(){
         return  new SettingsDto();
     }
+
     @ModelAttribute("trackDto")
     public TrackDto trackDto(){
         return  new TrackDto();
@@ -46,7 +47,14 @@ public class Index {
                                        SettingsDto settingsDto,
                                @ModelAttribute("trackDto")
                                            TrackDto trackDto){
-        System.out.println(settingsDto.getCameraType());
+        raceRegistrationDto.checkForNulls();
+        settingsDto.checkForNulls();
+        System.out.println(raceRegistrationDto.toString());
+        System.out.println(settingsDto.toString());
+        System.out.println(trackDto.toString());
+        raceService.save(raceRegistrationDto,settingsDto,trackDto);
+
         return "redirect:/";
     }
+
 }

@@ -32,10 +32,12 @@ public class TrackDto {
     private Integer eight = 8;
 
 
-    private Integer nine;
+    private Integer nine = 9;
 
 
-    private Integer ten;
+    private Integer ten = 10;
 
     private Integer typeTrack = 1;
+
+
 }

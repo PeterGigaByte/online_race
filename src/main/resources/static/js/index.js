@@ -44,47 +44,45 @@ editActiveRace.addEventListener("click",showAddRace);
 
 //nastavenia automatické generovanie dráh
 let tracksNumber = document.getElementById("tracksNumber");
-let tracks = document.getElementById("tracks");
-tracksNumber.addEventListener('change',generateTracks);
-//
+let tracks = document.getElementById("tracks").children;
+tracksNumber.addEventListener('keyup',tracksCheck);
+tracks.item(0).classList.remove("hidden");
 
 //checkbox Hala Prepojenie
 let checkboxH = document.getElementById("checkboxH");
 let checkboxH2 = document.getElementById("checkboxH2");
+let checkboxR = document.getElementById("checkboxR");
+let checkboxO = document.getElementById("checkboxO");
 checkboxH.addEventListener("change",sync);
 checkboxH2.addEventListener("change",sync2);
-//
+checkboxR.addEventListener("change",f1);
+checkboxO.addEventListener("change",f2);
+
+f(checkboxH);f(checkboxH2);f(checkboxO);f(checkboxR);
 
 //generovanie
-generateTracks();
+
 //
-
-
-
-
-
-
-
-function generateTracks() {
-    let i = tracksNumber.value;
-    let tracksString='';
-    let track = 1;
-    let positionsEight = [6,4,2,1,3,5,7,8,9,10];
-    if(checkboxH.checked){
-        positionsEight=[4,1,2,3]
+let eight=[6,4,2,1,3,5,7,8,9,10];
+function tracksCheck() {
+    for(let index = 0;index<tracks.length;index++){
+        if(index<tracksNumber.value){
+            tracks.item(index).classList.remove("hidden");
+        }else {
+            tracks.item(index).classList.add("hidden");
+        }
+        if(tracksNumber.value==4){
+            tracks.item(index).children[0].children.item(0).value=index+1;
+        }
+        else{
+            tracks.item(index).children[0].children.item(0).value=eight[index];
+        }
     }
-    for (let index = 0; index<i;index++){
-        tracksString=tracksString+"<div class=\"input-div\">\n" +
-            "                                            <label>\n" +
-                                                            track+".\n" +
-            "                                                <input class=\"input-box\" type=\"number\" style=\"display: inline-block \"  min=\"1\" max=\"10\" value="+positionsEight[index]+">\n" +
-            "                                            </label>\n" +
-            "                                        </div>";
-        track++;
-    }
-    tracks.innerHTML=tracksString;
-
 }
+
+
+
+
 function showAddRace() {
     hiddenBlock.classList.add("active");
     overlay.classList.add("active");
@@ -145,7 +143,7 @@ function filterDate() {
         td = tr[i].getElementsByTagName("th")[0];
         let dateFromTable = td.innerText.split(".");
         let dateTable = new Date(dateFromTable[2]+'-'+dateFromTable[1]+'-'+dateFromTable[0]);
-        console.log(dateTo)
+        console.log(dateTo);
         if (td) {
             if (dateFrom.getTime()<dateTable.getTime() && dateTable.getTime()<dateTo.getTime() &&  dateFrom.getTime()<dateTo.getTime()) {
                 tr[i].style.display = "";
@@ -159,20 +157,36 @@ function filterDate() {
 function sync() {
     syncAll(checkboxH,checkboxH2);
 
+
 }
 function sync2() {
     syncAll(checkboxH2, checkboxH);
+
 }
 function syncAll(x,y) {
     x.value = !!x.checked;
     y.value=x.value;
     y.checked=x.checked;
+    f(x);f(y);
     if(x.checked){
         tracksNumber.value=4;
-        generateTracks();
+        tracksCheck();
     }
     else{
         tracksNumber.value=8;
-        generateTracks();
+        tracksCheck();
     }
+}
+function f(checkboxT) {
+    if (checkboxT.checked){
+        checkboxT.value=0;
+    }else{
+        checkboxT.value=1;
+    }
+}
+function f1() {
+    f(checkboxR);
+}
+function f2() {
+    f(checkboxO);
 }

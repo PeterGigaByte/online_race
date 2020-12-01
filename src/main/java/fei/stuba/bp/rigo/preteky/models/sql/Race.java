@@ -10,8 +10,8 @@ import java.sql.Date;
  * zoznam pretekov
  */
 @Entity
-@Table(name = "race")
 @Data
+@Table(name = "race")
 public class Race implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,7 +21,7 @@ public class Race implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_settings", referencedColumnName = "id")
     private Settings settings;
 
@@ -95,4 +95,5 @@ public class Race implements Serializable {
         this.technicalDelegate = technicalDelegate;
         this.settings=settings;
     }
+
 }

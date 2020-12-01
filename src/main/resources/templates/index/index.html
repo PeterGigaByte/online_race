@@ -201,7 +201,7 @@
                                 <div th:class="input-div">
                                     <label>
                                         Halová sezóna
-                                        <input th:id="checkboxH" th:value="false" th:class="input-box" th:type="checkbox">
+                                        <input  th:field="*{raceType}"   th:id="checkboxH" th:value="0" th:class="input-box" th:type="checkbox">
                                     </label>
                                 </div>
                                 <button value="Vytvoriť" type="submit" class="button-submit center">Vytvoriť</button>
@@ -214,25 +214,25 @@
 
                                     <label>
                                         Riaditeľ
-                                        <input th:class="input-box" placeholder="Riaditeľ" th:type="text">
+                                        <input   th:field="*{director}"  th:class="input-box" placeholder="Riaditeľ" th:type="text">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Rozhodca
-                                        <input th:class="input-box" placeholder="Rozhodca" th:type="text">
+                                        <input  th:field="*{arbitrator}"  th:class="input-box" placeholder="Rozhodca" th:type="text">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Technický delegát
-                                        <input th:class="input-box" placeholder="Technický delegát" th:type="text">
+                                        <input  th:field="*{technicalDelegate}"  th:class="input-box" placeholder="Technický delegát" th:type="text">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
                                         Poznámky
-                                        <input placeholder="Poznámky" th:class="input-box" th:type="text">
+                                        <input  th:field="*{note}"  placeholder="Poznámky" th:class="input-box" th:type="text">
                                     </label>
                                 </div>
                             </div>
@@ -271,19 +271,19 @@
                                     <div th:class="input-div">
                                         <label>
                                             Hala
-                                            <input th:id="checkboxH2" th:value="false" th:class="input-box" th:type="checkbox">
+                                            <input th:object = "${settingsRegister}" th:field="*{typeRace}"  th:id="checkboxH2" th:value="0" th:class="input-box" th:type="checkbox">
                                         </label>
                                     </div>
                                     <div th:class="input-div">
                                         <label>
                                             Mimo súťaž
-                                            <input   th:id="checkboxO" th:class="input-box" th:type="checkbox">
+                                            <input th:object = "${settingsRegister}" th:field="*{outCompetition}"  th:value="0"  th:id="checkboxO" th:class="input-box" th:type="checkbox">
                                         </label>
                                     </div>
                                     <div th:class="input-div">
                                         <label>
                                              Reakcie
-                                            <input  th:id="checkboxR" th:class="input-box" th:type="checkbox">
+                                            <input th:object = "${settingsRegister}" th:field="*{reactions}" th:value="1" th:id="checkboxR" th:class="input-box" th:type="checkbox">
                                         </label>
                                     </div>
 
@@ -298,13 +298,74 @@
                                             <input th:object = "${trackDto}" th:field="*{numberOfTracks}"  th:id="tracksNumber" th:value="8" th:class="input-box" th:type="number" min="1" max="10">
                                         </label>
                                     </div>
-
+                                    <hr>
                                     <!--                           -->
 
                                     <div th:id="tracks">
+                                        <div   class="input-div">
+                                            <label>
+                                                1.
+                                                <input  th:object = "${trackDto}" th:field="*{one}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="6">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div">
+                                            <label>
+                                                2.
+                                                <input  th:object = "${trackDto}" th:field="*{two}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="4">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div">
+                                            <label>
+                                                3.
+                                                <input  th:object = "${trackDto}" th:field="*{three}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="2">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div">
+                                            <label>
+                                                4.
+                                                <input  th:object = "${trackDto}" th:field="*{four}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="1">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div">
+                                            <label>
+                                                5.
+                                                <input  th:object = "${trackDto}" th:field="*{five}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="3">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div">
+                                            <label>
+                                                6.
+                                                <input  th:object = "${trackDto}" th:field="*{six}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="5">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div">
+                                            <label>
+                                                7.
+                                                <input  th:object = "${trackDto}" th:field="*{seven}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="7">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div">
+                                            <label>
+                                                8.
+                                                <input  th:object = "${trackDto}" th:field="*{eight}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="8">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div hidden">
+                                            <label>
+                                                9.
+                                                <input  th:object = "${trackDto}" th:field="*{nine}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="9">
+                                            </label>
+                                        </div>
+                                        <div   class="input-div hidden">
+                                            <label>
+                                                10.
+                                                <input  th:object = "${trackDto}" th:field="*{ten}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="10">
+                                            </label>
+                                        </div>
 
-                                     </div>
                                  </div>
+
+                                </div>
 
                             <!--                           -->
 
