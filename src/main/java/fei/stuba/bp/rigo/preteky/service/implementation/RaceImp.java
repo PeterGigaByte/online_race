@@ -60,8 +60,7 @@ public class RaceImp implements RaceService {
 
     @Override
     public List<Race> listRaces() {
-        return raceRepository.findAll(Sort.by(Sort.Direction.ASC,"fromDay"));
-
+        return raceRepository.findAll(Sort.by(Sort.Direction.ASC,"startDate"));
     }
 
     @Override
@@ -69,4 +68,16 @@ public class RaceImp implements RaceService {
         return raceRepository.findById(id);
     }
 
+    @Override
+    public Race getActiveRace() {
+        Race activeRace = new Race();
+        for (Race race:listRaces()
+             ) {
+        if(race.getActivity()==1){
+            activeRace=race;
+            break;
+        }
+    }
+        return activeRace;
+}
 }

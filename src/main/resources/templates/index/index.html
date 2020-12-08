@@ -82,33 +82,16 @@
                 <th>Miesto konania</th>
                 <th>Organizátor</th>
             </tr>
-            <tr>
-                <th>11.2.2020</th>
-                <th>Msr Slovenska</th>
-                <th>Trnava</th>
-                <th>AZB</th>
+            <tr th:each="race: ${races}">
+                <th th:text="${race.startDate}"></th>
+                <th th:text="${race.raceName}"></th>
+                <th th:text="${race.place}"></th>
+                <th th:text="${race.organizer}"></th>
                 <th><img alt="active" class="activeButton" th:src="@{/images/active.png}"></th>
                 <th><img alt="active" class="activatedButton" th:src="@{/images/edit.png}"></th>
                 <th><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></th>
             </tr>
-            <tr>
-                <th>07.11.2020</th>
-                <th>Chodecké preteky</th>
-                <th>Nitra</th>
-                <th>ŠOG Nitra</th>
-                <th><img alt="active" class="activeButton" th:src="@{/images/active.png}"></th>
-                <th><img alt="active" class="activatedButton" th:src="@{/images/edit.png}"></th>
-                <th><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></th>
-            </tr>
-            <tr>
-                <th>14.11.2020</th>
-                <th>XIII. ročník Memoriálu Š.Kotiana</th>
-                <th>Ráztočno-Morovno</th>
-                <th>ZSAZ</th>
-                <th><img alt="active" class="activeButton" th:src="@{/images/active.png}"></th>
-                <th><img alt="active" class="activatedButton" th:src="@{/images/edit.png}"></th>
-                <th><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></th>
-            </tr>
+
 
 
             </thead>

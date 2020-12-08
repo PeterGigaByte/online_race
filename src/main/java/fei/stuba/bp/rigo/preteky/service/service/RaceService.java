@@ -14,5 +14,5 @@ public interface RaceService {
     Race edit(Race race);
     List<Race> listRaces();
     Optional<Race> getRace(int id);
-
+    Race getActiveRace();
 }
