@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RaceService {
-    Race save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto);
+    void save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto);
     Race edit(Race race);
     List<Race> listRaces();
     Optional<Race> getRace(int id);
-    Race getActiveRace();
+    List<Race> getActiveRace();
+    void save(Race race);
+    void delete(Race race);
+    void changeActivity(Race race);
 }

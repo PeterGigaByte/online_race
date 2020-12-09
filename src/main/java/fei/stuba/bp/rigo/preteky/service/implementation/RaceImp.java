@@ -31,7 +31,7 @@ public class RaceImp implements RaceService {
         this.trackRepository=trackRepository;
     }
     @Override
-    public Race save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto){
+    public void save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto){
 
         Track track = new Track(trackDto.getNumberOfTracks(),trackDto.getOne(),trackDto.getTwo(),trackDto.getThree(),trackDto.getFour(),trackDto.getFive(),trackDto.getSix(),
                 trackDto.getSeven(),trackDto.getEight(),trackDto.getNine(),trackDto.getTen(),trackDto.getTypeTrack());
@@ -48,13 +48,20 @@ public class RaceImp implements RaceService {
         System.out.println("settings saved");
         trackRepository.save(track);
         System.out.println("track saved");
-        return raceRepository.save(race);
+        raceRepository.save(race);
+    }
+    @Override
+    public void save(Race race){
+        raceRepository.save(race);
+    }
+    @Override
+    public void delete(Race race){
+        raceRepository.delete(race);
     }
 
 
     @Override
     public Race edit(Race race){
-
         return raceRepository.save(race);
     }
 
@@ -69,15 +76,21 @@ public class RaceImp implements RaceService {
     }
 
     @Override
-    public Race getActiveRace() {
-        Race activeRace = new Race();
-        for (Race race:listRaces()
-             ) {
-        if(race.getActivity()==1){
-            activeRace=race;
-            break;
-        }
+    public List<Race> getActiveRace() {
+        return raceRepository.findRegisteredUserByActivity(1);
     }
-        return activeRace;
-}
+    @Override
+    public void changeActivity(Race race) {
+        List<Race> list = getActiveRace();
+        for (Race raceL:list)
+        {
+            if(raceL.getActivity()==1)
+            {
+                 raceL.setActivity(0);
+                 raceRepository.save(raceL);
+            }
+        }
+        race.setActivity(1);
+        raceRepository.save(race);
+    }
 }

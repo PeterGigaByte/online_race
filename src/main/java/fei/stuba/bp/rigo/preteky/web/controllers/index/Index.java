@@ -45,11 +45,13 @@ public class Index {
 
     @ModelAttribute("activeRace")
     public Race activeRace(){
-        return  raceService.getActiveRace();
+        return  raceService.getActiveRace().get(0);
     }
 
     @GetMapping("/")
-    public  String index(){
+    public  String index(@ModelAttribute("activeRace")
+                                     Race activeRace){
+
         return "index/index";
     }
 
@@ -61,7 +63,9 @@ public class Index {
                                @ModelAttribute("trackDto")
                                            TrackDto trackDto,
                                 @ModelAttribute("races")
-                                           List<Race> races){
+                                           List<Race> races,
+                               @ModelAttribute("activeRace")
+                                           Race activeRace){
         raceRegistrationDto.checkForNulls();
         settingsDto.checkForNulls();
         System.out.println(raceRegistrationDto.toString());
@@ -69,6 +73,7 @@ public class Index {
         System.out.println(trackDto.toString());
         raceService.save(raceRegistrationDto,settingsDto,trackDto);
         System.out.println();
+
 
         return "redirect:/";
     }
