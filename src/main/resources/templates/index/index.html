@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="sk" xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="UTF-8">
     <title>Systém pre organizáciu Atl.Pretekov</title>
     <link th:rel="icon"
@@ -8,8 +9,10 @@
     <link th:rel="stylesheet" th:href="@{/css/index.css}">
 
 
+
 </head>
 <body>
+
     <div class="topnav">
         <a class="active" href="#home">Preteky</a>
         <a href="#news">Disciplíny</a>
@@ -21,7 +24,7 @@
 
         <div th:class="activeRace">
             <a href="#">
-            <div th:class="raceService">MSR Slovenska - Bratislava - 1.1.2020 - 2.1.2020</div>
+                <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
             </a>
         </div>
 
@@ -82,15 +85,27 @@
                 <th>Miesto konania</th>
                 <th>Organizátor</th>
             </tr>
+
             <tr th:each="race: ${races}">
-                <th th:text="${race.startDate}"></th>
+                <th th:text="${race.returnStartDate()}"></th>
                 <th th:text="${race.raceName}"></th>
                 <th th:text="${race.place}"></th>
                 <th th:text="${race.organizer}"></th>
-                <th><img alt="active" class="activeButton" th:src="@{/images/active.png}"></th>
-                <th><img alt="active" class="activatedButton" th:src="@{/images/edit.png}"></th>
-                <th><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></th>
+
+                <th th:switch="${race.activity}">
+                    <span th:case="0">
+                        <a class="btn btn-warning" onclick="return confirm('Naozaj chcete zmeniť aktivitu preteku?')" th:href="@{/activeRace/{id}(id=${race.getId()})} "><img alt="active" class="activeButton" th:src="@{/images/active.png}"></a>
+                    </span>
+                    <span th:case="1">
+                        <img alt="active" class="activeButton" th:src="@{/images/activated.png}">
+                    </span>
+                </th>
+
+                <th><a class="btn btn-warning" th:href="@{/editRace/{id}(id=${race.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></th>
+                <th><a class="btn btn-warning" onclick="return confirm('Naozaj chcete tento pretek vymazať?')" th:href="@{/deleteRace/{id}(id=${race.getId()})} "><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></th>
+
             </tr>
+
 
 
 
@@ -98,7 +113,7 @@
         </table>
     </main>
     <section>
-        <form th:action="@{/}" method="post" th:object = "${raceRegister}">
+        <form th:id="addRaceform" th:action="@{/createRace}" method="post" th:object = "${raceRegister}">
             <div th:id="behind-scene" class="behind-scene">
                 <div th:id="behind-scene-header" th:class="behind-scene-header">
                     <div th:class="inlineDescription">
@@ -364,6 +379,7 @@
         ©PeterRigoDevelopment
     </footer>
     <div th:id="overlay"></div>
+
     <script th:src="@{/js/index.js}"></script>
 </body>
 </html>

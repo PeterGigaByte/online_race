@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Calendar;
 
 /**
  * zoznam pretekov
@@ -95,5 +96,34 @@ public class Race implements Serializable {
         this.technicalDelegate = technicalDelegate;
         this.settings=settings;
     }
-
+    public String returnStartDate(){
+        return returnDate(this.startDate);
+    }
+    public String returnEndDate(){
+        return returnDate(this.endDate);
+    }
+    public String returnDate(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int day= cal.get(Calendar.DAY_OF_MONTH);
+        int month= cal.get(Calendar.MONTH)+1;
+        int year= cal.get(Calendar.YEAR);
+        return String.valueOf(day)+"."+String.valueOf(month)+"."+String.valueOf(year);
+    }
+    public void setRace(Race race) {
+        this.activity = race.activity;
+        this.raceName = race.raceName;
+        this.place = race.place;
+        this.organizer = race.organizer;
+        this.resultsManager = race.resultsManager;
+        this.phone = race.phone;
+        this.startDate = race.startDate;
+        this.endDate = race.endDate;
+        this.raceType = race.raceType;
+        this.note = race.note;
+        this.director = race.director;
+        this.arbitrator = race.arbitrator;
+        this.technicalDelegate = race.technicalDelegate;
+        this.settings=race.settings;
+    }
 }

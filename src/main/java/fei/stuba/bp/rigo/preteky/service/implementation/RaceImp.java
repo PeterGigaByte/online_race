@@ -55,10 +55,19 @@ public class RaceImp implements RaceService {
         raceRepository.save(race);
     }
     @Override
-    public void delete(Race race){
+    public void deleteRace(Race race){
+        System.out.println(race.getRaceName());
         raceRepository.delete(race);
     }
-
+    @Override
+    public void deleteById(Integer id){
+       Race race = raceRepository.getOne(id);
+       raceRepository.delete(race);
+    }
+    @Override
+    public Race getRaceById(Integer id){
+        return raceRepository.getOne(id);
+    }
 
     @Override
     public Race edit(Race race){
@@ -82,13 +91,15 @@ public class RaceImp implements RaceService {
     @Override
     public void changeActivity(Race race) {
         List<Race> list = getActiveRace();
-        for (Race raceL:list)
-        {
-            if(raceL.getActivity()==1)
-            {
-                 raceL.setActivity(0);
-                 raceRepository.save(raceL);
-            }
+        if(list.size()>0){
+            for (Race raceL:list)
+                {
+                    if(raceL.getActivity()==1)
+                    {
+                         raceL.setActivity(0);
+                         raceRepository.save(raceL);
+                    }
+                }
         }
         race.setActivity(1);
         raceRepository.save(race);

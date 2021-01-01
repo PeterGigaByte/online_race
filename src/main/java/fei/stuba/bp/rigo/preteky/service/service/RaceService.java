@@ -16,6 +16,8 @@ public interface RaceService {
     Optional<Race> getRace(int id);
     List<Race> getActiveRace();
     void save(Race race);
-    void delete(Race race);
+    void deleteRace(Race race);
     void changeActivity(Race race);
+    void deleteById(Integer id);
+    Race getRaceById(Integer id);
 }
