@@ -1,6 +1,8 @@
 package fei.stuba.bp.rigo.preteky.web.controllers.index;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Race;
+import fei.stuba.bp.rigo.preteky.models.sql.Settings;
+import fei.stuba.bp.rigo.preteky.models.sql.Track;
 import fei.stuba.bp.rigo.preteky.service.service.RaceService;
 import fei.stuba.bp.rigo.preteky.web.dto.RaceRegistrationDto;
 import fei.stuba.bp.rigo.preteky.web.dto.SettingsDto;
@@ -81,9 +83,7 @@ public class Index {
                                            Race activeRace){
         raceRegistrationDto.checkForNulls();
         settingsDto.checkForNulls();
-        System.out.println(raceRegistrationDto.toString());
-        System.out.println(settingsDto.toString());
-        System.out.println(trackDto.toString());
+
         raceService.save(raceRegistrationDto,settingsDto,trackDto);
         System.out.println();
 
@@ -102,15 +102,25 @@ public class Index {
         return "redirect:/";
     }
     @GetMapping("/editRace/{id}")
-    public String editRace(@PathVariable Integer id){
+    public String editRace(@PathVariable Integer id,Model model){
         Optional<Race> race = raceService.getRace(id);
-        System.out.println(race.toString());
-        /*
-        Optional<Race> raceSet = raceService.getRace(race.getId());
-        raceSet.ifPresent(value -> value.setRace(race));
-        raceSet.ifPresent(value -> raceService.save(value));
-         */
-        return "redirect:/";
+        if(race.isPresent()){
+        Race raceN = race.get();
+        model.addAttribute("race",raceN);
+            model.addAttribute("settings",raceN.getSettings());
+            model.addAttribute("track",raceN.getSettings().getTrack());
+        }
+
+        return "index/editRace";
+    }
+    @PostMapping("/editRace/{id}")
+    public String editRaceAfter(@ModelAttribute("race") Race race,@ModelAttribute("settings") Settings settings,@ModelAttribute("track") Track track){
+        race.checkForNulls();
+        settings.checkForNulls();
+        settings.setTrack(track);
+        race.setSettings(settings);
+        raceService.save(race);
+        return "index/index";
     }
 
 }

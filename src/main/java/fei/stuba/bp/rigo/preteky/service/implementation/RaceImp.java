@@ -43,25 +43,31 @@ public class RaceImp implements RaceService {
                 raceRegistrationDto.getPhone(),raceRegistrationDto.getStartDate(),raceRegistrationDto.getEndDate(),raceRegistrationDto.getRaceType(),raceRegistrationDto.getNote(),
                 raceRegistrationDto.getDirector(),raceRegistrationDto.getArbitrator(),raceRegistrationDto.getTechnicalDelegate(),settings
         );
-        System.out.println("race created");
-        settingsRepository.save(settings);
-        System.out.println("settings saved");
-        trackRepository.save(track);
-        System.out.println("track saved");
-        raceRepository.save(race);
+        save(race);
     }
     @Override
     public void save(Race race){
+        Settings settings = race.getSettings();
+        trackRepository.save(settings.getTrack());
+        settingsRepository.save(settings);
         raceRepository.save(race);
     }
     @Override
     public void deleteRace(Race race){
-        System.out.println(race.getRaceName());
+        Settings settings = race.getSettings();
+        Track track = settings.getTrack();
+        trackRepository.delete(track);
+        settingsRepository.delete(settings);
+        raceRepository.delete(race);
         raceRepository.delete(race);
     }
     @Override
     public void deleteById(Integer id){
        Race race = raceRepository.getOne(id);
+       Settings settings = race.getSettings();
+       Track track = settings.getTrack();
+       trackRepository.delete(track);
+       settingsRepository.delete(settings);
        raceRepository.delete(race);
     }
     @Override

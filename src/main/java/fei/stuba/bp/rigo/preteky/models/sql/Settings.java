@@ -71,4 +71,13 @@ public class Settings implements Serializable {
         this.reactions = reactions;
         this.track=track;
     }
+    public void checkForNulls(){
+        if(this.typeRace==null){
+            this.typeRace=1;
+        }if(this.outCompetition==null){
+            this.outCompetition=1;
+        }if(this.reactions==null){
+            this.reactions=0;
+        }
+    }
 }

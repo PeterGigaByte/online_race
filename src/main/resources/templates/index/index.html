@@ -103,7 +103,6 @@
 
                 <th><a class="btn btn-warning" th:href="@{/editRace/{id}(id=${race.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></th>
                 <th><a class="btn btn-warning" onclick="return confirm('Naozaj chcete tento pretek vymazať?')" th:href="@{/deleteRace/{id}(id=${race.getId()})} "><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></th>
-
             </tr>
 
 
@@ -113,7 +112,7 @@
         </table>
     </main>
     <section>
-        <form th:id="addRaceform" th:action="@{/createRace}" method="post" th:object = "${raceRegister}">
+        <form th:action="@{/createRace}" method="post" th:object = "${raceRegister}">
             <div th:id="behind-scene" class="behind-scene">
                 <div th:id="behind-scene-header" th:class="behind-scene-header">
                     <div th:class="inlineDescription">

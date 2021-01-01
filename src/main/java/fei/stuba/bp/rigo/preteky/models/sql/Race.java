@@ -126,4 +126,15 @@ public class Race implements Serializable {
         this.technicalDelegate = race.technicalDelegate;
         this.settings=race.settings;
     }
+    public void checkForNulls(){
+        if(this.raceType==null){
+            this.raceType=1;
+        }if(this.note==null){
+            this.note="žiadna poznámka";
+        }if(this.arbitrator==null){
+            this.arbitrator="žiadny";
+        }if(this.technicalDelegate==null){
+            this.technicalDelegate="žiadny";
+        }
+    }
 }
