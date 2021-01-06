@@ -1,5 +1,6 @@
 package fei.stuba.bp.rigo.preteky.web.dto;
 
+import fei.stuba.bp.rigo.preteky.models.sql.Track;
 import lombok.Data;
 
 @Data
@@ -39,5 +40,22 @@ public class TrackDto {
 
     private Integer typeTrack = 1;
 
+    public TrackDto(Track track) {
+        this.numberOfTracks = track.getNumberOfTracks();
+        this.one = track.getOne();
+        this.two = track.getTwo();
+        this.three = track.getThree();
+        this.four = track.getFour();
+        this.five = track.getFive();
+        this.six = track.getSix();
+        this.seven = track.getSeven();
+        this.eight = track.getEight();
+        this.nine = track.getNine();
+        this.ten = track.getTen();
+        this.typeTrack = track.getTypeTrack();
+    }
 
+    public TrackDto() {
+
+    }
 }

@@ -1,5 +1,6 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
+import fei.stuba.bp.rigo.preteky.web.dto.SettingsDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -32,6 +33,8 @@ public class Settings implements Serializable {
 
     /**
      * Pretek je v hale alebo vonku?
+     * 0 neni
+     * 1 je
      */
     @Column(name = "type_race", nullable = false)
     private Integer typeRace = 1;
@@ -46,16 +49,16 @@ public class Settings implements Serializable {
 
     /**
      * ak bude mimo súťaž, čo s ním?
-     * TRUE - bude posledný vždy
-     * FALSE - bude rátaný ako normálny pretekár
+     * TRUE - bude posledný vždy 0
+     * FALSE - bude rátaný ako normálny pretekár 1
      */
     @Column(name = "out_competition", nullable = false)
     private Integer outCompetition = 1;
 
     /**
      * merajú sa aj reakcie?
-     * TRUE - ano
-     * FALSE - nie
+     * TRUE - ano 1
+     * FALSE - nie 0
      */
     @Column(name = "reactions", nullable = false)
     private Integer reactions = 0;
@@ -70,6 +73,13 @@ public class Settings implements Serializable {
         this.outCompetition = outCompetition;
         this.reactions = reactions;
         this.track=track;
+    }
+    public void setSettings(SettingsDto settings){
+        this.cameraType = settings.getCameraType();
+        this.typeRace = settings.getTypeRace();
+        this.typeScoring = settings.getTypeScoring();
+        this.outCompetition = settings.getOutCompetition();
+        this.reactions = settings.getReactions();
     }
     public void checkForNulls(){
         if(this.typeRace==null){

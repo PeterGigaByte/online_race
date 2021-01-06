@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Prihlášky</title>
+    <link th:rel="icon"
+          th:href="@{images/race.png}">
+    <link th:rel="stylesheet" th:href="@{/css/index.css}">
+
+
+
 </head>
 <body>
 
+<div class="topnav">
+    <a href="/">Preteky</a>
+    <a href="/disciplines">Disciplíny</a>
+    <a class="active" href="/applications">Prihlášky</a>
+    <a href="/results">Výsledky</a>
+</div>
+
+<main>
+
+    <hr>
+
+    <table th:id="table">
+        <thead>
+        <tr>
+            <th>Dátum</th>
+            <th>Názov</th>
+            <th>Miesto konania</th>
+            <th>Organizátor</th>
+        </tr>
+        </thead>
+    </table>
+</main>
+<footer th:class="footer">
+    ©PeterRigoDevelopment
+</footer>
+<div th:id="overlay"></div>
+
+<script th:src="@{/js/index.js}"></script>
 </body>
 </html>

@@ -78,7 +78,7 @@ a:link,a:visited{
     width: 20%;
 }
 .editActiveRace{
-    color: blue;
+    color: blue !important;
     font-size: 20px;
     display: inline-block;
     width: 20%;

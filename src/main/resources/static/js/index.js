@@ -38,10 +38,7 @@ let addRace = document.getElementById("addRace");
 addRace.addEventListener("click",showAddRace);
 //
 
-//editovať závod Listener
-let editActiveRace = document.getElementById("editActiveRace");
-editActiveRace.addEventListener("click",showAddRace);
-//
+
 
 //nastavenia automatické generovanie dráh
 let tracksNumber = document.getElementById("tracksNumber");

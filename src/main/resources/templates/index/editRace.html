@@ -4,8 +4,7 @@
 
     <meta charset="UTF-8">
     <title>Systém pre organizáciu Atl.Pretekov</title>
-    <link th:rel="icon"
-          th:href="@{images/race.png}">
+    <link th:rel="icon" th:href="@{images/race.png}">
     <link th:rel="stylesheet" th:href="@{/css/index.css}">
 
 
@@ -23,7 +22,7 @@
 <main>
 </main>
 <section>
-    <form th:action="@{/editRace/{id}(id=${race.getId()})}" method="post" th:object = "${race}">
+    <form th:action="@{/editRace/{id}(id=${id})}" method="post" th:object = "${race}">
         <div th:id="behind-scene" class="behind-scene active">
             <div th:id="behind-scene-header" th:class="behind-scene-header">
                 <div th:class="inlineDescription">
@@ -191,7 +190,7 @@
                                 <div th:class="input-div">
                                     <label>
                                         Reakcie
-                                        <input th:object = "${settings}" th:field="*{reactions}" th:value="1" th:id="checkboxR" th:class="input-box" th:type="checkbox">
+                                        <input th:object = "${settings}" th:field="*{reactions}" th:value="0" th:id="checkboxR" th:class="input-box" th:type="checkbox">
                                     </label>
                                 </div>
 

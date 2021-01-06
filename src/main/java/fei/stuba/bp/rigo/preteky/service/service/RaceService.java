@@ -11,13 +11,11 @@ import java.util.Optional;
 
 public interface RaceService {
     void save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto);
-    Race edit(Race race);
+    void edit(Race race);
     List<Race> listRaces();
     Optional<Race> getRace(int id);
     List<Race> getActiveRace();
-    void save(Race race);
     void deleteRace(Race race);
     void changeActivity(Race race);
-    void deleteById(Integer id);
     Race getRaceById(Integer id);
 }

@@ -14,10 +14,10 @@
 <body>
 
     <div class="topnav">
-        <a class="active" href="#home">Preteky</a>
-        <a href="#news">Disciplíny</a>
-        <a href="#contact">Prihlášky</a>
-        <a href="#about">Výsledky</a>
+        <a class="active" href="/">Preteky</a>
+        <a href="/disciplines">Disciplíny</a>
+        <a href="/applications">Prihlášky</a>
+        <a  href="/results">Výsledky</a>
     </div>
 
     <main>
@@ -32,21 +32,23 @@
             <!-- aktivny pretek -->
 
                 <div th:id="addRace" th:class="addRace">
-
-                        <label th:class="div-button">
+                    <a>
+                        <label style="color: blue" th:class="div-button">
                             <img alt="addRace" class="plus" th:src="@{/images/plus.png}">
                         Nový pretek
                         </label>
-
+                    </a>
 
                 </div>
 
             <div th:id="editActiveRace" th:class="editActiveRace">
+                <a th:href="@{/editRace/{id}(id=${activeRace.getId()})} ">
+                    <label style="color: blue" th:class="div-button">
+                            <img alt="addRace" class="plus" th:src="@{/images/Editing-Edit-icon.png}">
 
-                    <label th:class="div-button">
-                        <img alt="addRace" class="plus" th:src="@{/images/Editing-Edit-icon.png}">
                     Editovať závod
                     </label>
+                </a>
             </div>
             <div th:class="search">
 

@@ -35,40 +35,24 @@ public class RaceImp implements RaceService {
 
         Track track = new Track(trackDto.getNumberOfTracks(),trackDto.getOne(),trackDto.getTwo(),trackDto.getThree(),trackDto.getFour(),trackDto.getFive(),trackDto.getSix(),
                 trackDto.getSeven(),trackDto.getEight(),trackDto.getNine(),trackDto.getTen(),trackDto.getTypeTrack());
-        System.out.println("Track created");
         Settings settings = new Settings(settingsDto.getCameraType(),settingsDto.getTypeRace(),settingsDto.getTypeScoring(),settingsDto.getOutCompetition(),settingsDto.getReactions(),
                 track);
-        System.out.println("settings created");
         Race race = new Race(raceRegistrationDto.getActivity(),raceRegistrationDto.getRaceName(),raceRegistrationDto.getPlace(),raceRegistrationDto.getOrganizer(),raceRegistrationDto.getResultsManager(),
                 raceRegistrationDto.getPhone(),raceRegistrationDto.getStartDate(),raceRegistrationDto.getEndDate(),raceRegistrationDto.getRaceType(),raceRegistrationDto.getNote(),
                 raceRegistrationDto.getDirector(),raceRegistrationDto.getArbitrator(),raceRegistrationDto.getTechnicalDelegate(),settings
         );
-        save(race);
-    }
-    @Override
-    public void save(Race race){
-        Settings settings = race.getSettings();
-        trackRepository.save(settings.getTrack());
         settingsRepository.save(settings);
+        trackRepository.save(track);
         raceRepository.save(race);
     }
+
     @Override
     public void deleteRace(Race race){
         Settings settings = race.getSettings();
         Track track = settings.getTrack();
-        trackRepository.delete(track);
+        raceRepository.delete(race);
         settingsRepository.delete(settings);
-        raceRepository.delete(race);
-        raceRepository.delete(race);
-    }
-    @Override
-    public void deleteById(Integer id){
-       Race race = raceRepository.getOne(id);
-       Settings settings = race.getSettings();
-       Track track = settings.getTrack();
-       trackRepository.delete(track);
-       settingsRepository.delete(settings);
-       raceRepository.delete(race);
+        trackRepository.delete(track);
     }
     @Override
     public Race getRaceById(Integer id){
@@ -76,8 +60,12 @@ public class RaceImp implements RaceService {
     }
 
     @Override
-    public Race edit(Race race){
-        return raceRepository.save(race);
+    public void edit(Race race){
+        Settings settings = race.getSettings();
+        Track track = settings.getTrack();
+        settingsRepository.save(settings);
+        trackRepository.save(track);
+        raceRepository.save(race);
     }
 
     @Override

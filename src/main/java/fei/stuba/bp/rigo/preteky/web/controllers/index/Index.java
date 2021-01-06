@@ -1,8 +1,6 @@
 package fei.stuba.bp.rigo.preteky.web.controllers.index;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Race;
-import fei.stuba.bp.rigo.preteky.models.sql.Settings;
-import fei.stuba.bp.rigo.preteky.models.sql.Track;
 import fei.stuba.bp.rigo.preteky.service.service.RaceService;
 import fei.stuba.bp.rigo.preteky.web.dto.RaceRegistrationDto;
 import fei.stuba.bp.rigo.preteky.web.dto.SettingsDto;
@@ -59,6 +57,7 @@ public class Index {
             Date date=new Date(millis);
             race.setEndDate(date);
             race.setStartDate(date);
+            race.setId(-1);
             return race;
         }
 
@@ -92,7 +91,11 @@ public class Index {
 
     @GetMapping("/deleteRace/{id}")
     public String deleteRace(@PathVariable Integer id) {
-        raceService.deleteById(id);
+        Optional<Race> race = raceService.getRace(id);
+        if(race.isPresent()) {
+            Race raceN = race.get();
+            raceService.deleteRace(raceN);
+        }
         return "redirect:/";
     }
     @GetMapping("/activeRace/{id}")
@@ -103,24 +106,37 @@ public class Index {
     }
     @GetMapping("/editRace/{id}")
     public String editRace(@PathVariable Integer id,Model model){
+        if(id==-1){
+            return "redirect:/";
+        }
         Optional<Race> race = raceService.getRace(id);
         if(race.isPresent()){
         Race raceN = race.get();
-        model.addAttribute("race",raceN);
-            model.addAttribute("settings",raceN.getSettings());
-            model.addAttribute("track",raceN.getSettings().getTrack());
+        model.addAttribute("id",raceN.getId());
+        model.addAttribute("race",new RaceRegistrationDto(raceN));
+        model.addAttribute("settings",new SettingsDto(raceN.getSettings()));
+        model.addAttribute("track",new TrackDto(raceN.getSettings().getTrack()));
+
         }
 
         return "index/editRace";
     }
     @PostMapping("/editRace/{id}")
-    public String editRaceAfter(@ModelAttribute("race") Race race,@ModelAttribute("settings") Settings settings,@ModelAttribute("track") Track track){
-        race.checkForNulls();
-        settings.checkForNulls();
-        settings.setTrack(track);
-        race.setSettings(settings);
-        raceService.save(race);
-        return "index/index";
+    public String editRaceAfter(@PathVariable Integer id,
+                                @ModelAttribute("race") RaceRegistrationDto raceE,
+                                @ModelAttribute("settings") SettingsDto settingsE,
+                                @ModelAttribute("track") TrackDto trackE) {
+        Optional<Race> race = raceService.getRace(id);
+        if (race.isPresent()) {
+            Race raceN = race.get();
+            raceN.setRaceEdit(raceE);
+            raceN.getSettings().setSettings(settingsE);
+            raceN.getSettings().getTrack().setTrack(trackE);
+            raceN.getSettings().checkForNulls();
+            raceN.checkForNulls();
+            raceService.edit(raceN);
+        }
+        return "redirect:/";
     }
 
 }

@@ -1,5 +1,6 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
+import fei.stuba.bp.rigo.preteky.web.dto.RaceRegistrationDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -110,7 +111,7 @@ public class Race implements Serializable {
         int year= cal.get(Calendar.YEAR);
         return String.valueOf(day)+"."+String.valueOf(month)+"."+String.valueOf(year);
     }
-    public void setRace(Race race) {
+    public void setRaceEdit(Race race) {
         this.activity = race.activity;
         this.raceName = race.raceName;
         this.place = race.place;
@@ -125,7 +126,22 @@ public class Race implements Serializable {
         this.arbitrator = race.arbitrator;
         this.technicalDelegate = race.technicalDelegate;
         this.settings=race.settings;
+    }public void setRaceEdit(RaceRegistrationDto race) {
+        this.raceName = race.getRaceName();
+        this.place = race.getPlace();
+        this.organizer = race.getOrganizer();
+        this.resultsManager = race.getResultsManager();
+        this.phone = race.getPhone();
+        this.startDate = race.getStartDate();
+        this.endDate = race.getEndDate();
+        this.raceType = race.getRaceType();
+        this.note = race.getNote();
+        this.director = race.getDirector();
+        this.arbitrator = race.getArbitrator();
+        this.technicalDelegate = race.getTechnicalDelegate();
     }
+
+
     public void checkForNulls(){
         if(this.raceType==null){
             this.raceType=1;
