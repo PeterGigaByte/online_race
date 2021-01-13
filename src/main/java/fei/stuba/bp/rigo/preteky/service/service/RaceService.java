@@ -18,4 +18,5 @@ public interface RaceService {
     void deleteRace(Race race);
     void changeActivity(Race race);
     Race getRaceById(Integer id);
+    Race getFakeRace();
 }

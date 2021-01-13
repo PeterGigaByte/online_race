@@ -50,15 +50,7 @@ public class Index {
         if(raceService.getActiveRace().size()>0){
             return raceService.getActiveRace().get(0);
         }else{
-            Race race = new Race();
-            race.setRaceName("Žiadny aktívny závod");
-            race.setPlace("xxx");
-            long millis=System.currentTimeMillis();
-            Date date=new Date(millis);
-            race.setEndDate(date);
-            race.setStartDate(date);
-            race.setId(-1);
-            return race;
+            return raceService.getFakeRace();
         }
 
     }

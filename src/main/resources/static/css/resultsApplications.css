@@ -1,0 +1,20 @@
+.stuck {
+    position: fixed;
+    top: 155px;
+    left: 0;
+    max-height: 100%;
+    width: 190px;
+    background-color: #eee;
+    overflow-y: scroll;
+    margin: 10px;
+    padding-bottom: 183px;
+}
+.stuck p {
+    margin: 10px;
+}
+.not-stuck {
+
+}
+table{
+    width: 60%;
+}

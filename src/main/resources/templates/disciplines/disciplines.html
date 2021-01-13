@@ -7,6 +7,8 @@
     <link th:rel="icon"
           th:href="@{images/race.png}">
     <link th:rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 
 
@@ -21,16 +23,34 @@
 </div>
 
 <main>
+    <div th:class="activeRace">
+        <a href="#">
+            <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
+        </a>
+    </div>
+    <div th:class="heading_t">
+        <!-- aktivny pretek -->
+
+        <div th:id="addDiscipline" th:class="addRace">
+            <a>
+                <label style="color: blue" th:class="div-button">
+                    <img alt="addDiscipline" class="plus" th:src="@{/images/plus.png}">
+                    Nová disciplína
+                </label>
+            </a>
+
+        </div>
+    </div>
 
     <hr>
 
     <table th:id="table">
         <thead>
         <tr>
-            <th>Dátum</th>
-            <th>Názov</th>
-            <th>Miesto konania</th>
-            <th>Organizátor</th>
+            <th>Čas</th>
+            <th>Názov Disciplíny</th>
+            <th>Kategória,fáza,poradie fázy</th>
+            <th>Poznámky</th>
         </tr>
         </thead>
     </table>
@@ -41,5 +61,6 @@
 <div th:id="overlay"></div>
 
 <script th:src="@{/js/index.js}"></script>
+
 </body>
 </html>

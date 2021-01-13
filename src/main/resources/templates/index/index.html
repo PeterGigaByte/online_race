@@ -6,7 +6,8 @@
     <title>Systém pre organizáciu Atl.Pretekov</title>
     <link th:rel="icon"
           th:href="@{images/race.png}">
-    <link th:rel="stylesheet" th:href="@{/css/index.css}">
+    <link th:rel="stylesheet" th:href="@{/css/index.css}"> <link rel="stylesheet"
+                                                                 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 
 
@@ -96,15 +97,15 @@
 
                 <th th:switch="${race.activity}">
                     <span th:case="0">
-                        <a class="btn btn-warning" onclick="return confirm('Naozaj chcete zmeniť aktivitu preteku?')" th:href="@{/activeRace/{id}(id=${race.getId()})} "><img alt="active" class="activeButton" th:src="@{/images/active.png}"></a>
+                        <a  onclick="return confirm('Naozaj chcete zmeniť aktivitu preteku?')" th:href="@{/activeRace/{id}(id=${race.getId()})} "><img alt="active" class="activeButton" th:src="@{/images/active.png}"></a>
                     </span>
                     <span th:case="1">
                         <img alt="active" class="activeButton" th:src="@{/images/activated.png}">
                     </span>
                 </th>
 
-                <th><a class="btn btn-warning" th:href="@{/editRace/{id}(id=${race.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></th>
-                <th><a class="btn btn-warning" onclick="return confirm('Naozaj chcete tento pretek vymazať?')" th:href="@{/deleteRace/{id}(id=${race.getId()})} "><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></th>
+                <th><a  th:href="@{/editRace/{id}(id=${race.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></th>
+                <th><a  onclick="return confirm('Naozaj chcete tento pretek vymazať?')" th:href="@{/deleteRace/{id}(id=${race.getId()})} "><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></th>
             </tr>
 
 
@@ -301,7 +302,7 @@
                                     <!--                           -->
 
                                     <div th:id="tracks">
-                                        <div   class="input-div">
+                                        <div   th:class="input-div">
                                             <label>
                                                 1.
                                                 <input  th:object = "${trackDto}" th:field="*{one}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="6">

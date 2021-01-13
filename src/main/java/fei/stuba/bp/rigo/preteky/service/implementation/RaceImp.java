@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,6 +82,18 @@ public class RaceImp implements RaceService {
     @Override
     public List<Race> getActiveRace() {
         return raceRepository.findRegisteredUserByActivity(1);
+    }
+    @Override
+    public Race getFakeRace(){
+        Race race = new Race();
+        race.setRaceName("Žiadny aktívny závod");
+        race.setPlace("xxx");
+        long millis=System.currentTimeMillis();
+        Date date=new Date(millis);
+        race.setEndDate(date);
+        race.setStartDate(date);
+        race.setId(-1);
+        return race;
     }
     @Override
     public void changeActivity(Race race) {

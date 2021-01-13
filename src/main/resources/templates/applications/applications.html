@@ -7,6 +7,10 @@
     <link th:rel="icon"
           th:href="@{images/race.png}">
     <link th:rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/resultsApplications.css}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 
 
@@ -22,15 +26,59 @@
 
 <main>
 
-    <hr>
+    <div th:class="activeRace">
+        <a href="#">
+            <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
+        </a>
+    </div>
+    <div th:class="heading_t">
+        <!-- aktivny pretek -->
 
-    <table th:id="table">
+        <div th:id="addDiscipline" th:class="addRace">
+            <a>
+                <label style="color: blue" th:class="div-button">
+                    <img alt="addDiscipline" class="plus" th:src="@{/images/plus.png}">
+                    //TODO
+                </label>
+            </a>
+
+        </div>
+    </div>
+    <hr>
+    <div th:class="stuck">
+        Text (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
+
+        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
+
+        Pojem textu je v istom zmysle synonymum všeobecnéhoText (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
+
+        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
+
+        Pojem textu je v istom zmysle synonymum všeobecnéhoText (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
+
+        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
+
+        Pojem textu je v istom zmysle synonymum všeobecnéhoText (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
+
+        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
+
+        Pojem textu je v istom zmysle synonymum všeobecnéhoText (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
+
+        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
+
+        Pojem textu je v istom zmysle synonymum všeobecného
+    </div>
+
+    <table th:class="not-stuck" th:id="table">
         <thead>
         <tr>
-            <th>Dátum</th>
-            <th>Názov</th>
-            <th>Miesto konania</th>
-            <th>Organizátor</th>
+            <th>Dráha</th>
+            <th>Bib</th>
+            <th>Meno</th>
+            <th>Oddiel</th>
+            <th>Krajina</th>
+            <th>Reakcie</th>
+            <th>Výkon</th>
         </tr>
         </thead>
     </table>

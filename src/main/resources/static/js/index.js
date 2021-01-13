@@ -1,4 +1,3 @@
-console.log("gay")
 // filter na mená pretekov
 let searchBox = document.getElementById("searchRace");
 searchBox.addEventListener('keydown',filter);
