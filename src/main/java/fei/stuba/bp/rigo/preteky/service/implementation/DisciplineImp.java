@@ -1,7 +1,9 @@
 package fei.stuba.bp.rigo.preteky.service.implementation;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
+import fei.stuba.bp.rigo.preteky.models.sql.Phase;
 import fei.stuba.bp.rigo.preteky.repository.DisciplineRepository;
+import fei.stuba.bp.rigo.preteky.repository.PhaseRepository;
 import fei.stuba.bp.rigo.preteky.service.service.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,12 @@ import java.util.List;
 @Transactional
 public class DisciplineImp implements DisciplineService {
     @Autowired
+    private PhaseRepository phaseRepository;
     private DisciplineRepository disciplineRepository;
 
-    public DisciplineImp(DisciplineRepository disciplineRepository){
+    public DisciplineImp(DisciplineRepository disciplineRepository,PhaseRepository phaseRepository){
         super();
+        this.phaseRepository=phaseRepository;
         this.disciplineRepository=disciplineRepository;
     }
     @Override
@@ -38,6 +42,18 @@ public class DisciplineImp implements DisciplineService {
     @Override
     public void deleteByRaceId(Integer raceId){
         disciplineRepository.deleteAllByRaceId(raceId);
+    }
+    @Override
+    public void savePhase(Phase phase){
+        phaseRepository.save(phase);
+    }
+    @Override
+    public void removePhase(Phase phase){
+        phaseRepository.delete(phase);
+    }
+    @Override
+    public Phase findPhaseById(Integer phaseId){
+        return phaseRepository.findPhaseById(phaseId);
     }
 
 

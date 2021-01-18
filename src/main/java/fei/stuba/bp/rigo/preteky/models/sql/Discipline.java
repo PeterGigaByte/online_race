@@ -5,6 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * disciplína
  */
@@ -23,6 +26,10 @@ public class Discipline implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "race_id",referencedColumnName = "id")
     private Race race;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name= "phases_id" ,referencedColumnName = "id")
+    private List<Phase> phases = new ArrayList<>();
 
     @Column(name = "participants")
     private Integer participants = 0;
