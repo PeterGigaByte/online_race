@@ -23,7 +23,7 @@
 <main>
 </main>
 <section>
-    <form th:action="@{/editRace/{id}(id=${id})}" method="post" th:object = "${race}">
+    <form th:action="@{'/editRace/'+${race.id}+'/'+${settings.id}+'/'+${track.id}}" method="post" th:object = "${race}">
         <div th:id="behind-scene" class="behind-scene active">
             <div th:id="behind-scene-header" th:class="behind-scene-header">
                 <div th:class="inlineDescription">
@@ -112,6 +112,7 @@
                                     <input  th:field="*{raceType}"   th:id="checkboxH" th:value="0" th:class="input-box" th:type="checkbox">
                                 </label>
                             </div>
+                            <input style="display: none" th:field="*{activity}">
                             <button value="Editovať" type="submit" class="button-submit center">Editovať</button>
                         </div>
 
@@ -270,6 +271,7 @@
                                             <input  th:object = "${track}" th:field="*{ten}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="10">
                                         </label>
                                     </div>
+
 
                                 </div>
 

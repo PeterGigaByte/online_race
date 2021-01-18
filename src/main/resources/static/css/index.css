@@ -284,3 +284,16 @@ a:link,a:visited{
 input[type="number"]{
     width: 60%;
 }
+main{
+    background-image: linear-gradient(to bottom, #0074D9 0.5%, white 3%);
+}
+html{
+    height: 100%;
+    background-image: linear-gradient(to top , #0074D9 0.5%, white 20%) ;
+
+}
+
+#first_tr{
+    background-image: linear-gradient(to bottom, cyan 1%, rgb(96,96,96) 20%);
+    color: white;
+}

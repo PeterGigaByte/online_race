@@ -82,11 +82,14 @@
 
         <table th:id="table">
             <thead>
-            <tr>
+            <tr th:id="first_tr" >
                 <th>Dátum</th>
                 <th>Názov</th>
                 <th>Miesto konania</th>
                 <th>Organizátor</th>
+                <th>Aktívny závod</th>
+                <th>Editovať</th>
+                <th>Zmazať</th>
             </tr>
 
             <tr th:each="race: ${races}">

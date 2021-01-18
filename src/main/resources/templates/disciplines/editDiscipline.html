@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Systém pre organizáciu Atl.Pretekov</title>
+    <link th:rel="icon" th:href="@{images/race.png}">
+    <link th:rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+</head>
+<body>
+
+<div class="topnav">
+    <a  href="#home">Preteky</a>
+    <a class="active" href="#news">Disciplíny</a>
+    <a href="#contact">Prihlášky</a>
+    <a href="#about">Výsledky</a>
+</div>
+
+<main>
+</main>
+<section>
+    <form th:action="@{'/disciplines/save'}" th:object="${discipline}" method="post">
+        <div th:id="behind-scene" class="behind-scene active">
+            <div th:id="behind-scene-header" th:class="behind-scene-header">
+
+                <div th:id="title" th:class="title" style="font-size: 30px">
+                    Editovať disciplínu
+                    <div th:class="exit">
+                        <a th:href="@{/disciplines}"><img th:id="exit"  th:class="exit" th:src="@{/images/exit.png}" alt="exit"></a>
+                    </div>
+
+                </div>
+
+                <div th:id="behind-scene-body" th:class="behind-scene-body">
+                    <div th:class="center">
+                        <div th:id="registrationBlock">
+                            <div style="display: none" th:class="input-div">
+                                <label>
+                                    Id<span th:class="necessary"> *</span>
+                                    <input required
+                                           oninvalid="this.setCustomValidity('Názov nesmie byť prázdny.Zadaj znova')"
+                                           onchange="this.setCustomValidity('')" readonly="readonly" th:field="*{id}" th:class="input-box" placeholder="Čas štartu" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Čas štartu<span th:class="necessary"> *</span>
+                                    <input required
+                                           oninvalid="this.setCustomValidity('Názov nesmie byť prázdny.Zadaj znova')"
+                                           onchange="this.setCustomValidity('')" th:field="*{time}" th:class="input-box" placeholder="Čas štartu" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Názov disciplíny<span th:class="necessary"> *</span>
+                                    <input required
+                                           oninvalid="this.setCustomValidity('Miesto nesmie byť prázdne.Zadaj znova')"
+                                           onchange="this.setCustomValidity('')" th:field="*{disciplineName}"  th:class="input-box" placeholder="Disciplína" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Kategória<span th:class="necessary"> *</span>
+                                    <input required
+                                           oninvalid="this.setCustomValidity('Pole organizátora nesmie byť prázdny.Zadaj znova')"
+                                           onchange="this.setCustomValidity('')" th:field="*{category}" th:class="input-box" placeholder="Kategória" th:type="text">
+                                </label>
+                            </div>
+                            <div th:class="input-div">
+                                <label>
+                                    Poznámka<span th:class="necessary"> *</span>
+                                    <input th:field="*{note}"    placeholder="Poznámky" th:class="input-box" th:type="text">
+                                </label>
+                            </div>
+                            <button value="Editovať" type="submit" class="button-submit center">Editovať</button>
+                        </div>
+                        <!--                           -->
+                    </div>
+
+                </div>
+
+                <!--                           -->
+
+            </div>
+        </div>
+
+    </form>
+</section>
+
+<footer th:class="footer">
+    ©PeterRigoDevelopment
+</footer>
+<div th:id="overlay" class="active"></div>
+
+<script th:src="@{/js/editRace.js}"></script>
+</body>
+</html>

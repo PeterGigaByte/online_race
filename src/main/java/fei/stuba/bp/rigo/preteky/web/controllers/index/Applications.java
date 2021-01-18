@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.sql.Date;
-
 @Controller
 public class Applications {
     private RaceService raceService;
@@ -22,7 +20,6 @@ public class Applications {
         }else{
             return raceService.getFakeRace();
         }
-
     }
     @GetMapping("/applications")
     public String disciplines(){

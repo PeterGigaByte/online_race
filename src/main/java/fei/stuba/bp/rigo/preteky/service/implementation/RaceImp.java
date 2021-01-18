@@ -48,12 +48,14 @@ public class RaceImp implements RaceService {
     }
 
     @Override
-    public void deleteRace(Race race){
-        Settings settings = race.getSettings();
-        Track track = settings.getTrack();
-        raceRepository.delete(race);
-        settingsRepository.delete(settings);
-        trackRepository.delete(track);
+    public void deleteRace(Integer id){
+        Optional<Race> race = raceRepository.findById(id);
+        if(race.isPresent()){
+            Integer settingsId=race.get().getSettings().getId();
+            raceRepository.deleteById(id);
+            settingsRepository.deleteById(settingsId);
+
+        }
     }
     @Override
     public Race getRaceById(Integer id){
@@ -111,4 +113,13 @@ public class RaceImp implements RaceService {
         race.setActivity(1);
         raceRepository.save(race);
     }
+    @Override
+    public Race findByIdFromRepository(Integer id){
+        return raceRepository.findRaceById(id);
+    }
+    @Override
+    public void editRealRace(Race race,Settings settings,Track track){
+        raceRepository.save(race);settingsRepository.save(settings);trackRepository.save(track);
+    }
+
 }

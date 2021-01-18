@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Disciplíny</title>
+    <link th:rel="icon"
+          th:href="@{/images/race.png}">
+    <link th:rel="stylesheet" th:href="@{/css/index.css}">
+    <link th:rel="stylesheet" th:href="@{/css/discipline.css}">
+    <link th:rel="stylesheet" th:href="@{/css/phases.css}">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+</head>
+<body>
+
+<div class="topnav">
+    <a href="/">Preteky</a>
+    <a class="active" href="/disciplines">Disciplíny</a>
+    <a href="/applications">Prihlášky</a>
+    <a href="/results">Výsledky</a>
+</div>
+
+<main>
+    <div th:class="activeRace">
+        <a href="#">
+            <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
+        </a>
+    </div>
+    <div th:class="heading_t">
+        <!-- aktivny pretek -->
+        <div th:id="addRace" th:class="addRace">
+
+            <select th:id="day"  th:class="input-box" th:type="select">
+                <option value="Deň">
+                    Deň
+                </option>
+            </select>
+        </div>
+
+        <div th:class="search">
+            <label>
+                <img alt="searchRace" class="plus" th:src="@{/images/Search-icon.png}">
+                Hladať disciplíny
+                <input th:id="searchRace" type="text" placeholder="Vyhladať disciplínu">
+            </label>
+        </div>
+    </div>
+    <br><br>
+    <div th:class="heading_t">
+        <div id="slider"></div>
+    </div>
+    <div th:class="heading_t">
+        <!-- aktivny pretek -->
+        <div th:id="addPhase" th:class="addRace">
+            <a>
+                <label style="color: blue" th:class="div-button">
+                    <img alt="addPhase" class="plus" th:src="@{/images/plus.png}">
+                    Nová fáza
+                </label>
+            </a>
+
+        </div>
+        <div  th:id="disciplineInfo" th:class="addRace">
+            <a th:href="@{/disciplines/manage/phases/{id}(id=${discipline.getId()})} ">
+                <label th:text="${discipline.getDisciplineName()}+' '+${discipline.getCategory()}" class="div-button">
+                </label>
+            </a>
+
+        </div>
+
+        <div  th:id="backDisciplines" th:class="addRace">
+            <a href="/disciplines">
+                <label style="color: blue" th:class="div-button">
+                    <img alt="back" class="plus" th:src="@{/images/back.png}">
+                    Späť
+                </label>
+            </a>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <table th:id="table">
+        <thead>
+        <tr th:id="first_tr">
+            <th>Čas začiatku</th>
+            <th>ID camera</th>
+            <th>Počet pretekárov</th>
+            <th>Názov fázy</th>
+
+            <th>Poznámky</th>
+            <th th:class="settings-columns">Editovať</th>
+            <th th:class="settings-columns">Zmazať</th>
+        </tr>
+
+
+        </thead>
+    </table>
+    <section>
+        <form th:action="@{/createRace}" method="post">
+            <div th:id="behind-scene" class="behind-scene">
+                <div th:id="behind-scene-header" th:class="behind-scene-header">
+                    <div th:class="inlineDescription">
+                        <div th:id="first"  class="first div-button">
+                            Fáza
+                        </div>
+                        <div th:id="second" class="second div-button">
+                            Nastavenia
+                        </div>
+                    </div>
+                    <div th:id="title" style="font-size: 30px" th:class="title">
+                        Nová fáza
+                        <div th:class="exit">
+                            <img th:id="exit"  th:class="exit" th:src="@{/images/exit.png}" alt="exit">
+                        </div>
+
+                    </div>
+
+                    <div th:id="behind-scene-body" th:class="behind-scene-body">
+                        <div th:class="center">
+
+                            <div th:id="phaseBlock">
+                                <div th:class="input-div">
+                                    <label>
+                                        Názov závodu<span th:class="necessary"> *</span>
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Názov nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:class="input-box" placeholder="Názov závodu" th:type="text">
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Miesto Konania<span th:class="necessary"> *</span>
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Miesto nesmie byť prázdne.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:class="input-box" placeholder="Miesto konania" th:type="text">
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Organizátor<span th:class="necessary"> *</span>
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Pole organizátora nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')"  th:class="input-box" placeholder="Organizátor" th:type="text">
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Spracovateľ výsledkov<span th:class="necessary"> *</span>
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Pole spracovateľa nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')"  th:class="input-box" placeholder="Spracovateľ výsledkov" th:type="text">
+                                    </label>
+                                </div>
+
+                                <div th:class="input-div">
+                                    <label>
+                                        Telefón<span th:class="necessary"> *</span>
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Telefón nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:class="input-box" placeholder="Telefón" th:type="tel" >
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Dátum začiatku<span th:class="necessary"> *</span>
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Dátum nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:class="input-box" th:type="date">
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Dátum konca<span th:class="necessary"> *</span>&nbsp;
+                                        <input required
+                                               oninvalid="this.setCustomValidity('Dátum nesmie byť prázdny.Zadaj znova')"
+                                               onchange="this.setCustomValidity('')" th:class="input-box" th:type="date">
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Halová sezóna
+                                        <input    th:id="checkboxH" th:value="0" th:class="input-box" th:type="checkbox">
+                                    </label>
+                                </div>
+                                <button value="Vytvoriť" type="submit" class="button-submit center">Vytvoriť</button>
+                            </div>
+
+                            <!--                           -->
+
+                            <div th:id="settingsBlock">
+                                <div th:class="input-div">
+
+                                    <label>
+                                        Riaditeľ
+                                        <input     th:class="input-box" placeholder="Riaditeľ" th:type="text">
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Rozhodca
+                                        <input   th:class="input-box" placeholder="Rozhodca" th:type="text">
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Technický delegát
+                                        <input    th:class="input-box" placeholder="Technický delegát" th:type="text">
+                                    </label>
+                                </div>
+                                <div th:class="input-div">
+                                    <label>
+                                        Poznámky
+                                        <input   placeholder="Poznámky" th:class="input-box" th:type="text">
+                                    </label>
+                                </div>
+                            </div>
+                            <!--                           -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer th:class="footer">
+    ©PeterRigoDevelopment
+</footer>
+<div th:id="overlay" ></div>
+<script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/js/phase.js}"></script>
+</body>
+</html>
