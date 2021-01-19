@@ -3,7 +3,7 @@ package fei.stuba.bp.rigo.preteky.web.controllers.index;
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.Phase;
 import fei.stuba.bp.rigo.preteky.models.sql.Race;
-import fei.stuba.bp.rigo.preteky.repository.PhaseRepository;
+
 import fei.stuba.bp.rigo.preteky.service.service.DisciplineService;
 import fei.stuba.bp.rigo.preteky.service.service.RaceService;
 import org.springframework.stereotype.Controller;
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.Iterator;
-
 
 @Controller
 public class Disciplines {
@@ -87,10 +84,17 @@ public class Disciplines {
     public String editPhase(@PathVariable Integer id,
                             @PathVariable Integer idPhase,
                             @ModelAttribute("activeRace") Race activeRace,
-                            @ModelAttribute("phase") Phase phase,Model model){
-        model.addAttribute("phase",phase);
+                            Model model){
+        model.addAttribute("phase",disciplineService.findPhaseById(idPhase));
         model.addAttribute("discipline",disciplineService.findDisciplineById(id));
         return "disciplines/editPhase";
+    }@PostMapping("disciplines/manage/phases/{id}/editPhase/{idPhase}/edited")
+    public String editedPhase(@PathVariable Integer id,
+                            @PathVariable Integer idPhase,
+                            @ModelAttribute("activeRace") Race activeRace,
+                              @ModelAttribute("phase") Phase phase,Model model){
+        disciplineService.savePhase(phase);
+        return managePhases(activeRace,id,model);
     }
     @GetMapping("disciplines/manage/phases/{id}/deletePhase/{idPhase}")
     public String deletePhase(@PathVariable Integer id,

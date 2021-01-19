@@ -39,13 +39,13 @@
                     <div th:class="center">
                         <div th:id="registrationBlock">
                             <div style="display: none" th:class="input-div">
-                                <label>
-                                    Id<span th:class="necessary"> *</span>
-                                    <input required
-                                           oninvalid="this.setCustomValidity('Názov nesmie byť prázdny.Zadaj znova')"
-                                           onchange="this.setCustomValidity('')" readonly="readonly" th:field="*{id}" th:class="input-box" placeholder="Čas štartu" th:type="text">
-                                </label>
+                                    <input readonly="readonly" th:field="*{participants}" th:class="input-box" th:type="text">
                             </div>
+                            <div style="display: none" th:class="input-div">
+                                <input readonly="readonly" th:field="*{id}" th:class="input-box" th:type="text">
+                            </div>
+
+
                             <div th:class="input-div">
                                 <label>
                                     Čas štartu<span th:class="necessary"> *</span>

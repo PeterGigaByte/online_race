@@ -26,7 +26,7 @@
 
 <main>
     <section>
-        <form th:action="@{'/disciplines/manage/phases/'+${discipline.id}+'/editPhase/'+${phase.id}+}" th:object="${phase}" method="post">
+        <form th:action="@{'/disciplines/manage/phases/'+${discipline.id}+'/editPhase/'+${phase.id}+'/edited'}" th:object="${phase}" method="post">
             <div th:id="behind-scene" class="behind-scene active">
                 <div th:id="behind-scene-header" th:class="behind-scene-header">
                     <div th:class="inlineDescription">
@@ -49,6 +49,18 @@
                         <div th:class="center">
 
                             <div th:id="phaseBlock">
+                                <div style="display: none" th:class="input-div">
+                                    <input readonly="readonly" th:field="*{id}" th:class="input-box" th:type="text">
+                                </div>
+                                <div style="display: none" th:class="input-div">
+                                    <input readonly="readonly" th:field="*{cameraId}" th:class="input-box" th:type="text">
+                                </div>
+                                <div style="display: none" th:class="input-div">
+                                    <input readonly="readonly" th:field="*{participants}" th:class="input-box" th:type="text">
+                                </div>
+                                <div style="display: none" th:class="input-div">
+                                    <input readonly="readonly" th:field="*{discipline.id}" th:class="input-box" th:type="text">
+                                </div>
                                 <div th:class="input-div">
                                     <label>
                                         Čas štartu<span th:class="necessary"> *</span>
@@ -130,6 +142,6 @@
 </footer>
 <div th:id="overlay" class="active" ></div>
 <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
-<script th:src="@{/js/phase.js}"></script>
+<script th:src="@{/js/editPhase.js}"></script>
 </body>
 </html>
