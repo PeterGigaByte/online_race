@@ -48,12 +48,18 @@ public class DisciplineImp implements DisciplineService {
         phaseRepository.save(phase);
     }
     @Override
-    public void removePhase(Phase phase){
-        phaseRepository.delete(phase);
+    public void removePhase(Integer id,Integer idPhase){
+        Discipline discipline = disciplineRepository.findDisciplineById(id);
+        discipline.getPhases().removeIf(phase -> phase.getId().equals(idPhase));
+        phaseRepository.deleteById(idPhase);
     }
     @Override
     public Phase findPhaseById(Integer phaseId){
         return phaseRepository.findPhaseById(phaseId);
+    }
+    @Override
+    public List<Phase> findAllPhasesByRaceId(Integer id){
+        return phaseRepository.findPhasesByDisciplineRaceId(id);
     }
 
 

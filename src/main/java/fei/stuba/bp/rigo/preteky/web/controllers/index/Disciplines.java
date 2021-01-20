@@ -101,7 +101,7 @@ public class Disciplines {
                               @PathVariable Integer idPhase,
                               @ModelAttribute("activeRace") Race activeRace,
                              Model model){
-        disciplineService.removePhase(disciplineService.findPhaseById(idPhase));
+        disciplineService.removePhase(id,idPhase);
         return managePhases(activeRace,id,model);
     }
 }

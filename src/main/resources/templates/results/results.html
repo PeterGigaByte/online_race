@@ -10,6 +10,7 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/resultsApplications.css}">
+    <link th:rel="stylesheet" th:href="@{/css/table.css}">
 </head>
 <body>
 
@@ -41,48 +42,41 @@
     </div>
     <hr>
     <div th:class="stuck">
-        Text (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
-
-        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
-
-        Pojem textu je v istom zmysle synonymum všeobecnéhoText (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
-
-        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
-
-        Pojem textu je v istom zmysle synonymum všeobecnéhoText (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
-
-        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
-
-        Pojem textu je v istom zmysle synonymum všeobecnéhoText (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
-
-        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
-
-        Pojem textu je v istom zmysle synonymum všeobecnéhoText (z lat. texere - tkať, stavať; textum - utkané) je ustálený jazykový prejav je výsledkom rečovej činnosti, t. j. jazykový útvar, ktorý vznikol konkrétnou realizáciou jazykového systému.
-
-        Súbor textov je literatúra. Text je jazykovo-tematická štruktúra so zámerným usporiadaním výpovedí, ktorou sa vyjadruje relatívne uzavretý myšlienkový komplex. Je to semiotická entita, jazykový znak, ktorý má sigmatický aspekt (textom sa označujú predmety, deje, udalosti, vlastnosti), syntaktický aspekt (text sa vzťahuje aj na iné prejavy z oblasti verbálnej alebo mimoverbálnej), sémantický aspekt (text má vždy istý obsah, istý odraz vo vedomí človeka) a pragmatický aspekt (text je závislý od adresáta, od situácie a rozličných sociálnych momentov).
-
-        Pojem textu je v istom zmysle synonymum všeobecného
+        <table class="asideTable" th:id="table">
+            <thead th:each="phase: ${phases}" >
+            <tr ><th  th:text="${phase.time}+' '+${phase.discipline.category}"></th></tr>
+            <tr ><th  th:text="${phase.discipline.disciplineName}+' - '+${phase.phaseName}+' '+${phase.phaseNumber}"></th></tr>
+            </thead>
+        </table>
     </div>
 
-    <table th:class="not-stuck" th:id="table">
-        <thead>
+    <table  th:id="table" class="stable">
         <tr>
-            <th>Dráha</th>
-            <th>Bib</th>
-            <th>Meno</th>
-            <th>Oddiel</th>
-            <th>Krajina</th>
-            <th>Reakcie</th>
-            <th>Výkon</th>
+            <td>
+                <table class="stable" >
+                    <tr th:id="first_tr" class="stable">
+                        <th>Číslo fázy</th>
+                        <th>Pretekári</th>
+                        <th>id</th>
+                    </tr>
+                </table>
+            </td>
         </tr>
-        <th>
-            <div th:class="input-div">
-                <label>
-                    <input  th:class="input-box" th:type="text">
-                </label>
-            </div>
-        </th>
-        </thead>
+        <tr>
+            <td>
+                <div class="not-stuck">
+                    <table >
+                        <tr th:each="phase: ${phases}">
+                            <th th:text="${phase.phaseNumber}"></th>
+                            <th th:text="${phase.participants}"></th>
+                            <th th:text="${phase.id}"></th>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+
     </table>
 </main>
 <footer th:class="footer">

@@ -2,19 +2,34 @@
     position: fixed;
     top: 155px;
     left: 0;
+    height: 75vh;
     max-height: 100%;
     width: 190px;
     background-color: #eee;
     overflow-y: scroll;
     margin: 10px;
-    padding-bottom: 183px;
+
 }
 .stuck p {
     margin: 10px;
 }
 .not-stuck {
+    margin-left: 150px;
+    width: 80%;
+    flex: 10;
+    height: 48vh;
+    overflow: scroll;
 
 }
+.stable {
+    margin-left: 150px;
+    width: 80%;
+}
 table{
-    width: 60%;
+    width: 100%;
+
+}
+td{
+    text-align: right;
+    background-color: white;
 }

@@ -12,6 +12,7 @@ public interface DisciplineService {
     List<Discipline> getAllDisciplinesByRaceId(Integer raceId);
     void deleteByRaceId(Integer raceId);
     void savePhase(Phase phase);
-    void removePhase(Phase phase);
+    void removePhase(Integer id,Integer idPhase);
     Phase findPhaseById(Integer phaseId);
+    List<Phase> findAllPhasesByRaceId(Integer id);
 }

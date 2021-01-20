@@ -11,5 +11,6 @@ public interface PhaseRepository extends JpaRepository<Phase, Integer>, JpaSpeci
     List<Phase> findPhasesByDisciplineId(Integer disciplineId);
     Phase findPhaseById(Integer phaseId);
     void deleteAllByDisciplineId(Integer disciplineId);
-
+    List<Phase> findPhasesByDisciplineRaceId(Integer id);
+    void deleteById(Integer id);
 }
