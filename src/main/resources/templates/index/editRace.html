@@ -8,6 +8,7 @@
     <link th:rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link th:rel="stylesheet" th:href="@{/css/sideMenu.css}">
 
 
 </head>
@@ -18,9 +19,17 @@
     <a href="#news">Disciplíny</a>
     <a href="#contact">Prihlášky</a>
     <a href="#about">Výsledky</a>
+    <a href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
+</div>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/participants">Pretekári</a>
+    <a href="/clubs">Kluby</a>
+    <a href="#">Stiahnuť databázu</a>
+    <a href="/contact">Kontakt</a>
 </div>
 
-<main>
+<main th:id="main">
 </main>
 <section>
     <form th:action="@{'/editRace/'+${race.id}+'/'+${settings.id}+'/'+${track.id}}" method="post" th:object = "${race}">
@@ -293,5 +302,6 @@
 <div th:id="overlay" class="active"></div>
 
 <script th:src="@{/js/editRace.js}"></script>
+<script th:src="@{/js/sideMenu.js}"></script>
 </body>
 </html>

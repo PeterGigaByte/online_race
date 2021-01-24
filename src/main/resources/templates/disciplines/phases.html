@@ -11,6 +11,7 @@
     <link th:rel="stylesheet" th:href="@{/css/phases.css}">
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link th:rel="stylesheet" th:href="@{/css/sideMenu.css}">
 
 
 
@@ -22,9 +23,17 @@
     <a class="active" href="/disciplines">Disciplíny</a>
     <a href="/applications">Prihlášky</a>
     <a href="/results">Výsledky</a>
+    <a href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
+</div>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/participants">Pretekári</a>
+    <a href="/clubs">Kluby</a>
+    <a href="#">Stiahnuť databázu</a>
+    <a href="/contact">Kontakt</a>
 </div>
 
-<main>
+<main th:id="main">
     <div th:class="activeRace">
         <a href="#">
             <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
@@ -139,7 +148,7 @@
                                         Čas štartu<span th:class="necessary"> *</span>
                                         <input required
                                                oninvalid="this.setCustomValidity('Čas štartu nesmie byť prázdne.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{time}" th:class="input-box" placeholder="Čas štartu" th:type="text">
+                                               onchange="this.setCustomValidity('')" th:field="*{time}"  placeholder="Čas štartu" th:type="time">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
@@ -218,5 +227,6 @@
 <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
 <script th:src="@{/js/phase.js}"></script>
 <script th:src="@{/js/editPhase.js}"></script>
+<script th:src="@{/js/sideMenu.js}"></script>
 </body>
 </html>

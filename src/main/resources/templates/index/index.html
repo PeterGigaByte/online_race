@@ -6,9 +6,10 @@
     <title>Systém pre organizáciu Atl.Pretekov</title>
     <link th:rel="icon"
           th:href="@{images/race.png}">
-    <link th:rel="stylesheet" th:href="@{/css/index.css}"> <link rel="stylesheet"
-                                                                 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link th:rel="stylesheet" th:href="@{/css/index.css}">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link th:rel="stylesheet" th:href="@{/css/sideMenu.css}">
 
 
 </head>
@@ -19,9 +20,19 @@
         <a href="/disciplines">Disciplíny</a>
         <a href="/applications">Prihlášky</a>
         <a  href="/results">Výsledky</a>
+        <a href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
+    </div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/participants">Pretekári</a>
+        <a href="/clubs">Kluby</a>
+        <a href="#">Stiahnuť databázu</a>
+        <a href="/contact">Kontakt</a>
     </div>
 
-    <main>
+
+    <!-- Use any element to open the sidenav -->
+    <main th:id="main">
 
         <div th:class="activeRace">
             <a href="#">
@@ -110,14 +121,11 @@
                 <th><a  th:href="@{/editRace/{id}(id=${race.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></th>
                 <th><a  onclick="return confirm('Naozaj chcete tento pretek vymazať?')" th:href="@{/deleteRace/{id}(id=${race.getId()})} "><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></th>
             </tr>
-
-
-
-
             </thead>
         </table>
         <div style="height: 25px"></div>
     </main>
+
     <section>
         <form th:action="@{/createRace}" method="post" th:object = "${raceRegister}">
             <div th:id="behind-scene" class="behind-scene">
@@ -387,5 +395,6 @@
     <div th:id="overlay"></div>
 
     <script th:src="@{/js/index.js}"></script>
+    <script th:src="@{/js/sideMenu.js}"></script>
 </body>
 </html>

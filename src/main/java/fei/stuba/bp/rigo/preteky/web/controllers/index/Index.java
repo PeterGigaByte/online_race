@@ -57,6 +57,11 @@ public class Index {
             return raceService.getFakeRace();
         }
     }
+    @GetMapping("/contact")
+    public String contact(){
+
+        return "contact/contact";
+    }
     @GetMapping("/")
     public  String index(@ModelAttribute("activeRace")
                                      Race activeRace){

@@ -8,8 +8,10 @@
           th:href="@{images/race.png}">
     <link th:rel="stylesheet" th:href="@{/css/index.css}">
     <link th:rel="stylesheet" th:href="@{/css/discipline.css}">
+    <link th:rel="stylesheet" th:href="@{/css/autocomplete.css}">
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link th:rel="stylesheet" th:href="@{/css/sideMenu.css}">
 
 
 
@@ -21,9 +23,17 @@
     <a class="active" href="/disciplines">Disciplíny</a>
     <a href="/applications">Prihlášky</a>
     <a href="/results">Výsledky</a>
+    <a href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
+</div>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/participants">Pretekári</a>
+    <a href="/clubs">Kluby</a>
+    <a href="#">Stiahnuť databázu</a>
+    <a href="/contact">Kontakt</a>
 </div>
 
-<main>
+<main th:id="main">
     <div th:class="activeRace">
         <a href="#">
             <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
@@ -141,31 +151,31 @@
                                 <div th:class="input-div">
                                     <label>
                                         Čas štartu<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Názov nesmie byť prázdny.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{time}" th:class="input-box" placeholder="Čas štartu" th:type="text">
+                                        <input required autocomplete="off"
+                                               oninvalid="this.setCustomValidity('Čas nesmie byť prázdny')"
+                                               onchange="this.setCustomValidity('')" th:field="*{time}"  placeholder="Čas štartu" th:type="time">
                                     </label>
                                 </div>
-                                <div th:class="input-div">
+                                <div class="autocomplete">
                                     <label>
                                         Názov disciplíny<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Miesto nesmie byť prázdne.Zadaj znova')"
+                                        <input  th:id="disciplineName" required  autocomplete="off"
+                                               oninvalid="this.setCustomValidity('Názov nesmie byť prázdny.')"
                                                onchange="this.setCustomValidity('')" th:field="*{disciplineName}"  th:class="input-box" placeholder="Disciplína" th:type="text">
                                     </label>
                                 </div>
-                                <div th:class="input-div">
+                                <div th:class="input-div"  class="autocomplete" style="position: relative">
                                     <label>
                                         Kategória<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Pole organizátora nesmie byť prázdny.Zadaj znova')"
+                                        <input th:id="categoryName" required autocomplete="off"
+                                               oninvalid="this.setCustomValidity('Kategória musí byť vyplnená.')"
                                                onchange="this.setCustomValidity('')" th:field="*{category}" th:class="input-box" placeholder="Kategória" th:type="text">
                                     </label>
                                 </div>
                                 <div th:class="input-div">
                                     <label>
-                                        Poznámka<span th:class="necessary"> *</span>
-                                        <input th:field="*{note}"    placeholder="Poznámky" th:class="input-box" th:type="text">
+                                        Poznámka
+                                        <input autocomplete="off" th:field="*{note}"    placeholder="Poznámky" th:class="input-box" th:type="text">
                                     </label>
                                 </div>
 
@@ -191,6 +201,9 @@
 </footer>
 <div th:id="overlay" ></div>
 <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/js/autocomplete.js}"></script>
 <script th:src="@{/js/discipline.js}"></script>
+<script th:src="@{/js/sideMenu.js}"></script>
+
 </body>
 </html>
