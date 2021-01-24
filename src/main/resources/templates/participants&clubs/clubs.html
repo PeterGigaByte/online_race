@@ -35,14 +35,13 @@
 <main th:id="main">
     <div th:class="heading_t">
         <!-- aktivny pretek -->
-        <div th:id="addDiscipline" th:class="addRace">
+        <div th:id="addClub" th:class="addRace">
             <a>
                 <label style="color: blue" th:class="div-button">
                     <img alt="addClub" class="plus" th:src="@{/images/plus.png}">
                     Pridať klub
                 </label>
             </a>
-
         </div>
     </div>
     <hr>
@@ -57,9 +56,87 @@
             <th>Editovať</th>
             <th>Zmazať</th>
         </tr>
-
+        <tr  th:each="club: ${clubs}"  >
+            <th th:text="${club.clubName}"></th>
+            <th ><img th:alt="logo" th:src="${club.logo}"></th>
+            <th th:text="${club.residence}"></th>
+            <th th:text="${club.responsiblePerson}"></th>
+            <th th:text="${club.shortcutClubName}"></th>
+        </tr>
         </thead>
     </table>
+    <section>
+        <form th:action="@{'/clubs/create'}" th:object="${newClub}" method="post">
+            <div th:id="behind-scene" class="behind-scene">
+                <div th:id="behind-scene-header" th:class="behind-scene-header">
+                    <div th:class="inlineDescription">
+                        <div th:id="first"  class="first div-button">
+                            Klub
+                        </div>
+                    <div th:id="title" style="font-size: 30px" th:class="title">
+                        Nový klub
+                        <div th:class="exit">
+                            <img th:id="exit" alt="exit"  th:class="exit" th:src="@{/images/exit.png}" >
+                        </div>
+                        <div th:class="input-div">
+                            <label>
+                                Názov klubu<span th:class="necessary"> *</span>
+                                <input required autocomplete="off"
+                                       oninvalid="this.setCustomValidity('Názov klubu nesmie byť prázdny.Zadaj znova')"
+                                       onchange="this.setCustomValidity('')" th:field="*{clubName}" th:class="input-box" placeholder="Názov klubu" th:type="text">
+                            </label>
+                        </div>
+                        <div th:class="input-div">
+                            <label>
+                                Skratka klubu<span th:class="necessary"> *</span>
+                                <input required autocomplete="off"
+                                       oninvalid="this.setCustomValidity('Skratka klubu nesmie byť prázdna.Zadaj znova')"
+                                       onchange="this.setCustomValidity('')" th:field="*{shortcutClubName}" th:class="input-box" placeholder="Skratka klubu" th:type="text">
+                            </label>
+                        </div>
+                        <div th:class="input-div">
+                            <label>
+                                Vedúci klubu<span th:class="necessary"> *</span>
+                                <input required autocomplete="off"
+                                       oninvalid="this.setCustomValidity('Vedúci klubu.Zadaj znova')"
+                                       onchange="this.setCustomValidity('')" th:field="*{responsiblePerson}" th:class="input-box" placeholder="Vedúci klubu" th:type="text">
+                            </label>
+                        </div>
+                        <div th:class="input-div">
+                            <label>
+                                Základňa klubu<span th:class="necessary"> *</span>
+                                <input required autocomplete="off"
+                                       oninvalid="this.setCustomValidity('Základňa klubu nesmie byť prázdna.Zadaj znova')"
+                                       onchange="this.setCustomValidity('')" th:field="*{residence}" th:class="input-box" placeholder="Základňa klubu" th:type="text">
+                            </label>
+                        </div>
+                        <div th:class="input-div">
+                            <label>
+                                Logo<span th:class="necessary"> *</span>
+                                <input
+                                       oninvalid="this.setCustomValidity('Skús vybrať znovu logo')"
+                                       onchange="this.setCustomValidity('')" th:field="*{logo}" th:class="input-box"  th:type="file">
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                    <div th:id="behind-scene-body" th:class="behind-scene-body">
+                        <div th:class="center">
+
+
+
+                                <button value="Vytvoriť" type="submit" class="button-submit center">Vytvoriť</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
 </main>
 
 <footer th:class="footer">
@@ -67,7 +144,7 @@
 </footer>
 <div th:id="overlay"></div>
 
-<script th:src="@{/js/index.js}"></script>
+<script th:src="@{/js/clubs.js}"></script>
 <script th:src="@{/js/sideMenu.js}"></script>
 </body>
 </html>
