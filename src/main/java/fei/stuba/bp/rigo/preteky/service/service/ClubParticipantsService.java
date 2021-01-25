@@ -9,4 +9,5 @@ public interface ClubParticipantsService {
     void participantSave(Participant participant);
     void clubSave(Club club);
     List<Club> getAllClubs();
+    Club findClubById(Integer id);
 }

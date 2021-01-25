@@ -36,7 +36,7 @@ public class Club implements Serializable {
     private String residence;
 
     @Column(name = "logo")
-    private byte[] logo;
+    private String logo;
 
     @Column(name = "date_created")
     private Date dateCreated;
@@ -44,5 +44,13 @@ public class Club implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name= "participants_id" ,referencedColumnName = "id")
     private List<Participant> participants = new ArrayList<>();
+
+    @Transient
+    public String getLogoImage(){
+        if(logo==null || id == null){return null;}
+        return "/logos/"+id+"/"+logo;
+    }
+
+
 
 }

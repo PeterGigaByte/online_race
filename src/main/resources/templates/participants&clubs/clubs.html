@@ -12,6 +12,7 @@
     <link th:rel="stylesheet" th:href="@{/css/sideMenu.css}">
 
 
+
 </head>
 <body>
 
@@ -58,7 +59,9 @@
         </tr>
         <tr  th:each="club: ${clubs}"  >
             <th th:text="${club.clubName}"></th>
-            <th ><img th:alt="logo" th:src="${club.logo}"></th>
+            <th>
+                <img th:src="@{${club.getLogoImage()}}"  style="margin-left: -10px; width: 70px;height: auto" alt="logo" />
+            </th>
             <th th:text="${club.residence}"></th>
             <th th:text="${club.responsiblePerson}"></th>
             <th th:text="${club.shortcutClubName}"></th>
@@ -66,7 +69,8 @@
         </thead>
     </table>
     <section>
-        <form th:action="@{'/clubs/create'}" th:object="${newClub}" method="post">
+        <form th:action="@{'/clubs/create'}" th:object="${newClub}" method="post"
+        enctype="multipart/form-data">
             <div th:id="behind-scene" class="behind-scene">
                 <div th:id="behind-scene-header" th:class="behind-scene-header">
                     <div th:class="inlineDescription">
@@ -113,9 +117,10 @@
                         <div th:class="input-div">
                             <label>
                                 Logo<span th:class="necessary"> *</span>
-                                <input
+                                <input th:id="image" th:name="logoImage"
                                        oninvalid="this.setCustomValidity('Skús vybrať znovu logo')"
-                                       onchange="this.setCustomValidity('')" th:field="*{logo}" th:class="input-box"  th:type="file">
+                                       onchange="this.setCustomValidity('')"  th:class="input-box"  th:type="file">
+                                <img th:id="preview" th:src="@{/images/nologo.png}" style="width: 50px" th:alt="logoPreview">
                             </label>
                         </div>
                     </div>
@@ -143,7 +148,6 @@
     ©PeterRigoDevelopment
 </footer>
 <div th:id="overlay"></div>
-
 <script th:src="@{/js/clubs.js}"></script>
 <script th:src="@{/js/sideMenu.js}"></script>
 </body>

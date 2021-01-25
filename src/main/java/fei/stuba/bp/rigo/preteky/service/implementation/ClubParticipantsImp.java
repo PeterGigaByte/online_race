@@ -34,4 +34,8 @@ public class ClubParticipantsImp implements ClubParticipantsService {
     public List<Club> getAllClubs(){
         return clubRepository.findAll();
     }
+    @Override
+    public  Club findClubById(Integer id){
+        return clubRepository.findClubById(id);
+    }
 }

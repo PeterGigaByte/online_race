@@ -17,3 +17,18 @@ function exitF() {
     hiddenBlock.classList.remove("active");
     overlay.classList.remove("active");
 }
+
+
+
+let preview = document.getElementById("preview");
+let image = document.getElementById("image");
+image.addEventListener("change",changeImage);
+function changeImage() {
+    let file = image.files[0];
+    let reader = new FileReader();
+    reader.onload = function(e){
+        preview.src =e.target.result;
+    };
+    reader.readAsDataURL(file);
+
+}
