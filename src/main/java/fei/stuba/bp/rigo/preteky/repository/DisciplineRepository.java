@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.List;
 
 public interface DisciplineRepository extends JpaRepository<Discipline, Integer>, JpaSpecificationExecutor<Discipline> {
-    List<Discipline> findDisciplinesByRaceId(Integer raceId);
+    List<Discipline> findDisciplinesByRaceIdOrderByTimeAsc(Integer raceId);
     Discipline findDisciplineById(Integer disciplineId);
     void deleteAllByRaceId(Integer raceId);
 }

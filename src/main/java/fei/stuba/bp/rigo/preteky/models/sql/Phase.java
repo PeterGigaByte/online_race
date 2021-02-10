@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
-@Data
 @Table(name = "phase")
+@Data
 public class Phase implements Serializable {
 
     private static final long serialVersionUID = 1L;

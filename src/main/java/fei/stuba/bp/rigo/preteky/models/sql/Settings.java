@@ -10,8 +10,8 @@ import java.io.Serializable;
  * nastavenia pretekov
  */
 @Entity
-@Data
 @Table(name = "settings")
+@Data
 public class Settings implements Serializable {
 
     private static final long serialVersionUID = 1L;

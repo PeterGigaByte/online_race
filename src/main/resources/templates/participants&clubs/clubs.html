@@ -22,6 +22,7 @@
     <a href="/applications">Prihlášky</a>
     <a  href="/results">Výsledky</a>
     <a class="active" href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
+    <a href="/disciplines/schedule">Časový poriadok</a>
 </div>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -120,9 +121,9 @@
                                 <input th:id="image" th:name="logoImage"
                                        oninvalid="this.setCustomValidity('Skús vybrať znovu logo')"
                                        onchange="this.setCustomValidity('')"  th:class="input-box"  th:type="file">
-                                <img th:id="preview" th:src="@{/images/nologo.png}" style="width: 50px" th:alt="logoPreview">
                             </label>
                         </div>
+                        <img th:id="preview" th:src="@{/images/nologo.png}" style="width: 50px" th:alt="logoPreview">
                     </div>
 
 

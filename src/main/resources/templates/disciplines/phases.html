@@ -24,6 +24,7 @@
     <a href="/applications">Prihlášky</a>
     <a href="/results">Výsledky</a>
     <a href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
+    <a href="/disciplines/schedule">Časový poriadok</a>
 </div>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -37,6 +38,10 @@
     <div th:class="activeRace">
         <a href="#">
             <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
+            <input th:field="*{activeRace.id}" style="display: none">
+            <input th:field="*{discipline.id}" style="display: none" >
+            <input th:field="*{phase.id}" style="display: none" >
+
         </a>
     </div>
     <div th:class="heading_t">
@@ -98,17 +103,20 @@
         <thead>
         <tr th:id="first_tr">
             <th>Čas začiatku</th>
-            <th>ID camera</th>
+            <span th:if="${discipline.disciplineType == 0}">
+                <th>ID camera</th>
+            </span>
             <th>Počet pretekárov</th>
             <th>Názov fázy</th>
-
             <th>Poznámky</th>
             <th th:class="settings-columns">Editovať</th>
             <th th:class="settings-columns">Zmazať</th>
         </tr>
         <tr th:each="phase: ${phases}">
             <th th:text="${phase.time}"></th>
-            <th th:text="${phase.cameraId}"></th>
+            <span th:if="${discipline.disciplineType == 0}">
+                <th th:text="${phase.cameraId}"></th>
+            </span>
             <th th:text="${phase.participants}"></th>
             <th th:text="${phase.phaseName}+' '+${phase.phaseNumber}"></th>
             <th th:text="${phase.note}"></th>
@@ -170,8 +178,8 @@
                                 </div>
                                 <div th:class="input-div">
                                     <label>
-                                        Poznámka<span th:class="necessary"> *</span>
-                                        <input required
+                                        Poznámka
+                                        <input
                                                oninvalid="this.setCustomValidity('Poznámka nesmie byť prázdna.Zadaj znova')"
                                                onchange="this.setCustomValidity('')" placeholder="Poznámka" th:field="*{note}" th:class="input-box" th:type="text">
                                     </label>

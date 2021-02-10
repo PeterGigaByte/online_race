@@ -12,8 +12,8 @@ import java.util.Calendar;
  * zoznam pretekov
  */
 @Entity
-@Data
 @Table(name = "race")
+@Data
 public class Race implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -153,4 +153,5 @@ public class Race implements Serializable {
             this.technicalDelegate="žiadny";
         }
     }
+
 }

@@ -15,4 +15,8 @@ public interface DisciplineService {
     void removePhase(Integer id,Integer idPhase);
     Phase findPhaseById(Integer phaseId);
     List<Phase> findAllPhasesByRaceId(Integer id);
+    List<Phase> findPhasesByRaceIdAndDisciplineType(Integer id,Integer disciplineType);
+    List<Phase> findPhasesByDisciplineIdAndPhaseName(Integer id, String phaseName);
+    void refreshCameraId(Integer id,Integer disciplineType);
+    void refreshPhaseNumber(Integer id, String phaseName);
 }

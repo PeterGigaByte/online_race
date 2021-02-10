@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class Disciplines {
     private RaceService raceService;
@@ -36,9 +38,11 @@ public class Disciplines {
         if(discipline.getId()!=null){
             Discipline original = disciplineService.findDisciplineById(discipline.getId());
             original.editDiscipline(discipline);
+            original.refreshDisciplineType();
             disciplineService.saveDiscipline(original);
         }else{
         discipline.setRace(activeRace);
+        discipline.refreshDisciplineType();
         disciplineService.saveDiscipline(discipline);
         }
         return "redirect:/disciplines";
@@ -72,12 +76,18 @@ public class Disciplines {
     }
     @PostMapping("disciplines/manage/phases/{id}/addPhase")
     public String addPhase(@PathVariable Integer id,
-                           @ModelAttribute("activeRace") Race activeRace,
                            @ModelAttribute("phase") Phase phase,Model model){
+        Race activeRace = activeRace();
         Discipline discipline = disciplineService.findDisciplineById(id);
+        if(discipline.getDisciplineType()==0){
+            int size = disciplineService.findPhasesByRaceIdAndDisciplineType(activeRace.getId(),0).size()+1;
+
+            phase.setCameraId(size);
+        }
         phase.setDiscipline(discipline);
         discipline.getPhases().add(phase);
         disciplineService.saveDiscipline(discipline);
+        disciplineService.refreshPhaseNumber(id,phase.getPhaseName());
         return managePhases(activeRace,id,model);
     }
     @GetMapping("disciplines/manage/phases/{id}/editPhase/{idPhase}")
@@ -99,9 +109,17 @@ public class Disciplines {
     @GetMapping("disciplines/manage/phases/{id}/deletePhase/{idPhase}")
     public String deletePhase(@PathVariable Integer id,
                               @PathVariable Integer idPhase,
-                              @ModelAttribute("activeRace") Race activeRace,
                              Model model){
+        String name = disciplineService.findPhaseById(idPhase).getPhaseName();
         disciplineService.removePhase(id,idPhase);
+        Race activeRace = activeRace();
+        disciplineService.refreshCameraId(activeRace.getId(),0);
+        disciplineService.refreshPhaseNumber(id,name);
         return managePhases(activeRace,id,model);
+    }
+    @GetMapping("disciplines/schedule")
+    public String showSchedulePhase(Model model,@ModelAttribute("activeRace") Race activeRace){
+        model.addAttribute("phases",disciplineService.findAllPhasesByRaceId(activeRace().getId()));
+        return "disciplines/timeSchedule";
     }
 }

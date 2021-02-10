@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
 @Table(name = "track")
+@Data
 public class Track implements Serializable {
 
     private static final long serialVersionUID = 1L;

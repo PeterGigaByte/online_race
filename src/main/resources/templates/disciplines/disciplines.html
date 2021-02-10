@@ -24,6 +24,7 @@
     <a href="/applications">Prihlášky</a>
     <a href="/results">Výsledky</a>
     <a href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
+    <a href="/disciplines/schedule">Časový poriadok</a>
 </div>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -31,12 +32,14 @@
     <a href="/clubs">Kluby</a>
     <a href="#">Stiahnuť databázu</a>
     <a href="/contact">Kontakt</a>
+
 </div>
 
 <main th:id="main">
     <div th:class="activeRace">
         <a href="#">
             <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
+
         </a>
     </div>
     <div th:class="heading_t">

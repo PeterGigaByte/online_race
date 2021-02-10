@@ -16,6 +16,7 @@ import java.util.List;
 public class DisciplineImp implements DisciplineService {
     @Autowired
     private PhaseRepository phaseRepository;
+    @Autowired
     private DisciplineRepository disciplineRepository;
 
     public DisciplineImp(DisciplineRepository disciplineRepository,PhaseRepository phaseRepository){
@@ -37,7 +38,7 @@ public class DisciplineImp implements DisciplineService {
     }
     @Override
     public List<Discipline> getAllDisciplinesByRaceId(Integer raceId){
-        return disciplineRepository.findDisciplinesByRaceId(raceId);
+        return disciplineRepository.findDisciplinesByRaceIdOrderByTimeAsc(raceId);
     }
     @Override
     public void deleteByRaceId(Integer raceId){
@@ -61,6 +62,33 @@ public class DisciplineImp implements DisciplineService {
     public List<Phase> findAllPhasesByRaceId(Integer id){
         return phaseRepository.findPhasesByDisciplineRaceId(id);
     }
-
+    @Override
+    public List<Phase> findPhasesByRaceIdAndDisciplineType(Integer id,Integer disciplineType){
+        return phaseRepository.findPhasesByDisciplineRaceIdAndDisciplineDisciplineType(id,disciplineType);
+    }
+    @Override
+    public List<Phase> findPhasesByDisciplineIdAndPhaseName(Integer id, String phaseName){
+        return phaseRepository.findPhasesByDisciplineIdAndPhaseName(id, phaseName);
+    }
+    @Override
+    public void refreshCameraId(Integer id,Integer disciplineType){
+        List<Phase> phases = findPhasesByRaceIdAndDisciplineType(id,disciplineType);
+        int index = 1;
+        for (Phase phase: phases) {
+            phase.setCameraId(index);
+            disciplineRepository.save(phase.getDiscipline());
+            index++;
+        }
+    }
+    @Override
+    public void refreshPhaseNumber(Integer id, String phaseName){
+        List<Phase> phases =findPhasesByDisciplineIdAndPhaseName(id,phaseName);
+        int index = 1;
+        for (Phase phase: phases) {
+            phase.setPhaseNumber(index);
+            disciplineRepository.save(phase.getDiscipline());
+            index++;
+        }
+    }
 
 }

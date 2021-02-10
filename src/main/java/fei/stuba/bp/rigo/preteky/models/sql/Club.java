@@ -12,8 +12,8 @@ import java.util.List;
  * kluby
  */
 @Entity
-@Data
 @Table(name = "club")
+@Data
 public class Club implements Serializable {
 
     private static final long serialVersionUID = 1L;

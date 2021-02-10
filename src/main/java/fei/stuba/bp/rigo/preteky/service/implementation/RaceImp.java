@@ -22,7 +22,9 @@ import java.util.Optional;
 public class RaceImp implements RaceService {
     @Autowired
     private RaceRepository raceRepository;
+    @Autowired
     private SettingsRepository settingsRepository;
+    @Autowired
     private TrackRepository trackRepository;
 
     public RaceImp(RaceRepository raceRepository,SettingsRepository settingsRepository,TrackRepository trackRepository){
@@ -73,7 +75,7 @@ public class RaceImp implements RaceService {
 
     @Override
     public List<Race> listRaces() {
-        return raceRepository.findAll(Sort.by(Sort.Direction.ASC,"startDate"));
+        return raceRepository.findAll(Sort.by(Sort.Direction.DESC,"startDate"));
     }
 
     @Override

@@ -16,7 +16,9 @@ import java.util.List;
 public class ClubParticipantsImp implements ClubParticipantsService {
     @Autowired
     private ClubRepository clubRepository;
+    @Autowired
     private ParticipantRepository participantRepository;
+
     public ClubParticipantsImp(ClubRepository clubRepository,ParticipantRepository participantRepository){
         super();
         this.clubRepository=clubRepository;
