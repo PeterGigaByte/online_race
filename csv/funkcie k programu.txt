@@ -1,45 +1,6 @@
-package fei.stuba.bp.rigo.preteky;
-
-import com.opencsv.*;
-import fei.stuba.bp.rigo.preteky.models.sql.Participant;
-import fei.stuba.bp.rigo.preteky.models.sql.Phase;
-import fei.stuba.bp.rigo.preteky.models.testModels.ParticipantTest;
-import fei.stuba.bp.rigo.preteky.models.testModels.PhaseTest;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-
-@SpringBootApplication
-public class PretekyApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(PretekyApplication.class, args);
-
-        List<PhaseTest> phasesTestList = createSimulationParameters();
-        createCsv(phasesTestList);
-
-        readLSTRslt(phasesTestList);
-        readLSTRRSLT(phasesTestList);
-
-        phasesTestList.forEach(x -> {
-            x.getParticipants().forEach(y -> System.out.println(y.toString()));
-            System.out.println(x.getNameOfPhase()+"; "+x.getWind()+"; "+x.getStatus()+"\n");
-        });
-    }
-
-    // klasick√Ω import / export / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / **
-
-    public static void createCsv(List<PhaseTest> phasesTestList){
+public static void createCsv(List<PhaseTest> phasesTestList){
         try{
-            String path = "C:\\Bakalarska Pr√°ca\\Projekt folder\\csv\\STARTLIST.csv";
+            String path = "C:\\Bakalarska Pr·ca\\Projekt folder\\csv\\STARTLIST.csv";
             FileOutputStream file = new FileOutputStream(path);
             OutputStreamWriter fileWriter = new OutputStreamWriter(file,"Cp1250");
 
@@ -47,8 +8,8 @@ public class PretekyApplication {
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("Event Code;Date;Time;Lane/order;Bib No\r\n");
-            //stringBuilder.append(";"); // nov√Ω stƒ∫pec
-            //stringBuilder.append("\r\n"); //nov√Ω riadok
+            //stringBuilder.append(";"); // nov˝ stÂpec
+            //stringBuilder.append("\r\n"); //nov˝ riadok
             for (PhaseTest phaseTest : phasesTestList){
                 stringBuilder.append(phaseTest.getIdPhase()).append(";");
                 stringBuilder.append(phaseTest.getDate()).append(";");
@@ -74,13 +35,14 @@ public class PretekyApplication {
             System.out.println("function createCsv threw exception: "+"'"+e.getMessage()+"'");
         }
     }
+
     public static List<PhaseTest> createSimulationParameters(){
-        String[] firstNames = {"Peter","Jano","Miro","Mari√°n","Stano","Patrik","Milan","Jozef"};
-        String[] lastNames = {"≈†ƒçasn√Ω","Majeƒçka","Vajensk√Ω","Trajensk√Ω","Lombardsk√Ω","Par√≠≈æsky","≈†al√°tov√Ω","Majon√©zov√Ω"};
-        String[] clubs = {"≈†OGNR","ASKTT","VTMA","≈†OGNR","≈†MJ","ASKTT","≈†OGNR","AFDE"};
+        String[] firstNames = {"Peter","Jano","Miro","Mari·n","Stano","Patrik","Milan","Jozef"};
+        String[] lastNames = {"FajeËka","MajeËka","Vajensk˝","Trajensk˝","Lombardsk˝","ParÌûsky","äal·tov˝","MajonÈzov˝"};
+        String[] clubs = {"äOGNR","ASKTT","VTMA","äOGNR","äMJ","ASKTT","äOGNR","AFDE"};
         List<PhaseTest> phasesTestList = new ArrayList<>();
         for(int i = 1;i<3;i++){
-            phasesTestList.add(new PhaseTest(i,100,"100m Mu≈æi Beh"+ i));
+            phasesTestList.add(new PhaseTest(i,100,"100m Muûi Beh"+ i));
             for (int y = 1;y<9;y++){
                 phasesTestList.get(i-1).getParticipants().add(new ParticipantTest(y,y+100,firstNames[y-1],lastNames[y-1],clubs[y-1]));
             }
@@ -91,7 +53,7 @@ public class PretekyApplication {
         try{
             CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build(); // custom separator
             try(CSVReader reader = new CSVReaderBuilder(
-                    new FileReader("C:\\Bakalarska Pr√°ca\\Projekt folder\\csv\\LSTRslt.txt"))
+                    new FileReader("C:\\Bakalarska Pr·ca\\Projekt folder\\csv\\LSTRslt.txt"))
                     .withCSVParser(csvParser)   // custom CSV parser
                     .withSkipLines(1)           // skip the first line, header info
                     .build()){
@@ -127,7 +89,7 @@ public class PretekyApplication {
         try{
             CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build(); // custom separator
             try (CSVReader reader = new CSVReaderBuilder(
-                    new FileReader("C:\\Bakalarska Pr√°ca\\Projekt folder\\csv\\LSTRRSLT.txt"))
+                    new FileReader("C:\\Bakalarska Pr·ca\\Projekt folder\\csv\\LSTRRSLT.txt"))
                     .withCSVParser(csvParser)   // custom CSV parser
                     .withSkipLines(1)           // skip the first line, header info
                     .build()) {
@@ -149,50 +111,3 @@ public class PretekyApplication {
             System.out.println("function readLSTRRSLT threw exception: "+"'"+e.getMessage()+"'");
         }
     }
-
-    // kominik√°cia cez socket / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / **
-
-    public static void readingFromSocket(int port) throws IOException {
-        ServerSocket server = new ServerSocket(port);
-        Socket socket = server.accept();
-        DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-        readingBinaryDataFromSocket(in);
-
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-    }
-    public static void readingBinaryDataFromSocket(DataInputStream in) throws IOException {
-        char dataType = in.readChar();
-        int length = in.readInt();
-        if(dataType == 's') {
-            byte[] messageByte = new byte[length];
-            boolean end = false;
-            StringBuilder dataString = new StringBuilder(length);
-            int totalBytesRead = 0;
-            while(!end) {
-                int currentBytesRead = in.read(messageByte);
-                totalBytesRead = currentBytesRead + totalBytesRead;
-                if(totalBytesRead <= length) {
-                    dataString
-                            .append(new String(messageByte, 0, currentBytesRead, StandardCharsets.UTF_8));
-                } else {
-                    dataString
-                            .append(new String(messageByte, 0, length - totalBytesRead + currentBytesRead,
-                                    StandardCharsets.UTF_8));
-                }
-                if(dataString.length()>=length) {
-                    end = true;
-                }
-            }
-        }
-    }
-    public static void writingDataToSocket(DataOutputStream out) throws IOException {
-        char type = 's'; // s for string
-        String data = "This is a string of length 29";
-        byte[] dataInBytes = data.getBytes(StandardCharsets.UTF_8);
-
-        out.writeChar(type);
-        out.writeInt(dataInBytes.length);
-        out.write(dataInBytes);
-    }
-
-}

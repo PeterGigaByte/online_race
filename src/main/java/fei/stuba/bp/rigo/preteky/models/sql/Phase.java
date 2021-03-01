@@ -18,7 +18,7 @@ public class Phase implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "discipline_id",referencedColumnName = "id")
     private Discipline discipline;
 

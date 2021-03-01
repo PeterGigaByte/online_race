@@ -162,7 +162,7 @@
                                 <div th:class="input-div">
                                     <label>
                                         Názov fázy<span th:class="necessary"> *</span>
-                                        <input required
+                                        <input required autocomplete="off"
                                                oninvalid="this.setCustomValidity('Názov fázy nesmie byť prázdny.Zadaj znova')"
                                                onchange="this.setCustomValidity('')" th:field="*{phaseName}" th:class="input-box" placeholder="Názov fázy" th:type="text">
                                     </label>
@@ -170,7 +170,7 @@
                                 <div th:class="input-div">
                                     <label>
                                         Číslo fázy<span th:class="necessary"> *</span>
-                                        <input required
+                                        <input required autocomplete="off"
                                                oninvalid="this.setCustomValidity('Číslo fázy nesmie byť prázdne.Zadaj znova')"
                                                onchange="this.setCustomValidity('')"
                                                th:field="*{phaseNumber}" th:class="input-box" placeholder="Číslo fázy" th:type="text">
@@ -179,7 +179,7 @@
                                 <div th:class="input-div">
                                     <label>
                                         Poznámka
-                                        <input
+                                        <input autocomplete="off"
                                                oninvalid="this.setCustomValidity('Poznámka nesmie byť prázdna.Zadaj znova')"
                                                onchange="this.setCustomValidity('')" placeholder="Poznámka" th:field="*{note}" th:class="input-box" th:type="text">
                                     </label>

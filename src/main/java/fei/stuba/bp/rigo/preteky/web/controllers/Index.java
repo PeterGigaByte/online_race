@@ -1,6 +1,5 @@
 package fei.stuba.bp.rigo.preteky.web.controllers;
 
-import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.Race;
 import fei.stuba.bp.rigo.preteky.models.sql.Settings;
 import fei.stuba.bp.rigo.preteky.models.sql.Track;
