@@ -1,7 +1,9 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
 import fei.stuba.bp.rigo.preteky.web.dto.SettingsDto;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +14,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "settings")
 @Data
+@NoArgsConstructor
 public class Settings implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,8 +66,6 @@ public class Settings implements Serializable {
     @Column(name = "reactions", nullable = false)
     private Integer reactions = 0;
 
-    public Settings() {
-    }
 
     public Settings(String cameraType, Integer typeRace, String typeScoring, Integer outCompetition, Integer reactions, Track track) {
         this.cameraType = cameraType;

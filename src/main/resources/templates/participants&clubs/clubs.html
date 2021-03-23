@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link th:rel="stylesheet" th:href="@{/css/sideMenu.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dataTables/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/dataTables/datatables.min.js}"></script>
 
 
 
@@ -58,16 +60,20 @@
             <th>Editovať</th>
             <th>Zmazať</th>
         </tr>
-        <tr  th:each="club: ${clubs}"  >
-            <th th:text="${club.clubName}"></th>
-            <th>
-                <img th:src="@{${club.getLogoImage()}}"  style="margin-left: -10px; width: 70px;height: auto" alt="logo" />
-            </th>
-            <th th:text="${club.residence}"></th>
-            <th th:text="${club.responsiblePerson}"></th>
-            <th th:text="${club.shortcutClubName}"></th>
-        </tr>
         </thead>
+        <tbody>
+        <tr  th:each="club: ${clubs}"  >
+            <td th:text="${club.clubName}"></td>
+            <td>
+                <img th:src="@{${club.getLogoImage()}}"  style="margin-left: -10px; width: 70px;height: auto" alt="logo" />
+            </td>
+            <td th:text="${club.residence}"></td>
+            <td th:text="${club.responsiblePerson}"></td>
+            <td th:text="${club.shortcutClubName}"></td>
+            <td ></td>
+            <td ></td>
+        </tr>
+        </tbody>
     </table>
     <section>
         <form th:action="@{'/clubs/create'}" th:object="${newClub}" method="post"
@@ -151,5 +157,6 @@
 <div th:id="overlay"></div>
 <script th:src="@{/js/clubs.js}"></script>
 <script th:src="@{/js/sideMenu.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/tables_new.css}"/>
 </body>
 </html>

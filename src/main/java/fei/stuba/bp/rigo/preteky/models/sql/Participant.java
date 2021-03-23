@@ -20,7 +20,7 @@ public class Participant implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id",referencedColumnName = "id")
     private Club club;
 

@@ -8,8 +8,20 @@
           th:href="@{images/race.png}">
     <link th:rel="stylesheet" th:href="@{/css/index.css}">
 
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link th:rel="stylesheet" th:href="@{/css/sideMenu.css}">
+    <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/demo.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/dataTables/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/dataTables/datatables.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/sorting-date-de.js}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.2.14/dist/jBox.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.2.14/dist/jBox.all.min.css" rel="stylesheet">
+    <script th:src="@{/js/registerRaceForm.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:src="@{/js/sideMenu.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tables_new.css}"/>
 
 
 </head>
@@ -36,7 +48,7 @@
     <main th:id="main">
 
         <div th:class="activeRace">
-            <a href="#">
+            <a href="">
                 <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
             </a>
         </div>
@@ -47,7 +59,7 @@
                 <div th:id="addRace" th:class="addRace">
                     <a>
                         <label style="color: blue" th:class="div-button">
-                            <img alt="addRace" class="plus" th:src="@{/images/plus.png}">
+                            <img alt="addRace" style="width: 20px; height: 20px" class="plus" th:src="@{/images/plus.png}">
                         Nový pretek
                         </label>
                     </a>
@@ -57,345 +69,57 @@
             <div th:id="editActiveRace" th:class="editActiveRace">
                 <a th:href="@{/editRace/{id}(id=${activeRace.getId()})} ">
                     <label style="color: blue" th:class="div-button">
-                            <img alt="addRace" class="plus" th:src="@{/images/Editing-Edit-icon.png}">
+                            <img alt="addRace" style="width: 20px; height: 20px"  class="plus" th:src="@{/images/Editing-Edit-icon.png}">
 
                     Editovať závod
                     </label>
                 </a>
             </div>
-            <div th:class="search">
-
-                    <label>
-                        <img alt="searchRace" class="plus" th:src="@{/images/Search-icon.png}">
-                        Hladať pretek
-                        <input th:id="searchRace" type="text" placeholder="Vyhladať závod">
-                    </label>
-
-            </div>
-            <div th:class="minDate">
-
-                    <label th:for="from">
-                        <img alt="addRace" class="plus" th:src="@{/images/date-and-time.png}"> odkedy
-                    <input th:id="from" type="date">
-                    </label>
-
-            </div>
-            <div th:class="maxDate">
-
-                    <label th:for="to">
-                        <img alt="addRace" class="plus" th:src="@{/images/date-and-time.png}"> dokedy
-                    <input th:id="to" type="date">
-                    </label>
 
 
-            </div>
         </div>
         <hr>
 
-        <table th:id="table">
+        <table  th:id="table">
             <thead>
-            <tr th:id="first_tr" >
-                <th>Dátum</th>
-                <th>Názov</th>
-                <th>Miesto konania</th>
-                <th>Organizátor</th>
-                <th>Aktívny závod</th>
-                <th>Editovať</th>
-                <th>Zmazať</th>
-            </tr>
-
+                <tr th:id="first_tr" >
+                    <th>Dátum</th>
+                    <th>Názov</th>
+                    <th>Miesto konania</th>
+                    <th>Organizátor</th>
+                    <th>Aktívny závod</th>
+                    <th>Editovať</th>
+                    <th>Zmazať</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
             <tr th:each="race: ${races}">
-                <th th:text="${race.returnStartDate()}"></th>
-                <th th:text="${race.raceName}"></th>
-                <th th:text="${race.place}"></th>
-                <th th:text="${race.organizer}"></th>
+                <td th:text="${race.returnStartDate()}"></td>
+                <td th:text="${race.raceName}"></td>
+                <td th:text="${race.place}"></td>
+                <td th:text="${race.organizer}"></td>
 
-                <th th:switch="${race.activity}">
+                <td th:switch="${race.activity}">
                     <span th:case="0">
-                        <a  onclick="return confirm('Naozaj chcete zmeniť aktivitu preteku?')" th:href="@{/activeRace/{id}(id=${race.getId()})} "><img alt="active" class="activeButton" th:src="@{/images/active.png}"></a>
+                        <a th:class="activeButtons"  data-confirm="Naozaj chcete zmeniť aktivitu preteku?" th:href="@{/activeRace/{id}(id=${race.getId()})} "><img style="width: 50px; height: 50px" alt="active" class="activeButton" th:src="@{/images/active.png}"></a>
                     </span>
                     <span th:case="1">
-                        <img alt="active" class="activeButton" th:src="@{/images/activated.png}">
+                        <img style="width: 50px; height: 50px" alt="active" class="activeButton" th:src="@{/images/activated.png}">
                     </span>
-                </th>
+                </td>
 
-                <th><a  th:href="@{/editRace/{id}(id=${race.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></th>
-                <th><a  onclick="return confirm('Naozaj chcete tento pretek vymazať?')" th:href="@{/deleteRace/{id}(id=${race.getId()})} "><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></th>
+                <td><a  th:href="@{/editRace/{id}(id=${race.getId()})} "><img style="width: 35px; height: 35px" th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></td>
+                <td><a  data-confirm="Naozaj chcete vymazať tento pretek?" th:href="@{/deleteRace/{id}(id=${race.getId()})} "><img  style="width: 35px; height: 35px" alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></td>
             </tr>
-            </thead>
+            </tbody>
         </table>
         <div style="height: 25px"></div>
     </main>
-
-    <section>
-        <form th:action="@{/createRace}" method="post" th:object = "${raceRegister}">
-            <div th:id="behind-scene" class="behind-scene">
-                <div th:id="behind-scene-header" th:class="behind-scene-header">
-                    <div th:class="inlineDescription">
-                        <div th:id="first" class="first div-button">
-                            Registrácia
-                        </div>
-                        <div th:id="second" class="second div-button">
-                            Detaily
-                        </div>
-                        <div th:id="third" class="third div-button">
-                            Nastavenia
-                        </div>
-                    </div>
-                    <div th:id="title" th:class="title">
-                        Registrácia preteku
-                        <div th:class="exit">
-                            <img th:id="exit"  th:class="exit" th:src="@{images/exit.png}" alt="exit">
-                        </div>
-
-                    </div>
-
-                    <div th:id="behind-scene-body" th:class="behind-scene-body">
-                        <div th:class="center">
-
-                            <div th:id="registrationBlock">
-                                <div th:class="input-div">
-                                    <label>
-                                        Názov závodu<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Názov nesmie byť prázdny.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{raceName}" th:class="input-box" placeholder="Názov závodu" th:type="text">
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Miesto Konania<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Miesto nesmie byť prázdne.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{place}" th:class="input-box" placeholder="Miesto konania" th:type="text">
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Organizátor<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Pole organizátora nesmie byť prázdny.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{organizer}" th:class="input-box" placeholder="Organizátor" th:type="text">
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Spracovateľ výsledkov<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Pole spracovateľa nesmie byť prázdny.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{resultsManager}" th:class="input-box" placeholder="Spracovateľ výsledkov" th:type="text">
-                                    </label>
-                                </div>
-
-                                <div th:class="input-div">
-                                    <label>
-                                        Telefón<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Telefón nesmie byť prázdny.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{phone}" th:class="input-box" placeholder="Telefón" th:type="tel" >
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Dátum začiatku<span th:class="necessary"> *</span>
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Dátum nesmie byť prázdny.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{startDate}" th:class="input-box" th:type="date">
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Dátum konca<span th:class="necessary"> *</span>&nbsp;
-                                        <input required
-                                               oninvalid="this.setCustomValidity('Dátum nesmie byť prázdny.Zadaj znova')"
-                                               onchange="this.setCustomValidity('')" th:field="*{endDate}" th:class="input-box" th:type="date">
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Halová sezóna
-                                        <input  th:field="*{raceType}"   th:id="checkboxH" th:value="0" th:class="input-box" th:type="checkbox">
-                                    </label>
-                                </div>
-                                <button value="Vytvoriť" type="submit" class="button-submit center">Vytvoriť</button>
-                            </div>
-
-                            <!--                           -->
-
-                            <div th:id="detailsBlock">
-                                <div th:class="input-div">
-
-                                    <label>
-                                        Riaditeľ
-                                        <input   th:field="*{director}"  th:class="input-box" placeholder="Riaditeľ" th:type="text">
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Rozhodca
-                                        <input  th:field="*{arbitrator}"  th:class="input-box" placeholder="Rozhodca" th:type="text">
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Technický delegát
-                                        <input  th:field="*{technicalDelegate}"  th:class="input-box" placeholder="Technický delegát" th:type="text">
-                                    </label>
-                                </div>
-                                <div th:class="input-div">
-                                    <label>
-                                        Poznámky
-                                        <input  th:field="*{note}"  placeholder="Poznámky" th:class="input-box" th:type="text">
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!--                           -->
-
-                            <div th:id="settingsBlock">
-                                <div class="firstColumn">
-
-                                    <div th:class="input-div">
-                                        <label>
-                                            Typ kamery
-                                            <select th:object = "${settingsRegister}" th:field="*{cameraType}" th:class="input-box" th:type="select">
-                                                <option value="omega">
-                                                    Omega
-                                                </option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div th:class="input-div">
-                                        <label>
-                                            Typ Bodovania
-                                            <select th:object = "${settingsRegister}" th:field="*{typeScoring}" th:class="input-box" th:type="select">
-                                                <option value="comptetitor_race">
-                                                    Súťaž jednotlivcov
-                                                </option>
-                                                <option value="club_race">
-                                                    Súťaž družstiev
-                                                </option>
-                                                <option value="multiDisciplines">
-                                                    Viacboj
-                                                </option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div th:class="input-div">
-                                        <label>
-                                            Hala
-                                            <input th:object = "${settingsRegister}" th:field="*{typeRace}"  th:id="checkboxH2" th:value="0" th:class="input-box" th:type="checkbox">
-                                        </label>
-                                    </div>
-                                    <div th:class="input-div">
-                                        <label>
-                                            Mimo súťaž
-                                            <input th:object = "${settingsRegister}" th:field="*{outCompetition}"  th:value="0"  th:id="checkboxO" th:class="input-box" th:type="checkbox">
-                                        </label>
-                                    </div>
-                                    <div th:class="input-div">
-                                        <label>
-                                             Reakcie
-                                            <input th:object = "${settingsRegister}" th:field="*{reactions}" th:value="1" th:id="checkboxR" th:class="input-box" th:type="checkbox">
-                                        </label>
-                                    </div>
-
-                                </div>
-
-                                <!--                           -->
-
-                                <div class="secondColumn">
-                                    <div th:class="input-div">
-                                        <label>
-                                            Počet dráh
-                                            <input th:object = "${trackDto}" th:field="*{numberOfTracks}"  th:id="tracksNumber" th:value="8" th:class="input-box" th:type="number" min="1" max="10">
-                                        </label>
-                                    </div>
-                                    <hr>
-                                    <!--                           -->
-
-                                    <div th:id="tracks">
-                                        <div   th:class="input-div">
-                                            <label>
-                                                1.
-                                                <input  th:object = "${trackDto}" th:field="*{one}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="6">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div">
-                                            <label>
-                                                2.
-                                                <input  th:object = "${trackDto}" th:field="*{two}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="4">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div">
-                                            <label>
-                                                3.
-                                                <input  th:object = "${trackDto}" th:field="*{three}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="2">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div">
-                                            <label>
-                                                4.
-                                                <input  th:object = "${trackDto}" th:field="*{four}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="1">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div">
-                                            <label>
-                                                5.
-                                                <input  th:object = "${trackDto}" th:field="*{five}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="3">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div">
-                                            <label>
-                                                6.
-                                                <input  th:object = "${trackDto}" th:field="*{six}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="5">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div">
-                                            <label>
-                                                7.
-                                                <input  th:object = "${trackDto}" th:field="*{seven}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="7">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div">
-                                            <label>
-                                                8.
-                                                <input  th:object = "${trackDto}" th:field="*{eight}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="8">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div hidden">
-                                            <label>
-                                                9.
-                                                <input  th:object = "${trackDto}" th:field="*{nine}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="9">
-                                            </label>
-                                        </div>
-                                        <div   class="input-div hidden">
-                                            <label>
-                                                10.
-                                                <input  th:object = "${trackDto}" th:field="*{ten}" th:class="input-box" th:type="number" style="display: inline-block "  min="1" max="10" th:value="10">
-                                            </label>
-                                        </div>
-
-                                 </div>
-
-                                </div>
-
-                            <!--                           -->
-
-                             </div>
-                         </div>
-                </div>
-                </div>
-            </div>
-        </form>
-    </section>
 
     <footer th:class="footer">
         ©PeterRigoDevelopment
     </footer>
     <div th:id="overlay"></div>
 
-    <script th:src="@{/js/index.js}"></script>
-    <script th:src="@{/js/sideMenu.js}"></script>
 </body>
 </html>

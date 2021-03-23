@@ -34,6 +34,12 @@ public class RaceImp implements RaceService {
         this.trackRepository=trackRepository;
     }
     @Override
+    public void save(Race race){
+        settingsRepository.save(race.getSettings());
+        trackRepository.save(race.getSettings().getTrack());
+        raceRepository.save(race);
+    }
+    @Override
     public void save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto){
 
         Track track = new Track(trackDto.getNumberOfTracks(),trackDto.getOne(),trackDto.getTwo(),trackDto.getThree(),trackDto.getFour(),trackDto.getFive(),trackDto.getSix(),

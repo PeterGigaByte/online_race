@@ -1,7 +1,9 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
 import fei.stuba.bp.rigo.preteky.web.dto.TrackDto;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +11,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "track")
 @Data
+@NoArgsConstructor
 public class Track implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,7 +57,8 @@ public class Track implements Serializable {
     @Column(name = "type_track")
     private Integer typeTrack = 1;
 
-    public Track() {
+    public Track(Integer numberOfTracks) {
+        this.numberOfTracks = numberOfTracks;
     }
 
     public Track(Integer numberOfTracks, Integer one,

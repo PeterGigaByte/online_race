@@ -25,3 +25,13 @@ let categoryInput = document.getElementById("categoryName");
 autocomplete(disciplineInput, disciplines);
 autocomplete(categoryInput, categories);
 
+$(document).ready(function() {
+    $('#table').DataTable({
+            "columnDefs": [ {
+                "targets": [5 ,6, 7 ],
+                "orderable": false
+            } ]
+        }
+    );
+} );
+

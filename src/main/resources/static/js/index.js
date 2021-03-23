@@ -1,189 +1,480 @@
-// filter na mená pretekov
-let searchBox = document.getElementById("searchRace");
-searchBox.addEventListener('keydown',filter);
-//
-
-//filter podľa dátumu
-let dateFromF = document.getElementById("from");
-let dateToF = document.getElementById("to");
-dateFromF.addEventListener("change",filterDate);    //TODO
-dateToF.addEventListener("change",filterDate);      //TODO
-//
-
-//bloky na registráciu/editáciu
-let registrationBlock = document.getElementById("registrationBlock");
-let detailsBlock = document.getElementById("detailsBlock");
-let settingsBlock = document.getElementById("settingsBlock");
-//
-
-//exit z bloku registrácii/editácii
-let hiddenBlock = document.getElementById("behind-scene");
-let overlay = document.getElementById("overlay");
-let exit= document.getElementById("exit");
-exit.addEventListener("click",exitF);
-//
-
-//Listeners na zmenu blokov medzi sebou
-let registrationClick = document.getElementById("first");
-let detailsClick = document.getElementById("second");
-let settingsClick = document.getElementById("third");
-detailsClick.addEventListener('click',changeToDetails);
-registrationClick.addEventListener('click',changeToRegistration);
-settingsClick.addEventListener('click',changeToSettings);
-//
 
 //pridať závod Listener
-let addRace = document.getElementById("addRace");
-addRace.addEventListener("click",showAddRace);
+
+//addRace.addEventListener("click",showAddRace);
 //
 
 
 
-//nastavenia automatické generovanie dráh
-let tracksNumber = document.getElementById("tracksNumber");
-let tracks = document.getElementById("tracks").children;
-tracksNumber.addEventListener('keyup',tracksCheck);
-tracks.item(0).classList.remove("hidden");
 
-//checkbox Hala Prepojenie
-let checkboxH = document.getElementById("checkboxH");
-let checkboxH2 = document.getElementById("checkboxH2");
-let checkboxR = document.getElementById("checkboxR");
-let checkboxO = document.getElementById("checkboxO");
-checkboxH.addEventListener("change",sync);
-checkboxH2.addEventListener("change",sync2);
-checkboxR.addEventListener("change",f1);
-checkboxO.addEventListener("change",f2);
+// Playground Demo: Login
 
-f(checkboxH);f(checkboxH2);f(checkboxO);f(checkboxR);
+// We are setting up a global variable where we can adjust html and texts
 
-//generovanie
+var jBoxLogin = {
+    jBox: null,
 
-//
-let eight=[6,4,2,1,3,5,7,8,9,10];
-function tracksCheck() {
-    for(let index = 0;index<tracks.length;index++){
-        if(index<tracksNumber.value){
-            tracks.item(index).classList.remove("hidden");
-        }else {
-            tracks.item(index).classList.add("hidden");
-        }
-        if(tracksNumber.value==4){
-            tracks.item(index).children[0].children.item(0).value=index+1;
-        }
-        else{
-            tracks.item(index).children[0].children.item(0).value=eight[index];
-        }
+    // The html of each of the content containers
+
+    html: {
+        newRace:
+            '<div id="LoginContainer-newRace" class="login-container">' +
+            '   <div class="login-body">' +
+            '       <input type="text" id="raceName2" class="login-textfield" placeholder="Názov závodu" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
+            '       <input type="text" id="place2" class="login-textfield" placeholder="Miesto" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
+            '       <input type="text" id="organizer2" class="login-textfield" placeholder="Organizátor" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
+            '       <input type="text" id="resultsManager2" class="login-textfield" placeholder="Spracovateľ výsledkov" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
+            '       <input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" id="phone2" class="login-textfield" placeholder="Telefón" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >' +
+            '       <input type="date" id="startDate2" class="login-textfield" placeholder="Dátum začiatku" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
+            '       <input type="date" id="endDate2" class="login-textfield" placeholder="Dátum konca" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
+            '       <div class="form-check">' +
+            '       <input style="width: 25px; height: 25px" id="raceType2" class="form-check-input" type="checkbox" data-val="true"  value="true" id="flexCheckDefault">'+
+            '       </div>'+
+            '       <button type="submit" class="login-button">Vytvoriť</button>' +
+            '   </div>' +
+            '   <div class="login-footer">' +
+            '       <span onclick="jBoxLogin.jBox.showContent(\'details\')">Detaily</span>' +
+            '       <br>' +
+            '       <span onclick="jBoxLogin.jBox.showContent(\'settings\')">Nastavenia</span>' +
+            '       <br>' +
+            '   </div>' +
+            '</div>',
+
+        details: '<div id="LoginContainer-details" class="login-container">' +
+            '           <div class="login-body">' +
+            '               <input type="text" id="director2" class="login-textfield" placeholder="Riaditeľ" autocomplete="off"  autocorrect="off" autocapitalize="off" spellcheck="false">' +
+            '               <input type="text" id="arbitrator2" class="login-textfield" placeholder="Rozhodca" autocomplete="off"  autocorrect="off" autocapitalize="off" spellcheck="false">' +
+            '               <input type="text" id="technicalDelegate2" class="login-textfield" placeholder="Technický delegát" autocomplete="off"  autocorrect="off" autocapitalize="off" spellcheck="false">' +
+            '               <input type="text" id="note2" class="login-textfield" placeholder="Poznámka" autocomplete="off"  autocorrect="off" autocapitalize="off" spellcheck="false">' +
+            '           </div>' +
+            '       <div class="login-footer">' +
+            '           <span onclick="jBoxLogin.jBox.showContent(\'newRace\')">Vytvorenie závodu</span>' +
+            '           <br>' +
+            '           <span onclick="jBoxLogin.jBox.showContent(\'settings\')">Nastavenia</span>' +
+            '           <br>' +
+            '       </div>' +
+            '       </div>',
+        settings: '<div id="LoginContainer-settings" class="login-container">' +
+            '           <div class="login-body">' +
+            '               <select id="cameraType2" class="login-textfield" placeholder="Camera" autocomplete="off"  autocorrect="off" autocapitalize="off" spellcheck="false">' +
+            '               <option value="omega">Omega</option>'   +
+            '               </select>' +
+            '               <select id="typeScoring2" class="login-textfield" placeholder="Scoring" autocomplete="off"  autocorrect="off" autocapitalize="off" spellcheck="false">' +
+            '               <option value="comptetitor_race">Súťaž jednotlivcov</option>'   +
+            '               </select>' +
+            '       <div class="login-remember">' +
+            '       <div class="form-check">' +
+            '<label> Pretekári mimo súťaž na koniec'+
+            '       <input style="width: 25px; height: 25px" id="outCompetition2" class="form-check-input" type="checkbox" data-val="true"  value="true"id="flexCheckDefault">'+
+            '</label> '+
+            '       </div>'+
+            '       <div class="form-check">' +
+            '<label> Zobrazovanie reakcií'+
+            '       <input style="width: 25px; height: 25px" id="reactions2" class="form-check-input" type="checkbox" data-val="true"  value="true" id="flexCheckDefault">'+
+            '</label>'+
+            '       </div>'+
+            '       <input type="number" id="numberOfTracks2" class="login-textfield" min="1" max="10" placeholder="8" value="8" autocomplete="off"  autocorrect="off" autocapitalize="off" spellcheck="false">' +
+            '       </div>' +
+            '           </div>' +
+
+                '       <div class="login-footer">' +
+                '           <span onclick="jBoxLogin.jBox.showContent(\'newRace\')">Vytvorenie závodu</span>' +
+                '           <br>' +
+                '           <span onclick="jBoxLogin.jBox.showContent(\'details\')">Detaily</span>' +
+                '           <br>' +
+                '       </div>' +
+
+            '       </div>'
+
+    },
+
+    // Corresponding titles for content elements
+
+    title: {
+        newRace: 'Nový závod',
+        details: 'Detaily',
+        settings: 'Nastavenia'
+
+    },
+
+    // These tooltips will show when a textelemet gets focus
+
+    textfieldTooltips: {
+        raceName2: 'Názov závodu',
+        place2: 'Miesto preteku',
+        organizer2: 'Organizátor',
+        resultsManager2: 'Spracovateľ výsledkov',
+        phone2: 'Telefónny kontakt',
+        startDate2: 'Začiatok preteku',
+        endDate2: 'Koniec preteku',
+        raceType2: 'Halová sezóna',
+        director2: 'Riaditeľ preteku',
+        arbitrator2: 'Hlavný rozhodca',
+        technicalDelegate2: 'Technický delegát',
+        note2: 'Poznámky',
+        cameraType2: 'Typ kamery',
+        typeScoring2: 'Typ závodu',
+        outCompetition2: 'Pretekári mimo súťaž na koniec',
+        reactions2: 'Zobrazovanie reakcií',
+        numberOfTracks2: 'Počet dráh'
     }
-}
+};
 
+$(document).ready(function () {
+         let table_main = $('#table').DataTable({
+                "columnDefs": [
+                    { type: 'de_date', targets: 0 },
 
-
-
-function showAddRace() {
-    hiddenBlock.classList.add("active");
-    overlay.classList.add("active");
-}
-function exitF() {
-    hiddenBlock.classList.remove("active");
-    overlay.classList.remove("active");
-}
-function changeToSettings() {
-    detailsBlock.style.display="none";
-    registrationBlock.style.display='none';
-    settingsBlock.style.display='block';
-}
-function changeToRegistration() {
-    detailsBlock.style.display="none";
-    settingsBlock.style.display="none";
-    registrationBlock.style.display='block';
-}
-function changeToDetails() {
-    registrationBlock.style.display='none';
-    settingsBlock.style.display="none";
-    detailsBlock.style.display="block";
-
-}
-function filter() {
-    let input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("searchRace");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("table");
-    tr = table.getElementsByTagName("tr");
-    for (i = 1; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("th")[1];
-        console.log(td[i]);
-        if (td) {
-
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
+                    {
+                    "targets": [4, 5 ,6],
+                    "orderable": false
+                 } ]
             }
-        }
-    }
-}
-//todo
-function filterDate() {
-    let from = dateFromF.value.split("-");
-    let to = dateToF.value.split("-");
-    let dateFrom=new Date(from[2]+'-'+from[1]+'-'+from[0]);
-    let dateTo=new Date(to[2]+'-'+to[1]+'-'+to[0]);
-    if (!from && !to) { // no value for from and to
-        return;
-    }
-    let  table, tr, td, i;
-    table = document.getElementById("table");
-    tr = table.getElementsByTagName("tr");
-    for (i = 1; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("th")[0];
-        let dateFromTable = td.innerText.split(".");
-        let dateTable = new Date(dateFromTable[2]+'-'+dateFromTable[1]+'-'+dateFromTable[0]);
-        console.log(dateTo);
-        if (td) {
-            if (dateFrom.getTime()<dateTable.getTime() && dateTable.getTime()<dateTo.getTime() &&  dateFrom.getTime()<dateTo.getTime()) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
+
+        );
+            if (!$('#addRace').length) {
+                return;
             }
+
+            // On domready create the login modal
+
+            jBoxLogin.jBox = new jBox('Modal', {
+
+                // Unique id for CSS access
+                id: 'jBoxLogin',
+
+        // Dimensions
+        width: 450,
+        height: 650,
+
+        // Attach to elements
+        attach: '#addRace',
+
+        // Create the content with the html provided in global var
+        content: '<form id="createNewRace"><div id="LoginWrapper">' + jBoxLogin.html.newRace + jBoxLogin.html.details + jBoxLogin.html.settings +'</div></form>',
+
+        // Adjust header when scroll is blocked
+        blockScrollAdjust: ['header'],
+
+        // When the jBox is being initialized add internal functions
+        onInit: function () {
+
+            // Internal function to show content
+            this.showContent = function (id, force) {
+
+                // Abort if an ajax call is loading
+                if (!force && $('#LoginWrapper').hasClass('request-running')) return null;
+
+                // Set the title depending on id
+                this.setTitle(jBoxLogin.title[id]);
+
+                // Show content depending on id
+                $('.login-container.active').removeClass('active');
+                $('#LoginContainer-' + id).addClass('active');
+
+                // Remove error tooltips
+                $.each(jBoxLogin.textfieldTooltips, function (id, tt) {
+                    $('#' + id).data('jBoxTextfieldError') && $('#' + id).data('jBoxTextfieldError').close();
+                });
+
+            };
+
+            // Initially show content for login
+            this.showContent('details', true);
+
+            // Add focus and blur events to textfields
+            $.each(jBoxLogin.textfieldTooltips, function (id, tt) {
+
+                // Focus an textelement
+                $('#' + id).on('focus', function () {
+
+                    // When there is an error tooltip close it
+                    $(this).data('jBoxTextfieldError') && $(this).data('jBoxTextfieldError').close();
+
+                    // Remove the error state from the textfield
+                    $(this).removeClass('textfield-error');
+
+                    // Store the tooltip jBox in the elements data
+                    if (!$(this).data('jBoxTextfieldTooltip')) {
+                        $(this).data('jBoxTextfieldTooltip', new jBox('Tooltip', {
+                            width: 310,
+                            theme: 'TooltipSmall',
+                            addClass: 'LoginTooltipSmall',
+                            target: $(this),
+                            position: {
+                                x: 'left',
+                                y: 'top'
+                            },
+                            outside: 'y',
+                            offset: {
+                                y: 6,
+                                x: 8
+                            },
+                            pointer: 'left:17',
+                            content: tt,
+                            animation: 'move'
+                        }));
+                    }
+
+                    $(this).data('jBoxTextfieldTooltip').open();
+
+                    // Loose focus of textelement
+                }).on('blur', function () {
+                    $(this).data('jBoxTextfieldTooltip').close();
+                });
+            });
+
+            // Internal function to show errors
+            this.showError = function (element, message) {
+
+                if (!element.data('errorTooltip')) {
+                    element.data('errorTooltip', new jBox('Tooltip', {
+                        width: 310,
+                        theme: 'TooltipError',
+                        addClass: 'LoginTooltipError',
+                        target: element,
+                        position: {
+                            x: 'left',
+                            y: 'top'
+                        },
+                        outside: 'y',
+                        offset: {
+                            y: 6
+                        },
+                        pointer: 'left:9',
+                        content: message,
+                        animation: 'move'
+                    }));
+                }
+
+                element.data('errorTooltip').open();
+            };
+
+            // Internal function to change checkbox state
+            this.toggleCheckbox = function () {
+                // Abort if an ajax call is loading
+                if ($('#LoginWrapper').hasClass('request-running')) return null;
+
+                $('.login-checkbox').toggleClass('login-checkbox-active');
+            };
+
+            // Add checkbox events to checkbox and label
+            $('.login-checkbox, .login-checkbox-label').on('click', function () {
+                this.toggleCheckbox();
+            }.bind(this));
+
+            // Parse an ajax repsonse
+            this.parseResponse = function (response) {
+                try {
+                    response = JSON.parse(response.responseText || response);
+                } catch (e) {}
+                return response;
+            };
+
+            // Show a global error
+            this.globalError = function () {
+                new jBox('Notice', {
+                    color: 'red',
+                    content: 'Oops, something went wrong.',
+                    attributes: {
+                        x: 'right',
+                        y: 'bottom'
+                    }
+                });
+            };
+
+            // Internal function to disable or enable the form while request is running
+            this.startRequest = function () {
+                this.toggleRequest();
+            }.bind(this);
+
+            this.completeRequest = function () {
+                this.toggleRequest(true);
+            }.bind(this);
+
+            this.toggleRequest = function (enable) {
+                $('#LoginWrapper')[enable ? 'removeClass' : 'addClass']('request-running');
+                $('#LoginWrapper button')[enable ? 'removeClass' : 'addClass']('loading-bar');
+                $('#LoginWrapper input, #LoginWrapper button').attr('disabled', enable ? false : 'disabled');
+            }.bind(this);
+            // Bind ajax login function to login button
+        },
+        onOpen: function () {
+            // Go back to login when we open the modal
+            this.showContent('newRace', true);
+        },
+        onClose: function () {
+            // Remove error tooltips
+            $.each(jBoxLogin.textfieldTooltips, function (id, tt) {
+                $('#' + id).data('jBoxTextfieldError') && $('#' + id).data('jBoxTextfieldError').close();
+            });
         }
-    }
-}
+    });
+    $("#createNewRace").submit(function(event){
+        event.preventDefault();
+        let formRace = {
+            raceName : $("#raceName2").val(),
+            place : $("#place2").val(),
+            organizer : $("#organizer2").val(),
+            resultsManager : $("#resultsManager2").val(),
+            phone : $("#phone2").val(),
+            startDate : $("#startDate2").val(),
+            endDate : $("#endDate2").val(),
+            raceType : $("#raceType2").is(":checked"),
+            director : $("#director2").val(),
+            arbitrator : $("#arbitrator2").val(),
+            technicalDelegate : $("#technicalDelegate2").val(),
+            note : $("#note2").val(),
+            cameraType : $("#cameraType2").val(),
+            typeScoring : $("#typeScoring2").val(),
+            outCompetition : $("#outCompetition2").is(":checked"),
+            reactions : $("#reactions2").is(":checked"),
+            numberOfTracks : $("#numberOfTracks2").val(),
+        };
+        resetData();
+        jBoxLogin.jBox.close();
+        ajaxPost();
+        console.log(formRace);
 
-function sync() {
-    syncAll(checkboxH,checkboxH2);
 
 
-}
-function sync2() {
-    syncAll(checkboxH2, checkboxH);
 
-}
-function syncAll(x,y) {
-    x.value = !!x.checked;
-    y.value=x.value;
-    y.checked=x.checked;
-    f(x);f(y);
-    if(x.checked){
-        tracksNumber.value=4;
-        tracksCheck();
+        function ajaxPost(){
+
+            // DO POST
+            $.ajax({
+                type : "POST",
+                contentType : "application/json",
+                accept: 'text/plain',
+                url : window.location + "races/save",
+                data : JSON.stringify(formRace),
+                dataType: 'text',
+                success : function(result) {
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'green',
+                        content: 'Závod bol úspešne vytvorený',
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                    console.log("Result: ", result);
+                    ajaxGet();
+                },
+                error : function(e) {
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'red',
+                        content: 'Bohužial, závod sa nepodarilo vytvoriť',
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+
+    });
+
+
+    function resetData(){
+        $("#raceName2").val("");
+        $("#place2").val("");
+        $("#organizer2").val("");
+        $("#resultsManager2").val("");
+        $("#phone2").val("");
+        $("#startDate2").val("");
+        $("#endDate2").val("");
+        $("#raceType2").prop( "checked", false );
+        $("#director2").val("");
+        $("#arbitrator2").val("");
+        $("#technicalDelegate2").val("");
+        $("#note2").val("");
+        $("#outCompetition2").prop( "checked", false );
+        $("#reactions2").prop( "checked", false );
+        $("#numberOfTracks2").val("8");
     }
-    else{
-        tracksNumber.value=8;
-        tracksCheck();
+    function ajaxGet(){
+        $.ajax({
+            type : "GET",
+            url : window.location + "races/all",
+            success: function(result){
+                table_main.clear()
+                    .draw();
+                var text = "";
+                $.each(result, function(i, race){
+                    if(race.activity==1){
+                        text ='<img alt="active" class="activeButton" src="/images/activated.png">';
+                    }else{
+                        text ='<a class="activeButtons"  data-confirm="Naozaj chcete zmeniť aktivitu preteku?" href="/activeRace/'+race.id+'"><img alt="active" class="activeButton" src="/images/active.png"></a>';
+                    }
+                        table_main.row.add([
+                        race.startDate,
+                        race.raceName,
+                        race.place,
+                        race.organizer,
+                        text,
+                        '<a  href="/editRace/'+race.id+'"><img th:type="button" alt="active"  class="activatedButton" src="/images/edit.png"></a>',
+                        '<a  data-confirm="Naozaj chcete vymazať tento pretek?" href="/deleteRace/'+race.id+' "><img alt="active" class="activatedButton" src="/images/delete.png"></a>'
+                    ]).draw(false);
+                });
+
+
+                new jBox('Notice', {
+                    attributes: {
+                        x: 'right',
+                        y: 'bottom'
+                    },
+                    stack: false,
+                    animation: {
+                        open: 'tada',
+                        close: 'zoomIn'
+                    },
+                    color: "green",
+                    title: "Refresh",
+                    content: "Zoznam pretekov bol aktualizovaný"
+                });
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    attributes: {
+                        x: 'right',
+                        y: 'bottom'
+                    },
+                    stack: false,
+                    animation: {
+                        open: 'tada',
+                        close: 'zoomIn'
+                    },
+                    color: "red",
+                    title: "Refresh",
+                    content: "Zoznam pretekov nebol aktualizovaný"
+                });
+                console.log("ERROR: ", e);
+            }
+        });
     }
-}
-function f(checkboxT) {
-    if (checkboxT.checked){
-        checkboxT.value=0;
-    }else{
-        checkboxT.value=1;
+    new jBox('Confirm', {
+        confirmButton: 'Potvrdiť',
+        cancelButton: 'Zrušiť'
+    });
+    function reloadStylesheets() {
+        var queryString = '?reload=' + new Date().getTime();
+        $('link[rel="stylesheet"]').each(function () {
+            this.href = this.href.replace(/\?.*|$/, queryString);
+        });
     }
-}
-function f1() {
-    f(checkboxR);
-}
-function f2() {
-    f(checkboxO);
-}
+    function reloadScripts() {
+        $("head script").each(function(){
+            var oldScript = this.getAttribute("src");
+            $(this).remove();
+            var newScript;
+            newScript = document.createElement('script');
+            newScript.type = 'text/javascript';
+            newScript.src = oldScript;
+            document.getElementsByTagName("head")[0].appendChild(newScript);
+        });
+    }
+});
+
+
+

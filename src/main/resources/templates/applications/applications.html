@@ -12,7 +12,10 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/resultsApplications.css}">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
     <link th:rel="stylesheet" th:href="@{/css/sideMenu.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/dataTables/datatables.min.css}"/>
+    <script type="text/javascript" th:src="@{/dataTables/datatables.min.js}"></script>
 
 
 
@@ -57,35 +60,49 @@
     </div>
     <hr>
     <div th:class="stuck">
-        <table class="asideTable" th:id="table">
-            <thead th:each="phase: ${phases}" >
-                <tr ><th  th:text="${phase.time}+' '+${phase.discipline.category}"></th></tr>
-                <tr ><th  th:text="${phase.discipline.disciplineName}+' - '+${phase.phaseName}+' '+${phase.phaseNumber}"></th></tr>
+        <table class=" asideTable " th:id="tableLeft">
+            <thead>
+                <tr class="hidden">
+                    <th></th>
+                    <th></th>
+                </tr>
             </thead>
+            <tbody >
+                <tr th:each="phase: ${phases}">
+                    <td  th:text="${phase.time}+' '+${phase.discipline.category}"></td>
+                    <td th:text="${phase.discipline.disciplineName}+'  '+${phase.phaseName}+' '+${phase.phaseNumber}"></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
     <table  th:id="table" class="stable">
         <tr>
             <td>
-                <table class="stable" >
+                <table  class="stable" >
+                    <thead>
                     <tr th:id="first_tr" class="stable">
                         <th>Číslo fázy</th>
                         <th>Pretekári</th>
                         <th>id</th>
                     </tr>
+                    </thead>
                 </table>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="not-stuck">
-                    <table >
+                    <table th:id="tableRight" >
+                        <thead>
+                        </thead>
+                        <tbody>
                         <tr th:each="phase: ${phases}">
                             <th th:text="${phase.phaseNumber}"></th>
                             <th th:text="${phase.participants}"></th>
                             <th th:text="${phase.id}"></th>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
             </td>
@@ -100,7 +117,9 @@
 </footer>
 <div th:id="overlay"></div>
 
-<script th:src="@{/js/index.js}"></script>
+
 <script th:src="@{/js/sideMenu.js}"></script>
+<script th:src="@{/js/applications.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/tables_new.css}"/>
 </body>
 </html>

@@ -32,3 +32,12 @@ function changeImage() {
     reader.readAsDataURL(file);
 
 }
+$(document).ready(function() {
+    $('#table').DataTable({
+            "columnDefs": [ {
+                "targets": [5 ,6],
+                "orderable": false
+            } ]
+        }
+    );
+} );

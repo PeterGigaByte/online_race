@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public interface RaceService {
     void save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto);
+    void save(Race race);
     void edit(Race race);
     List<Race> listRaces();
     Optional<Race> getRace(int id);

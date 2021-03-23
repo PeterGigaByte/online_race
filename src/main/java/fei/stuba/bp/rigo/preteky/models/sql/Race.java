@@ -1,7 +1,9 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
 import fei.stuba.bp.rigo.preteky.web.dto.RaceRegistrationDto;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +16,7 @@ import java.util.Calendar;
 @Entity
 @Table(name = "race")
 @Data
+@NoArgsConstructor
 public class Race implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -74,9 +77,7 @@ public class Race implements Serializable {
 
     @Column(name = "technical_delegate")
     private String technicalDelegate;
-    public Race(){
 
-    }
     public Race(Integer activity, String raceName, String place, String organizer,
                 String resultsManager, String phone, Date startDate, Date endDate,
                 Integer raceType, String note, String director, String arbitrator,
