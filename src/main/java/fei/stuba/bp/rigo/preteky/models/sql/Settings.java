@@ -1,7 +1,6 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
-import fei.stuba.bp.rigo.preteky.web.dto.SettingsDto;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -75,20 +74,5 @@ public class Settings implements Serializable {
         this.reactions = reactions;
         this.track=track;
     }
-    public void setSettings(SettingsDto settings){
-        this.cameraType = settings.getCameraType();
-        this.typeRace = settings.getTypeRace();
-        this.typeScoring = settings.getTypeScoring();
-        this.outCompetition = settings.getOutCompetition();
-        this.reactions = settings.getReactions();
-    }
-    public void checkForNulls(){
-        if(this.typeRace==null){
-            this.typeRace=1;
-        }if(this.outCompetition==null){
-            this.outCompetition=1;
-        }if(this.reactions==null){
-            this.reactions=0;
-        }
-    }
+
 }

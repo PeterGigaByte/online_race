@@ -2,21 +2,16 @@ package fei.stuba.bp.rigo.preteky.service.service;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.Phase;
+import fei.stuba.bp.rigo.preteky.models.sql.QualificationSettings;
 
 import java.util.List;
 
 public interface DisciplineService {
-    void deleteDiscipline(Discipline discipline);
+    List<Discipline> findDisciplinesByRaceId(Integer id);
+    List<Discipline> findDisciplinesByDisciplineNameAndCategoryAndRaceIdAndIdIsNot(String disciplineName,String category,int idRace, int idDiscipline);
+    List<Discipline> findDisciplinesByDisciplineNameAndCategoryAndRaceIdAndIdIsNotAndPhaseNameAndPhaseNumber(String disciplineName,String category,int idRace, int idDiscipline,String phaseName,int phaseNumber);
+    List<Discipline> findDisciplinesByRaceIdOrderByCameraIdDesc(int id);
     void saveDiscipline(Discipline discipline);
-    Discipline findDisciplineById(Integer disciplineId);
-    List<Discipline> getAllDisciplinesByRaceId(Integer raceId);
-    void deleteByRaceId(Integer raceId);
-    void savePhase(Phase phase);
-    void removePhase(Integer id,Integer idPhase);
-    Phase findPhaseById(Integer phaseId);
-    List<Phase> findAllPhasesByRaceId(Integer id);
-    List<Phase> findPhasesByRaceIdAndDisciplineType(Integer id,Integer disciplineType);
-    List<Phase> findPhasesByDisciplineIdAndPhaseName(Integer id, String phaseName);
-    void refreshCameraId(Integer id,Integer disciplineType);
-    void refreshPhaseNumber(Integer id, String phaseName);
+    void saveQualificationSettings(QualificationSettings qualificationSettings);
+    Discipline findDisciplineById(int id);
 }

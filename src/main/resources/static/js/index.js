@@ -3,6 +3,65 @@
 
 //addRace.addEventListener("click",showAddRace);
 //
+function ajaxPostGetRaceById(id){
+    // DO POST
+    id= {
+        id:id
+    };
+    $.ajax({
+        type : "POST",
+        contentType : "application/json",
+        accept: 'text/plain',
+        url : window.location + "races/findRace",
+        data : JSON.stringify(id),
+        dataType: 'json',
+        success : function(result) {
+            setData(result);
+            jBoxLogin.jBox.open();
+        },
+        error : function(e) {
+            new jBox('Notice', {
+                animation: 'flip',
+                color: 'red',
+                content: 'Atletická súťaž nebola nájdená     !!',
+                delayOnHover: true,
+                showCountdown: true
+            });
+            console.log("ERROR: ", e);
+        }
+    });
+}
+function setData(race){
+
+    $("#id2").val(race.id);
+    $("#raceName2").val(race.raceName);
+    $("#place2").val(race.place);
+    $("#organizer2").val(race.organizer);
+    $("#resultsManager2").val(race.resultsManager);
+    $("#phone2").val(race.phone);
+    $("#startDate2").val(race.startDate);                             //
+    $("#endDate2").val(race.endDate);                                //
+    if(race.settings.typeRace == 1){
+        $("#raceType2").prop( "checked", true );}
+    else{
+        $("#raceType2").prop( "checked", false );}
+    //
+    $("#director2").val(race.director);
+    $("#arbitrator2").val(race.arbitrator);
+    $("#technicalDelegate2").val(race.technicalDelegate);
+    $("#note2").val(race.note);
+    if(race.settings.outCompetition == 1){
+        $("#outCompetition2").prop( "checked", true );}
+    else{
+        $("#outCompetition2").prop( "checked", false );}
+    if(race.settings.reactions == 1){
+        $("#reactions2").prop( "checked", true );}
+    else{
+        $("#reactions2").prop( "checked", false );}
+    $("#numberOfTracks2").val(race.settings.track.numberOfTracks);
+    $('.login-button').text("Editovať");
+}
+
 
 
 
@@ -20,17 +79,18 @@ var jBoxLogin = {
         newRace:
             '<div id="LoginContainer-newRace" class="login-container">' +
             '   <div class="login-body">' +
+            '       <input type="text" id="id2" class="login-textfield hidden" >' +
             '       <input type="text" id="raceName2" class="login-textfield" placeholder="Názov závodu" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
             '       <input type="text" id="place2" class="login-textfield" placeholder="Miesto" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
             '       <input type="text" id="organizer2" class="login-textfield" placeholder="Organizátor" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
             '       <input type="text" id="resultsManager2" class="login-textfield" placeholder="Spracovateľ výsledkov" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
-            '       <input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" id="phone2" class="login-textfield" placeholder="Telefón" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >' +
+            '       <input type="tel" pattern="[+][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" id="phone2" class="login-textfield" placeholder="Telefón" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >' +
             '       <input type="date" id="startDate2" class="login-textfield" placeholder="Dátum začiatku" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
             '       <input type="date" id="endDate2" class="login-textfield" placeholder="Dátum konca" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
-            '       <div class="form-check">' +
-            '       <input style="width: 25px; height: 25px" id="raceType2" class="form-check-input" type="checkbox" data-val="true"  value="true" id="flexCheckDefault">'+
+            '       <div class="form-check">' + '<span style="display: inline; float: left; margin-top: 5px;">Halová sezóna\t&nbsp;\t&nbsp;</span>' +
+            '       <input style="width: 25px; height: 25px;display: block;   ;margin-top: 20px;" id="raceType2" class="form-check-input" type="checkbox" data-val="true"  value="true" id="flexCheckDefault">'+
             '       </div>'+
-            '       <button type="submit" class="login-button">Vytvoriť</button>' +
+            '       <button style="margin: 8px;" type="submit" class="login-button">Vytvoriť</button>' +
             '   </div>' +
             '   <div class="login-footer">' +
             '       <span onclick="jBoxLogin.jBox.showContent(\'details\')">Detaily</span>' +
@@ -91,7 +151,7 @@ var jBoxLogin = {
     // Corresponding titles for content elements
 
     title: {
-        newRace: 'Nový závod',
+        newRace: 'Atletická súťaž',
         details: 'Detaily',
         settings: 'Nastavenia'
 
@@ -121,6 +181,34 @@ var jBoxLogin = {
 };
 
 $(document).ready(function () {
+    function ajaxPostGetRaceById(id){
+        // DO POST
+        id= {
+            id:id
+        };
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            accept: 'text/plain',
+            url : window.location + "races/findRace",
+            data : JSON.stringify(id),
+            dataType: 'text',
+            success : function(result) {
+                setData(result);
+                jBoxLogin.jBox.open();
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Atletická súťaž nebola nájdená !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log("ERROR: ", e);
+            }
+        });
+    }
          let table_main = $('#table').DataTable({
                 "columnDefs": [
                     { type: 'de_date', targets: 0 },
@@ -313,6 +401,7 @@ $(document).ready(function () {
     $("#createNewRace").submit(function(event){
         event.preventDefault();
         let formRace = {
+            id: $("#id2").val(),
             raceName : $("#raceName2").val(),
             place : $("#place2").val(),
             organizer : $("#organizer2").val(),
@@ -334,7 +423,7 @@ $(document).ready(function () {
         resetData();
         jBoxLogin.jBox.close();
         ajaxPost();
-        console.log(formRace);
+
 
 
 
@@ -350,21 +439,42 @@ $(document).ready(function () {
                 data : JSON.stringify(formRace),
                 dataType: 'text',
                 success : function(result) {
-                    new jBox('Notice', {
-                        animation: 'flip',
-                        color: 'green',
-                        content: 'Závod bol úspešne vytvorený',
-                        delayOnHover: true,
-                        showCountdown: true
-                    });
-                    console.log("Result: ", result);
-                    ajaxGet();
+                    if(result=="Post update Successfully"){
+                        new jBox('Notice', {
+                            animation: 'flip',
+                            color: 'green',
+                            content: 'Atletická súťaž bola úspešne aktualizovaná',
+                            delayOnHover: true,
+                            showCountdown: true
+                        });
+                        ajaxGet();
+                    }
+                    else if(result=="Post failed because startDate is after endDate"){
+                        new jBox('Notice', {
+                            animation: 'flip',
+                            color: 'red',
+                            content: 'Chyba!! Dátum začiatku nesmie byť po dátume konca !!',
+                            delayOnHover: true,
+                            showCountdown: true
+                        });
+                    }
+                    else{
+                        new jBox('Notice', {
+                            animation: 'flip',
+                            color: 'green',
+                            content: 'Atletická súťaž bola úspešne vytvorená',
+                            delayOnHover: true,
+                            showCountdown: true
+                        });
+                        ajaxGet();
+                    }
+
                 },
                 error : function(e) {
                     new jBox('Notice', {
                         animation: 'flip',
                         color: 'red',
-                        content: 'Bohužial, závod sa nepodarilo vytvoriť',
+                        content: 'Bohužial, Atletickú súťaž sa nepodarilo vytvoriť',
                         delayOnHover: true,
                         showCountdown: true
                     });
@@ -374,9 +484,58 @@ $(document).ready(function () {
         }
 
     });
-
+    function ajaxPostDelete(id){
+        id = {
+            id:id
+        };
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            accept: 'text/plain',
+            url : window.location + "races/delete",
+            data : JSON.stringify(id),
+            dataType: 'text',
+            success : function(result) {
+                new jBox('Notice', {
+                    theme: 'NoticeFancy',
+                    attributes: {
+                        x: 'left',
+                        y: 'bottom'
+                    },
+                    color: "green",
+                    content: "Atletická súťaž bola úspešne zmazaná",
+                    animation: {
+                        open: 'slide:bottom',
+                        close: 'slide:left'
+                    }
+                });
+                ajaxGet();
+                if(id.id == $("#activeRaceId").attr("value")){
+                    let date = new Date();
+                    let d = date.getDate();
+                    let m = date.getMonth()+1;
+                    let y = date.getFullYear();
+                    $("#activeRaceName").text("Žiadny aktívny závod");
+                    $("#activeRacePlace").text("xxx");
+                    $("#activeRaceStartDate").text(d+"."+m+"."+y);
+                    $("#activeRaceEndDate").text(d+"."+m+"."+y);
+                }
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Atletická súťaž nebola odstránená !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 
     function resetData(){
+        $("#id2").val("");
         $("#raceName2").val("");
         $("#place2").val("");
         $("#organizer2").val("");
@@ -392,7 +551,12 @@ $(document).ready(function () {
         $("#outCompetition2").prop( "checked", false );
         $("#reactions2").prop( "checked", false );
         $("#numberOfTracks2").val("8");
+        $('.login-button').text("Vytvoriť");
     }
+
+
+
+
     function ajaxGet(){
         $.ajax({
             type : "GET",
@@ -407,15 +571,45 @@ $(document).ready(function () {
                     }else{
                         text ='<a class="activeButtons"  data-confirm="Naozaj chcete zmeniť aktivitu preteku?" href="/activeRace/'+race.id+'"><img alt="active" class="activeButton" src="/images/active.png"></a>';
                     }
+                    let date = new Date(race.startDate);
+                    let month = +date.getMonth()+1;
                         table_main.row.add([
-                        race.startDate,
+                            date.getDate()+"."+month+"."+date.getFullYear(),
                         race.raceName,
                         race.place,
                         race.organizer,
                         text,
-                        '<a  href="/editRace/'+race.id+'"><img th:type="button" alt="active"  class="activatedButton" src="/images/edit.png"></a>',
-                        '<a  data-confirm="Naozaj chcete vymazať tento pretek?" href="/deleteRace/'+race.id+' "><img alt="active" class="activatedButton" src="/images/delete.png"></a>'
+                        '<a   onclick="ajaxPostGetRaceById('+race.id+')"><img th:type="button" alt="active"  class="activatedButton" src="/images/edit.png"></a>',
+                        '<a   th:value="'+race.id+'" class="deleteButton"><img alt="active" class="activatedButton" src="/images/delete.png"></a>'
                     ]).draw(false);
+                    $(".deleteButton").unbind();
+                    $(".deleteButton").click(function () {
+                        let value = this.attributes.item(0).value;
+                        new jBox('Confirm', {
+                            confirmButton: 'Potvrdiť',
+                            cancelButton: 'Zrušiť',
+                            content: "Naozaj chcete vymazať túto atletickú súťaž?",
+                            confirm: function () {
+                                ajaxPostDelete(value);
+                            }
+                        }).open();
+
+                    });
+                    if(race.id == $("#activeRaceId").attr("value")){
+                        let startDate = race.startDate;
+                        let endDate = race.endDate;
+                        startDate = startDate.split("-");endDate = endDate.split("-");
+                        $("#activeRaceName").text(race.raceName);
+                        $("#activeRacePlace").text(race.place);
+                        $("#activeRaceStartDate").text(startDate[2]+"."+startDate[1]+"."+startDate[0]);
+                        $("#activeRaceEndDate").text(endDate[2]+"."+endDate[1]+"."+endDate[0]);
+                    }
+
+
+                });
+                new jBox('Confirm', {
+                    confirmButton: 'Potvrdiť',
+                    cancelButton: 'Zrušiť'
                 });
 
 
@@ -457,23 +651,21 @@ $(document).ready(function () {
         confirmButton: 'Potvrdiť',
         cancelButton: 'Zrušiť'
     });
-    function reloadStylesheets() {
-        var queryString = '?reload=' + new Date().getTime();
-        $('link[rel="stylesheet"]').each(function () {
-            this.href = this.href.replace(/\?.*|$/, queryString);
-        });
-    }
-    function reloadScripts() {
-        $("head script").each(function(){
-            var oldScript = this.getAttribute("src");
-            $(this).remove();
-            var newScript;
-            newScript = document.createElement('script');
-            newScript.type = 'text/javascript';
-            newScript.src = oldScript;
-            document.getElementsByTagName("head")[0].appendChild(newScript);
-        });
-    }
+    $("#addRace").click(function () {
+        resetData();
+    });
+    $(".deleteButton").click(function () {
+        let value = this.attributes.item(0).value;
+
+        new jBox('Confirm', {
+            confirmButton: 'Potvrdiť',
+            cancelButton: 'Zrušiť',
+            content: "Naozaj chcete vymazať túto atletickú súťaž?",
+            confirm: function () {
+                ajaxPostDelete(value);
+            }
+        }).open();
+    })
 });
 
 

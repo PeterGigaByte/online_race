@@ -42,49 +42,28 @@
     <div th:class="activeRace">
         <a href="#">
             <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
-
         </a>
     </div>
     <div th:class="heading_t">
         <!-- aktivny pretek -->
         <div th:id="addRace" th:class="addRace">
 
-                    <select th:id="day"  th:class="input-box" th:type="select">
-                        <option value="Deň">
-                            Deň
-                        </option>
+                    <select th:id="day" style="width: 200px"  class="input-box select-css" th:type="select">
                     </select>
         </div>
         <div th:id="editActiveRace" th:class="editActiveRace">
-                    <select   th:class="input-box" th:type="select">
-                        <option value="Vyber">
+                    <select th:id="disciplinesType" style="width: 200px"  class="input-box select-css" th:type="select">
+                        <option value="discipline">
                             Disciplína
-                        </option>
-                        <option value="Behy">
-                            Behy
-                        </option>
-                        <option value="Skoky">
-                            Skoky
-                        </option>
-                        <option value="Vrhy,hody">
-                            Vrhy,hody
                         </option>
                     </select>
         </div>
         <div th:class="search">
-
-                <select  th:class="input-box" th:type="select">
-                    <option value="Kategória">
+                <select th:id="categories" style="width: 200px" class="input-box select-css" th:type="select">
+                    <option value="category">
                         Kategória
                     </option>
-                    <option value="Muži">
-                        Muži
-                    </option>
-                    <option value="Ženy">
-                        Ženy
-                    </option>
                 </select>
-
         </div>
     </div>
     <br><br>
@@ -105,34 +84,35 @@
     </div>
 
     <hr>
+    <!--
+        <table th:id="table">
+            <thead>
+                <tr th:id="first_tr">
+                    <th>Čas začiatku</th>
+                    <th>Počet pretekárov</th>
+                    <th>Názov Disciplíny</th>
+                    <th>Kategória</th>
+                    <th>Poznámky</th>
+                    <th th:class="settings-columns">Manažovať</th>
+                    <th th:class="settings-columns">Editovať</th>
+                    <th th:class="settings-columns">Zmazať</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  th:each="disciplineList: ${disciplines}"  >
+                    <td th:text="${disciplineList.time}"></td>
+                    <td th:text="${disciplineList.participants}"></td>
+                    <td th:text="${disciplineList.disciplineName}"></td>
+                    <td th:text="${disciplineList.category}"></td>
+                    <td th:text="${disciplineList.note}"></td>
+                    <td><a  th:href="@{disciplines/manage/phases/{id}(id=${disciplineList.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/Settings-icon.png}"></a></td>
+                    <td><a  th:href="@{disciplines/edit/{id}(id=${disciplineList.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></td>
+                    <td><a  onclick="return confirm('Naozaj chcete túto disciplínu vymazať?')" th:href="@{disciplines/delete/{id}(id=${disciplineList.getId()})} "><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></td>
+                </tr>
+            </tbody>
 
-    <table th:id="table">
-        <thead>
-            <tr th:id="first_tr">
-                <th>Čas začiatku</th>
-                <th>Počet pretekárov</th>
-                <th>Názov Disciplíny</th>
-                <th>Kategória</th>
-                <th>Poznámky</th>
-                <th th:class="settings-columns">Manažovať</th>
-                <th th:class="settings-columns">Editovať</th>
-                <th th:class="settings-columns">Zmazať</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr  th:each="disciplineList: ${disciplines}"  >
-                <td th:text="${disciplineList.time}"></td>
-                <td th:text="${disciplineList.participants}"></td>
-                <td th:text="${disciplineList.disciplineName}"></td>
-                <td th:text="${disciplineList.category}"></td>
-                <td th:text="${disciplineList.note}"></td>
-                <td><a  th:href="@{disciplines/manage/phases/{id}(id=${disciplineList.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/Settings-icon.png}"></a></td>
-                <td><a  th:href="@{disciplines/edit/{id}(id=${disciplineList.getId()})} "><img th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></td>
-                <td><a  onclick="return confirm('Naozaj chcete túto disciplínu vymazať?')" th:href="@{disciplines/delete/{id}(id=${disciplineList.getId()})} "><img alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></td>
-            </tr>
-        </tbody>
+        </table>
 
-    </table>
     <section>
         <form th:action="@{'/disciplines/save'}" th:object="${discipline}" method="post">
             <div th:id="behind-scene" class="behind-scene">
@@ -182,18 +162,19 @@
 
                                 <button value="Vytvoriť" type="submit" class="button-submit center">Vytvoriť</button>
                             </div>
-                            <!--                           -->
+
                                     </div>
 
                                 </div>
 
-                                <!--                           -->
+
 
                             </div>
                         </div>
 
         </form>
     </section>
+    -->
     <div style="height: 25px"></div>
 </main>
 
@@ -205,6 +186,8 @@
 <script th:src="@{/js/autocomplete.js}"></script>
 <script th:src="@{/js/discipline.js}"></script>
 <script th:src="@{/js/sideMenu.js}"></script>
+<script src="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.2.14/dist/jBox.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.2.14/dist/jBox.all.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" th:href="@{/css/tables_new.css}"/>
 
 </body>

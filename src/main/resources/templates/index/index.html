@@ -49,7 +49,7 @@
 
         <div th:class="activeRace">
             <a href="">
-                <div th:class="raceService"><span th:text="${activeRace.raceName}"></span> - <span th:text="${activeRace.place}"></span> - <span th:text="${activeRace.returnStartDate()}"></span> - <span th:text="${activeRace.returnEndDate()}"></span></div>
+                <div th:value="${activeRace.id}" th:id="activeRaceId"  th:class="raceService"><span th:id="activeRaceName" th:text="${activeRace.raceName}"></span> - <span th:id="activeRacePlace" th:text="${activeRace.place}"></span> - <span th:id="activeRaceStartDate" th:text="${activeRace.returnStartDate()}"></span> - <span th:id="activeRaceEndDate" th:text="${activeRace.returnEndDate()}"></span></div>
             </a>
         </div>
 
@@ -67,7 +67,7 @@
                 </div>
 
             <div th:id="editActiveRace" th:class="editActiveRace">
-                <a th:href="@{/editRace/{id}(id=${activeRace.getId()})} ">
+                <a th:onclick="'ajaxPostGetRaceById(' + ${activeRace.getId()} + ')'" >
                     <label style="color: blue" th:class="div-button">
                             <img alt="addRace" style="width: 20px; height: 20px"  class="plus" th:src="@{/images/Editing-Edit-icon.png}">
 
@@ -108,8 +108,8 @@
                     </span>
                 </td>
 
-                <td><a  th:href="@{/editRace/{id}(id=${race.getId()})} "><img style="width: 35px; height: 35px" th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></td>
-                <td><a  data-confirm="Naozaj chcete vymazať tento pretek?" th:href="@{/deleteRace/{id}(id=${race.getId()})} "><img  style="width: 35px; height: 35px" alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></td>
+                <td><a th:onclick="'ajaxPostGetRaceById(' + ${race.getId()} + ')'"  ><img style="width: 35px; height: 35px" th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></td>
+                <td><a th:value="${race.getId()}" class="deleteButton"  ><img  style="width: 35px; height: 35px" alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></td>
             </tr>
             </tbody>
         </table>

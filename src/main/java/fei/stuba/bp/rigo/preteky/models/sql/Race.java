@@ -1,6 +1,5 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
-import fei.stuba.bp.rigo.preteky.web.dto.RaceRegistrationDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -63,8 +62,6 @@ public class Race implements Serializable {
      * False - hala
      * default- vonku
      */
-    @Column(name = "race_type", nullable = false)
-    private Integer raceType = 1;
 
     @Column(name = "note")
     private String note;
@@ -91,7 +88,7 @@ public class Race implements Serializable {
         this.phone = phone;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.raceType = raceType;
+
         this.note = note;
         this.director = director;
         this.arbitrator = arbitrator;
@@ -121,38 +118,32 @@ public class Race implements Serializable {
         this.phone = race.phone;
         this.startDate = race.startDate;
         this.endDate = race.endDate;
-        this.raceType = race.raceType;
+
         this.note = race.note;
         this.director = race.director;
         this.arbitrator = race.arbitrator;
         this.technicalDelegate = race.technicalDelegate;
         this.settings=race.settings;
-    }public void setRaceEdit(RaceRegistrationDto race) {
-        this.raceName = race.getRaceName();
-        this.place = race.getPlace();
-        this.organizer = race.getOrganizer();
-        this.resultsManager = race.getResultsManager();
-        this.phone = race.getPhone();
-        this.startDate = race.getStartDate();
-        this.endDate = race.getEndDate();
-        this.raceType = race.getRaceType();
-        this.note = race.getNote();
-        this.director = race.getDirector();
-        this.arbitrator = race.getArbitrator();
-        this.technicalDelegate = race.getTechnicalDelegate();
     }
 
 
-    public void checkForNulls(){
-        if(this.raceType==null){
-            this.raceType=1;
-        }if(this.note==null){
-            this.note="žiadna poznámka";
-        }if(this.arbitrator==null){
-            this.arbitrator="žiadny";
-        }if(this.technicalDelegate==null){
-            this.technicalDelegate="žiadny";
-        }
+    @Override
+    public String toString() {
+        return "Race{" +
+                "id=" + id +
+                ", settings=" + settings +
+                ", activity=" + activity +
+                ", raceName='" + raceName + '\'' +
+                ", place='" + place + '\'' +
+                ", organizer='" + organizer + '\'' +
+                ", resultsManager='" + resultsManager + '\'' +
+                ", phone='" + phone + '\'' +
+                ", startDate=" + returnStartDate() +
+                ", endDate=" + returnEndDate() +
+                ", note='" + note + '\'' +
+                ", director='" + director + '\'' +
+                ", arbitrator='" + arbitrator + '\'' +
+                ", technicalDelegate='" + technicalDelegate + '\'' +
+                '}';
     }
-
 }

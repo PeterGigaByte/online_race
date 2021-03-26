@@ -1,6 +1,6 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
-import fei.stuba.bp.rigo.preteky.web.dto.TrackDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -57,41 +57,92 @@ public class Track implements Serializable {
     @Column(name = "type_track")
     private Integer typeTrack = 1;
 
+    public void setNumberOfTracks(Integer numberOfTracks) {
+        this.numberOfTracks = numberOfTracks;
+        setTracks();
+    }
+
     public Track(Integer numberOfTracks) {
         this.numberOfTracks = numberOfTracks;
+        setTracks();
     }
-
-    public Track(Integer numberOfTracks, Integer one,
-                 Integer two, Integer three, Integer four,
-                 Integer five, Integer six, Integer seven,
-                 Integer eight, Integer nine, Integer ten,
-                 Integer typeTrack) {
-        this.numberOfTracks = numberOfTracks;
-        this.one = one;
-        this.two = two;
-        this.three = three;
-        this.four = four;
-        this.five = five;
-        this.six = six;
-        this.seven = seven;
-        this.eight = eight;
-        this.nine = nine;
-        this.ten = ten;
-        this.typeTrack = typeTrack;
+    private void setTracks(){
+        switch (numberOfTracks){
+            case 1:
+                one = 1;
+                break;
+            case 2:
+                one = 1;
+                two = 2;
+                break;
+            case 3:
+                one =2;
+                two =1;
+                three=3;
+                break;
+            case 4:
+                one =3;
+                two =2;
+                three=1;
+                four=4;
+                break;
+            case 5:
+                one =4;
+                two =3;
+                three=1;
+                four=2;
+                five=5;
+                break;
+            case 6:
+                one =5;
+                two =3;
+                three=2;
+                four=1;
+                five=5;
+                six=4;
+                break;
+            case 7:
+                one =6;
+                two =5;
+                three=3;
+                four=1;
+                five=2;
+                six=4;
+                seven=7;
+                break;
+            case 8:
+                one =7;
+                two =6;
+                three=3;
+                four=1;
+                five=2;
+                six=4;
+                seven=5;
+                eight=8;
+                break;
+            case 9:
+                one =8;
+                two =6;
+                three=3;
+                four=1;
+                five=2;
+                six=4;
+                seven=5;
+                eight=7;
+                nine=9;
+                break;
+            case 10:
+                one =8;
+                two =7;
+                three=3;
+                four=2;
+                five=1;
+                six=4;
+                seven=5;
+                eight=6;
+                nine=9;
+                ten=10;
+                break;
+        }
     }
-    public void setTrack(TrackDto track){
-        this.numberOfTracks = track.getNumberOfTracks();
-        this.one = track.getOne();
-        this.two = track.getTwo();
-        this.three = track.getThree();
-        this.four = track.getFour();
-        this.five = track.getFive();
-        this.six = track.getSix();
-        this.seven = track.getSeven();
-        this.eight = track.getEight();
-        this.nine = track.getNine();
-        this.ten = track.getTen();
-        this.typeTrack = track.getTypeTrack();
-    }
-
 }

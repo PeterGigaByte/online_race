@@ -28,14 +28,8 @@ public class Results {
             return raceService.getFakeRace();
         }
     }
-    @ModelAttribute("phases")
-    public List<Phase> phaseList(){
-        return disciplineService.findAllPhasesByRaceId(activeRace().getId());
-    }
-    @ModelAttribute("disciplines")
-    public List<Discipline>  disciplineList(){
-        return disciplineService.getAllDisciplinesByRaceId(activeRace().getId());
-    }
+
+
     @GetMapping("/results")
     public String disciplines(){
         return "results/results";

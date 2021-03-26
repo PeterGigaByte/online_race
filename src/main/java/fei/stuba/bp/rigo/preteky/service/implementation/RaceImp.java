@@ -6,9 +6,7 @@ import fei.stuba.bp.rigo.preteky.repository.RaceRepository;
 import fei.stuba.bp.rigo.preteky.repository.SettingsRepository;
 import fei.stuba.bp.rigo.preteky.repository.TrackRepository;
 import fei.stuba.bp.rigo.preteky.service.service.RaceService;
-import fei.stuba.bp.rigo.preteky.web.dto.RaceRegistrationDto;
-import fei.stuba.bp.rigo.preteky.web.dto.SettingsDto;
-import fei.stuba.bp.rigo.preteky.web.dto.TrackDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -37,21 +35,6 @@ public class RaceImp implements RaceService {
     public void save(Race race){
         settingsRepository.save(race.getSettings());
         trackRepository.save(race.getSettings().getTrack());
-        raceRepository.save(race);
-    }
-    @Override
-    public void save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto){
-
-        Track track = new Track(trackDto.getNumberOfTracks(),trackDto.getOne(),trackDto.getTwo(),trackDto.getThree(),trackDto.getFour(),trackDto.getFive(),trackDto.getSix(),
-                trackDto.getSeven(),trackDto.getEight(),trackDto.getNine(),trackDto.getTen(),trackDto.getTypeTrack());
-        Settings settings = new Settings(settingsDto.getCameraType(),settingsDto.getTypeRace(),settingsDto.getTypeScoring(),settingsDto.getOutCompetition(),settingsDto.getReactions(),
-                track);
-        Race race = new Race(raceRegistrationDto.getActivity(),raceRegistrationDto.getRaceName(),raceRegistrationDto.getPlace(),raceRegistrationDto.getOrganizer(),raceRegistrationDto.getResultsManager(),
-                raceRegistrationDto.getPhone(),raceRegistrationDto.getStartDate(),raceRegistrationDto.getEndDate(),raceRegistrationDto.getRaceType(),raceRegistrationDto.getNote(),
-                raceRegistrationDto.getDirector(),raceRegistrationDto.getArbitrator(),raceRegistrationDto.getTechnicalDelegate(),settings
-        );
-        settingsRepository.save(settings);
-        trackRepository.save(track);
         raceRepository.save(race);
     }
 

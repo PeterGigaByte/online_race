@@ -4,15 +4,12 @@ package fei.stuba.bp.rigo.preteky.service.service;
 import fei.stuba.bp.rigo.preteky.models.sql.Race;
 import fei.stuba.bp.rigo.preteky.models.sql.Settings;
 import fei.stuba.bp.rigo.preteky.models.sql.Track;
-import fei.stuba.bp.rigo.preteky.web.dto.RaceRegistrationDto;
-import fei.stuba.bp.rigo.preteky.web.dto.SettingsDto;
-import fei.stuba.bp.rigo.preteky.web.dto.TrackDto;
+
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RaceService {
-    void save(RaceRegistrationDto raceRegistrationDto, SettingsDto settingsDto, TrackDto trackDto);
     void save(Race race);
     void edit(Race race);
     List<Race> listRaces();
