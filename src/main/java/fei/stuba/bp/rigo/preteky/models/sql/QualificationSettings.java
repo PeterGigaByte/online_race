@@ -17,9 +17,8 @@ public class QualificationSettings implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_discipline_where",referencedColumnName = "id")
-    private Discipline disciplineWhere;
+    @Column(name = "id_discipline_where")
+    private Integer disciplineWhere;
 
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_discipline",referencedColumnName = "id")
@@ -34,8 +33,13 @@ public class QualificationSettings implements Serializable {
     public QualificationSettings() {
     }
 
-    public QualificationSettings(Discipline disciplineWhere, Integer qByPlace, Integer qByTime) {
+    public QualificationSettings(Integer disciplineWhere, Integer qByPlace, Integer qByTime) {
         this.disciplineWhere = disciplineWhere;
+        this.qByPlace = qByPlace;
+        this.qByTime = qByTime;
+    }
+
+    public QualificationSettings(Integer qByPlace, Integer qByTime) {
         this.qByPlace = qByPlace;
         this.qByTime = qByTime;
     }

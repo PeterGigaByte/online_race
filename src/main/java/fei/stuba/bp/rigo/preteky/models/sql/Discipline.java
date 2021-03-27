@@ -49,7 +49,7 @@ public class Discipline implements Serializable {
     private String disciplineType;
 
     @Column(name = "camera_id")
-    private String cameraId;
+    private Integer cameraId;
 
     @Column(name = "discipline_date")
     private Date disciplineDate;
@@ -64,7 +64,7 @@ public class Discipline implements Serializable {
     public Discipline() {
     }
 
-    public Discipline(Race race, String disciplineName, String note, String disciplineTime, String category, Integer participants, String disciplineType, String cameraId, Date disciplineDate, String phaseName, int phaseNumber) {
+    public Discipline(Race race, String disciplineName, String note, String disciplineTime, String category, Integer participants, String disciplineType, Integer cameraId, Date disciplineDate, String phaseName, int phaseNumber) {
         this.race = race;
         this.disciplineName = disciplineName;
         this.note = note;
@@ -72,7 +72,7 @@ public class Discipline implements Serializable {
         this.category = category;
         this.participants = participants;
         this.disciplineType = disciplineType;
-        this.cameraId = cameraId;
+            this.cameraId = cameraId;
         this.disciplineDate = disciplineDate;
         this.phaseName = phaseName;
         this.phaseNumber = phaseNumber;

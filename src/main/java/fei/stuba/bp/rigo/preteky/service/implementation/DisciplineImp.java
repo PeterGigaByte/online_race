@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -51,14 +52,43 @@ public class DisciplineImp implements DisciplineService {
     }
 
     @Override
+    public List<Discipline> findDisciplinesByDisciplineDateAndRaceIdOrderByDisciplineTime(Date date, int id) {
+        return disciplineRepository.findDisciplinesByDisciplineDateAndRaceIdOrderByDisciplineTime(date,id);
+    }
+
+    @Override
+    public List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndDisciplineNameOrderByDisciplineTime(Date disciplineDate, int race_id, String disciplineName) {
+        return disciplineRepository.findDisciplinesByDisciplineDateAndRaceIdAndDisciplineNameOrderByDisciplineTime(disciplineDate,race_id,disciplineName);
+    }
+
+    @Override
+    public List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndCategoryOrderByDisciplineTime(Date disciplineDate, int race_id, String category) {
+        return disciplineRepository.findDisciplinesByDisciplineDateAndRaceIdAndCategoryOrderByDisciplineTime(disciplineDate, race_id, category);
+    }
+
+    @Override
+    public List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndCategoryAndDisciplineNameOrderByDisciplineTime(Date disciplineDate, int race_id, String category, String disciplineName) {
+        return disciplineRepository.findDisciplinesByDisciplineDateAndRaceIdAndCategoryAndDisciplineNameOrderByDisciplineTime(disciplineDate,race_id,category,disciplineName);
+    }
+
+    @Override
     public void saveDiscipline(Discipline discipline) {
         disciplineRepository.save(discipline);
     }
+
+    @Override
+    public QualificationSettings findQualificationSettingsByDisciplineId(int id) {
+        return qualificationSettingsDisciplineRepository.findQualificationSettingsByDisciplineId(id);
+    }
+
     @Override
     public void saveQualificationSettings(QualificationSettings qualificationSettings){
         qualificationSettingsDisciplineRepository.save(qualificationSettings);
     }
-
+    @Override
+    public void deleteDiscipline(int id){
+        disciplineRepository.deleteById(id);
+    }
     @Override
     public Discipline findDisciplineById(int id) {
         return disciplineRepository.findDisciplinesById(id);

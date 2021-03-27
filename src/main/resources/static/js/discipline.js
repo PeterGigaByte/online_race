@@ -12,9 +12,12 @@ var jBoxLogin = {
             '       <select style="width: 300px; display: inline-block; float: left; margin-left: 20px; margin-top:26px"   id="disciplineName" class="login-textfield select-css" placeholder="Disciplína" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></select>' +
             '       <select style="width: 200px; display: inline-block; float: left; margin-left: 20px; margin-top:26px"   id="category" class="login-textfield select-css" placeholder="Kategória" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></select>' +
             '       <select style="width: 130px; display: inline-block; float: left; margin-left: 20px; margin-top:26px" type="text" id="phaseName" class="login-textfield select-css" placeholder="Fáza" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></select>' +
-            '       <input style="width: 80px; display: inline-block; float: left; margin-left: 20px" type="number" id="phaseNumber" class="login-textfield" placeholder="Poradie" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
+            '       <input style="width: 80px; display: inline-block; float: left; margin-left: 20px" type="number" min="1" id="phaseNumber" class="login-textfield" placeholder="Poradie" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>' +
             '       <input style="display: inline-block;  margin-top: 20px" type="text" id="note" class="login-textfield" placeholder="Poznámka" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >' +
-            '       <button id="createDiscipline" style="width: 200px;" type="submit" class="login-button">Vytvoriť</button>' + '       <button id="createAndClose" name="createAndClose" style="width: 200px; display: inline-block; float: right; margin-left: 20px" type="submit" class="login-button">Vytvoriť a zavrieť</button>' +
+            '       <button id="createDiscipline" name="createDiscipline" style="width: 200px;" type="submit" class="login-button">Vytvoriť</button>' +
+            '       <button id="editDiscipline" name="editDiscipline" style="width: 200px;" type="submit" class="login-button hidden">Editovať</button>' +
+            '       <button id="createAndClose" name="createAndClose" style="width: 200px; display: inline-block; float: right; margin-left: 20px" type="submit" class="login-button">Vytvoriť a zavrieť</button>' +
+
             '   </div>' +
             '   <div class="login-footer">' +
             '       <span id="settings-footer" onclick="jBoxLogin.jBox.showContent(\'settings\')">Nastavenia</span>' +
@@ -25,8 +28,8 @@ var jBoxLogin = {
         settings:
             '<div id="LoginContainer-settings" class="login-container">' +
             '           <div class="login-body">' +
-            '       <input style="width: 100px; display: inline-block; float: left" type="number" id="Q" class="login-textfield " placeholder="Q" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >' +
-            '       <input style="width: 100px; display: inline-block; float: left; margin-left: 20px; margin-top:26px" type="number"  id="q" class="login-textfield" placeholder="q" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >' +
+            '       <input style="width: 100px; display: inline-block; float: left" type="number" min="0" max="10" id="Q" class="login-textfield " placeholder="Q" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >' +
+            '       <input style="width: 100px; display: inline-block; float: left; margin-left: 20px; margin-top:26px" min="0" max="10" type="number"  id="q" class="login-textfield" placeholder="q" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >' +
             '       <select style="width: 200px; display: inline-block; float: left; margin-left: 20px; margin-top:26px"   id="aim" class="login-textfield select-css" placeholder="Kategória" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ></select>' +
             '           </div>' +
             '       <div class="login-footer">' +
@@ -60,6 +63,7 @@ var jBoxLogin = {
     }
 };
 $(document).ready(function () {
+
     let dayWeek = ["Nedeľa" , "Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"];
     let disciplines_list_run =["40 m","50 m","60 m"];
     let disciplines_list_jump =["Skok do diaľky",];
@@ -69,7 +73,7 @@ $(document).ready(function () {
     let datesSelect = $("#day");
     let disciplinesSelect = $("#disciplinesType");
     let categoriesSelect = $("#categories");
-
+    let request = {date:"default",discipline:"default",category:"default"};
     refreshDates();
     refreshDisciplines();
     refreshCategories();
@@ -87,6 +91,9 @@ $(document).ready(function () {
                     let month = date.getMonth()+1;
                     datesSelect.append('<option value="'+date.getFullYear()+'-'+month+'-'+date.getDate()+'">'+date.getDate()+'.('+dayWeek[date.getDay()]+')'+month+'.'+date.getFullYear()+'</option>')
                 });
+                request.date= new Date(datesSelect.val());let month = request.date.getMonth()+1;request.date=request.date.getFullYear()+'-'+month+'-'+request.date.getDate();
+                request.discipline=disciplinesSelect.val();request.category=categoriesSelect.val();
+                refreshDisciplineTable();
             },
             error : function(e) {
                 console.log(e)
@@ -102,6 +109,7 @@ $(document).ready(function () {
                 $.each(result, function(i, discipline){
                     disciplinesSelect.append('<option value="'+discipline+'">'+discipline+'</option>');
                 });
+
             },
             error : function(e) {
                 console.log(e)
@@ -117,6 +125,7 @@ $(document).ready(function () {
                 $.each(result, function(i, category){
                     categoriesSelect.append('<option value="'+category+'">'+category+'</option>');
                 });
+
             },
             error : function(e) {
                 console.log(e)
@@ -139,6 +148,7 @@ $(document).ready(function () {
             data : JSON.stringify(data),
             dataType: 'json',
             success: function(result){
+                console.log(result);
                 aimSelect.empty();
                 aimSelect.append('<option value="'+null+'">'+"Nevybrané"+'</option>');
                 $.each(result, function(i, aim){
@@ -175,6 +185,7 @@ $(document).ready(function () {
             phasesSelect.append('<option value="'+phase_name+'" >'+phase_name+'</option>');
         })
     }
+
     jBoxLogin.jBox = new jBox('Modal', {
 
         // Unique id for CSS access
@@ -354,12 +365,16 @@ $(document).ready(function () {
     $("#createAndClose").click(function () {
         typeSubmit = "createAndClose";
     });
+    $("#editDiscipline").click(function () {
+        typeSubmit = "edit";
+    });
+
     $("#discipline").submit(function (event) {
+        console.log("here");
        event.preventDefault();
+
        let disciplineNameAndType = $("#disciplineName").val();
        disciplineNameAndType = disciplineNameAndType.split("_");
-        console.log(disciplineNameAndType[0]);
-        console.log(disciplineNameAndType[1]);
        let formDiscipline = {
            id: $("#id").val(),
            disciplineTime:$("#disciplineTime").val(),
@@ -385,16 +400,7 @@ $(document).ready(function () {
                 data : JSON.stringify(formDiscipline),
                 dataType: 'text',
                 success : function(result) {
-                    if(result == "Already exist"){
-                        new jBox('Notice', {
-                            animation: 'flip',
-                            color: 'red',
-                            content: 'Bohužial, Atletickú disciplínu sa nepodarilo vytvoriť, pretože rovnaká už existuje !!',
-                            delayOnHover: true,
-                            showCountdown: true
-                        });
-                    }else{
-                        clearForm();
+                    if(result == "Post create successfully"){
                         new jBox('Notice', {
                             animation: 'flip',
                             color: 'green',
@@ -402,22 +408,44 @@ $(document).ready(function () {
                             delayOnHover: true,
                             showCountdown: true
                         });
+                        requestRefresh();
+                        refreshDisciplineTable();
+                    }
+                    else if(result == "Post edit successfully"){
+                        new jBox('Notice', {
+                            animation: 'flip',
+                            color: 'green',
+                            content: 'Atletická disciplína bola úspešne editovaná',
+                            delayOnHover: true,
+                            showCountdown: true
+                        });
+                        requestRefresh();
+                        refreshDisciplineTable();
+                    }
+                    else if(result == "Already exist"){
+                        new jBox('Notice', {
+                            animation: 'flip',
+                            color: 'red',
+                            content: 'Bohužial, Atletickú disciplínu sa nepodarilo vytvoriť, pretože rovnaká už existuje !!',
+                            delayOnHover: true,
+                            showCountdown: true
+                        });
                     }
                     if(typeSubmit == "createDiscipline"){
-
-
+                        let selector = $("#phaseNumber");
+                        selector.val(parseInt(selector.val())+1);
                     }else if( typeSubmit == "createAndClose"){
+                        if(result=="Already exist"){
 
-                        jBoxLogin.jBox.close();
+                        }else{
+                            clearForm();
+                            jBoxLogin.jBox.close();
+                        }
                     }else if( typeSubmit == "edit"){
-
                         jBoxLogin.jBox.close();
                     }
-
-
-                    refreshCategories();
                     refreshDisciplines();
-                    refreshPhases();
+                    refreshCategories();
                     refreshAim()
                 },
                 error : function(e) {
@@ -453,51 +481,209 @@ $(document).ready(function () {
     let disciplineNameSelect = $("#disciplineName");
     let phasesSelect = $("#phaseName");
     let aimSelect = $("#aim");
+    $("#settings-footer").click(function () {
+        refreshAim();
+    });
     setDisciplineSelect();
     setCategoriesSelect();
     refreshPhases();
     refreshAim();
 
+    var groupColumn = 0;
+    var table = $('#table').DataTable({
+        "columnDefs": [
+            { "visible": false, "targets": groupColumn }
+        ],
+        "order": [[ groupColumn, 'asc' ]],
+        "displayLength": 25,
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
 
-    $("#settings-footer").change(function () {
-        refreshAim()
-    });
-});
-/*
-//exit z bloku registrácii/editácii
-let hiddenBlock = document.getElementById("behind-scene");
-let overlay = document.getElementById("overlay");
-let exit= document.getElementById("exit");
-exit.addEventListener("click",exitF);
-//
-
-//pridať závod Listener
-let addDiscipline = document.getElementById("addDiscipline");
-addDiscipline.addEventListener("click",showAddDiscipline);
-//
-function showAddDiscipline(){
-    hiddenBlock.classList.add("active");
-    overlay.classList.add("active");
-}
-function exitF() {
-    hiddenBlock.classList.remove("active");
-    overlay.classList.remove("active");
-}
-let disciplines = ["40 m","50 m","60 m"];
-let categories = ["Muži","Ženy","Juniori","Juniorky"];
-let disciplineInput = document.getElementById("disciplineName");
-let categoryInput = document.getElementById("categoryName");
-
-autocomplete(disciplineInput, disciplines);
-autocomplete(categoryInput, categories);
-
-$(document).ready(function() {
-    $('#table').DataTable({
-            "columnDefs": [ {
-                "targets": [5 ,6, 7 ],
-                "orderable": false
-            } ]
+            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr style="font-size: 12px; height: 5px; padding: 0;margin: 0; background-color: cyan" class="group"><td colspan="5">'+group+'</td></tr>'
+                    );
+                    last = group;
+                }
+            } );
         }
-    );
-} );
-*/
+    } );
+    // Order by the grouping
+    $('#table tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            table.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            table.order( [ groupColumn, 'asc' ] ).draw();
+        }
+    } );
+
+    function refreshDisciplineTable(){
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            accept: 'text/plain',
+            url : window.location + "/disciplines/table",
+            data : JSON.stringify(request),
+            dataType: 'json',
+            success: function(result){
+                table.clear().draw();
+                $.each(result, function(i, discipline){
+                    table.row.add([
+                        'Čas štartu '+discipline.disciplineTime,
+                        discipline.participants,
+                        discipline.disciplineName,
+                        discipline.category+', '+discipline.phaseName+', '+discipline.phaseNumber,
+                        discipline.cameraId,
+                        discipline.note,
+                        '<a   th:value="'+discipline.id+'"class="editButton"><img th:type="button" alt="active"  class="activatedButton" src="/images/edit.png"></a>',
+                        '<a   th:value="'+discipline.id+'" class="deleteButton"><img alt="active" class="activatedButton" src="/images/delete.png"></a>'
+                    ]).draw(false);
+                });
+                $(".deleteButton").unbind();
+                $(".editButton").unbind();
+                $(".deleteButton").click(function () {
+                    let value = this.attributes.item(0).value;
+                    new jBox('Confirm', {
+                        confirmButton: 'Potvrdiť',
+                        cancelButton: 'Zrušiť',
+                        content: "Naozaj chcete vymazať túto atletickú disciplínu?",
+                        confirm: function () {
+                            console.log(value);
+                            deleteDiscipline(value);
+                        }
+                    }).open();
+                });
+                $(".editButton").click(function () {
+                    let value = this.attributes.item(0).value;
+                    setEditForm(value);
+
+                    //setFormWithIdParemetersAndEditButton
+                    jBoxLogin.jBox.open();
+                });
+
+            },
+            error : function(e) {
+                console.log(e)
+            }
+        });
+    }
+    function setEditForm(id){
+        clearForm();
+        id = {id:id};
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            accept: 'text/plain',
+            url : window.location + "/disciplineEdit",
+            data : JSON.stringify(id),
+            dataType: 'json',
+            success: function(discipline){
+                $("#id").val(discipline.id);
+                $("#disciplineTime").val(discipline.disciplineTime);
+                $("#disciplineName").val(discipline.disciplineType+"_"+discipline.disciplineName);
+                $("#category").val(discipline.category);
+                $("#phaseName").val(discipline.phaseName);
+                $("#phaseNumber").val(discipline.phaseNumber);
+                $("#no  te").val(discipline.note);
+                id = {id:discipline.id};
+                $.ajax({
+                    type : "POST",
+                    contentType : "application/json",
+                    accept: 'text/plain',
+                    url : window.location + "/disciplineEdit/settings",
+                    data : JSON.stringify(id),
+                    dataType: 'json',
+                    success: function(qualificationSettings){
+                        $("#Q").val(qualificationSettings.qbyPlace);
+                        $("#q").val(qualificationSettings.qbyTime);
+                        if(qualificationSettings.disciplineWhere){
+                        $("#aim").val(qualificationSettings.disciplineWhere.id);}else{
+                            $("#aim").val("null");
+                        }
+                        $("#createDiscipline").addClass("hidden");
+                        $("#createAndClose").addClass("hidden");
+                        $("#editDiscipline").removeClass("hidden");
+                        refreshAim();
+                    },
+                    error : function(e) {
+                        console.log(e)
+                    }
+                });
+
+            },
+            error : function(e) {
+                console.log(e)
+            }
+        });
+    }
+    function deleteDiscipline(id){
+        id = {id:id};
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            accept: 'text/plain',
+            url : window.location + "/delete",
+            data : JSON.stringify(id),
+            dataType: 'text',
+            success: function(result){
+                new jBox('Notice', {
+                    theme: 'NoticeFancy',
+                    attributes: {
+                        x: 'left',
+                        y: 'bottom'
+                    },
+                    color: "green",
+                    content: "Atletická disciplína bola úspešne zmazaná",
+                    animation: {
+                        open: 'slide:bottom',
+                        close: 'slide:left'
+                    }
+                });
+                refreshDisciplineTable();
+                refreshDisciplines();
+                refreshCategories();
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Atletická disciplína nebola odstránená !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log(e)
+            }
+        });
+    }
+    datesSelect.change(function () {
+        requestRefresh();
+        refreshDisciplineTable();
+
+    });
+    disciplinesSelect.change(function () {
+        requestRefresh();
+        refreshDisciplineTable();
+    });
+    categoriesSelect.change(function () {
+        requestRefresh();
+        refreshDisciplineTable();
+    });
+    function requestRefresh() {
+        request.date=datesSelect.val();
+        request.category=categoriesSelect.val();
+        request.discipline=disciplinesSelect.val();
+    }
+    $("#addDiscipline").click(function () {
+        clearForm();
+        refreshPhases();
+        $("#createDiscipline").removeClass("hidden");
+        $("#createAndClose").removeClass("hidden");
+        $("#editDiscipline").addClass("hidden");
+    })
+});r
+
