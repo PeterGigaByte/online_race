@@ -1,8 +1,6 @@
 package fei.stuba.bp.rigo.preteky;
 
 import com.opencsv.*;
-import fei.stuba.bp.rigo.preteky.models.sql.Participant;
-import fei.stuba.bp.rigo.preteky.models.sql.Phase;
 import fei.stuba.bp.rigo.preteky.models.testModels.ParticipantTest;
 import fei.stuba.bp.rigo.preteky.models.testModels.PhaseTest;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 @SpringBootApplication
 public class PretekyApplication {

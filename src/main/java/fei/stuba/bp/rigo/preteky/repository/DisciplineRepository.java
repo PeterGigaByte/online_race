@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.List;
 
 public interface DisciplineRepository extends JpaRepository<Discipline, Integer>, JpaSpecificationExecutor<Discipline> {
-    List<Discipline> findDisciplinesByRaceId(Integer id);
+    List<Discipline> findDisciplinesByRaceIdOrderByDisciplineTime(Integer id);
     List<Discipline> findDisciplinesByDisciplineNameAndCategoryAndRaceIdAndIdIsNot(String disciplineName,String category,int idRace, int idDiscipline);
     List<Discipline> findDisciplinesByDisciplineNameAndCategoryAndRaceIdAndIdIsNotAndPhaseNameAndPhaseNumber(String disciplineName,String category,int idRace, int idDiscipline,String phaseName,int phaseNumber);
     List<Discipline> findDisciplinesByRaceIdOrderByCameraIdDesc(int id);
@@ -16,5 +16,6 @@ public interface DisciplineRepository extends JpaRepository<Discipline, Integer>
     List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndDisciplineNameOrderByDisciplineTime(Date disciplineDate, int race_id, String disciplineName);
     List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndCategoryOrderByDisciplineTime(Date disciplineDate, int race_id, String category);
     List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndCategoryAndDisciplineNameOrderByDisciplineTime(Date disciplineDate, int race_id, String category, String disciplineName);
+    void deleteDisciplineByRaceIdAndParticipantsEquals(int raceId,int participants);
     Discipline findDisciplinesById(int id);
 }

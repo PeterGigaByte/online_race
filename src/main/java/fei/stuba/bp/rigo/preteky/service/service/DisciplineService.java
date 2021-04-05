@@ -1,7 +1,6 @@
 package fei.stuba.bp.rigo.preteky.service.service;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
-import fei.stuba.bp.rigo.preteky.models.sql.Phase;
 import fei.stuba.bp.rigo.preteky.models.sql.QualificationSettings;
 
 import java.sql.Date;
@@ -21,4 +20,6 @@ public interface DisciplineService {
     void saveQualificationSettings(QualificationSettings qualificationSettings);
     Discipline findDisciplineById(int id);
     void deleteDiscipline(int id);
+    void deleteDisciplineByRaceIdAndParticipantsEquals(int raceId,int participants);
+
 }

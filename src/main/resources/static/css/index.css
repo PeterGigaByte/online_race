@@ -29,16 +29,23 @@ body{
     color: white;
 }
 table {
-    font-family: Roboto,sans-serif;
-    border-collapse: collapse;
-    width: 98%;
-    margin-left: auto;
-    margin-right: auto;
-}
+     font-family: Roboto,sans-serif;
+     border-collapse: collapse;
+     width: 98%!important;
+     margin-left: auto;
+     margin-right: auto;
+ }
 
 td, th {
+    padding-left: 10px !important;
     width:20%;
     height:50px;
+    text-align: left;
+}
+td, th {
+    padding-left: 10px !important;
+    width: 20%;
+    height: 50px;
     text-align: left;
 }
 
@@ -287,8 +294,6 @@ input[type="number"]{
 
 html{
     height: 100%;
-
-
 }
 
 #first_tr{
@@ -500,8 +505,9 @@ input {
     cursor: pointer;
     color: #297acc;
 }
-
 .login-footer span:hover {
     text-decoration: underline;
 }
+
+
 

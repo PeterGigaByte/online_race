@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Výsledky</title>
     <link th:rel="icon"
-          th:href="@{images/race.png}">
+          th:href="@{/images/race.png}">
     <link th:rel="stylesheet" th:href="@{/css/index.css}">
 
     <link rel="stylesheet"
@@ -25,7 +25,7 @@
 </div>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="/participants">Pretekári</a>
+    <a href="/athletes">Pretekári</a>
     <a href="/clubs">Kluby</a>
     <a href="#">Stiahnuť databázu</a>
     <a href="/contact">Kontakt</a>
@@ -52,11 +52,19 @@
     </div>
     <hr>
     <div th:class="stuck">
-        <table class="asideTable" th:id="table">
-            <thead th:each="phase: ${phases}" >
-            <tr ><th  th:text="${phase.time}+' '+${phase.discipline.category}"></th></tr>
-            <tr ><th  th:text="${phase.discipline.disciplineName}+' - '+${phase.phaseName}+' '+${phase.phaseNumber}"></th></tr>
+        <table class=" asideTable " th:id="tableLeft">
+            <thead>
+            <tr class="hidden">
+                <th></th>
+                <th></th>
+            </tr>
             </thead>
+            <tbody >
+            <tr th:each="discipline: ${disciplines}">
+                <td  th:text="${discipline.disciplineTime}+' '+${discipline.category}"></td>
+                <td th:text="${discipline.disciplineName}+'  '+${discipline.phaseName}+' '+${discipline.phaseNumber}"></td>
+            </tr>
+            </tbody>
         </table>
     </div>
 

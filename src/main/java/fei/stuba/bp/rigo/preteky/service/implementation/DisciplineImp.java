@@ -1,10 +1,8 @@
 package fei.stuba.bp.rigo.preteky.service.implementation;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
-import fei.stuba.bp.rigo.preteky.models.sql.Phase;
 import fei.stuba.bp.rigo.preteky.models.sql.QualificationSettings;
 import fei.stuba.bp.rigo.preteky.repository.DisciplineRepository;
-import fei.stuba.bp.rigo.preteky.repository.PhaseRepository;
 import fei.stuba.bp.rigo.preteky.repository.QualificationSettingsDisciplineRepository;
 import fei.stuba.bp.rigo.preteky.service.service.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +15,13 @@ import java.util.List;
 @Service
 @Transactional
 public class DisciplineImp implements DisciplineService {
-    @Autowired
-    private PhaseRepository phaseRepository;
+
     @Autowired
     private DisciplineRepository disciplineRepository;
     @Autowired
     private QualificationSettingsDisciplineRepository qualificationSettingsDisciplineRepository;
-    public DisciplineImp(DisciplineRepository disciplineRepository,PhaseRepository phaseRepository, QualificationSettingsDisciplineRepository qualificationSettingsDisciplineRepository){
+    public DisciplineImp(DisciplineRepository disciplineRepository, QualificationSettingsDisciplineRepository qualificationSettingsDisciplineRepository){
         super();
-        this.phaseRepository=phaseRepository;
         this.disciplineRepository=disciplineRepository;
         this.qualificationSettingsDisciplineRepository= qualificationSettingsDisciplineRepository;
     }
@@ -33,7 +29,7 @@ public class DisciplineImp implements DisciplineService {
 
     @Override
     public List<Discipline> findDisciplinesByRaceId(Integer id) {
-        return disciplineRepository.findDisciplinesByRaceId(id);
+        return disciplineRepository.findDisciplinesByRaceIdOrderByDisciplineTime(id);
     }
 
     @Override
@@ -89,9 +85,17 @@ public class DisciplineImp implements DisciplineService {
     public void deleteDiscipline(int id){
         disciplineRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteDisciplineByRaceIdAndParticipantsEquals(int raceId, int participants) {
+        disciplineRepository.deleteDisciplineByRaceIdAndParticipantsEquals(raceId,participants);
+
+    }
+
     @Override
     public Discipline findDisciplineById(int id) {
         return disciplineRepository.findDisciplinesById(id);
     }
+
 
 }

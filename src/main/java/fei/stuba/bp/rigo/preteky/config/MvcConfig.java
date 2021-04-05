@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry){
-        Path logoUploadDir = Paths.get("./logos");
+        Path logoUploadDir = Paths.get("logos");
         String logoUploadPath = logoUploadDir.toFile().getAbsolutePath();
         resourceHandlerRegistry.addResourceHandler("/logos/**").addResourceLocations("file:/"+logoUploadPath+"/");
     }

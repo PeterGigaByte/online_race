@@ -65,11 +65,19 @@ var jBoxLogin = {
 $(document).ready(function () {
 
     let dayWeek = ["Nedeľa" , "Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"];
-    let disciplines_list_run =["40 m","50 m","60 m"];
-    let disciplines_list_jump =["Skok do diaľky",];
-    let disciplines_list_throw =["Hod kladivom"];
-    let categories_list =["Muži","Ženy","Dorastenci","Dorastenky"];
-    let phases_list =["Rozbeh","Finále"];
+    let disciplines_list_run =["40 m", "50 m", "60 m","100 m","150 m","200 m","400 m",
+        "500 m", "600 m", "800 m", "1500 m", "2000 m", "3000 m", "5000 m", "10 000 m",
+        "5 km","10 km", "15 km", "20 km", "50 km", "polmaratón", "maratón", "hodinovka",
+        "60 m pr. 106,7", "60 y pr.","50 m pr. 83,8", "50 m p 76,2-7,5", "60 m pr. 106,7",
+        "60 m pr. 99,1", "60 m pr. 91,4", "60 m pr. 83,8", "60 m p. 76,2-8,5", "chôdza 3000 m",
+        "chôdza 5000 m", "5 km chôdza", "10 km chôdza","20 km chôdza", "35 km chôdza","50 km chôdza"
+        ];
+    let disciplines_list_jump =["Skok do diaľky","Výška","Žrď","Trojskok","Diaľka"];
+    let disciplines_list_throw =["Hod kladivom","Guľa 3 kg","Guľa 4 kg","Guľa 5 kg","Guľa 6 kg","Guľa 7,26 kg"];
+    let categories_list =["Muži", "Muži 20-22 rokov", "Juniori", "Dorastenci", "Starší žiaci", "Mladší žiaci",
+         "Najmladší žiaci", "Ženy", "Ženy 20-22 rokov", "Juniorky", "Dorastenky", "Staršie žiačky",
+        "Mladšie žiačky", "Najmladšie žiačky"];
+    let phases_list =["Beh", "Vložený beh", "Séria", "Kvalifikácia", "Rozbeh", "Medzibeh", "Semifinále", "Finále"];
     let datesSelect = $("#day");
     let disciplinesSelect = $("#disciplinesType");
     let categoriesSelect = $("#categories");
@@ -79,7 +87,21 @@ $(document).ready(function () {
     refreshCategories();
 
 
-
+    function deleteEmptyDisciplines() {
+        $.ajax({
+            type : "GET",
+            url : window.location + "/empty/delete",
+            success: function(result){
+                refreshDisciplines();
+                refreshCategories();
+                refreshAim();
+                refreshDisciplineTable();
+            },
+            error : function(e) {
+                console.log(e)
+            }
+        });
+    }
     function refreshDates(){
         $.ajax({
             type : "GET",
@@ -135,6 +157,7 @@ $(document).ready(function () {
     function refreshAim(){
         let discipline = $("#disciplineName").val();
         discipline = discipline.split("_");
+        let before_value = aimSelect.val();
         let data = {
             id:$("#id").val(),
             disciplineName:discipline[1],
@@ -148,12 +171,15 @@ $(document).ready(function () {
             data : JSON.stringify(data),
             dataType: 'json',
             success: function(result){
-                console.log(result);
                 aimSelect.empty();
                 aimSelect.append('<option value="'+null+'">'+"Nevybrané"+'</option>');
                 $.each(result, function(i, aim){
                     aimSelect.append('<option value="'+aim.id+'">'+aim.disciplineTime+' - '+aim.phaseName+' - '+aim.phaseNumber+'</option>');
                 });
+                if(before_value){
+                    aimSelect.val(before_value);
+                }
+
             },
             error : function(e) {
                 console.log(e)
@@ -370,7 +396,6 @@ $(document).ready(function () {
     });
 
     $("#discipline").submit(function (event) {
-        console.log("here");
        event.preventDefault();
 
        let disciplineNameAndType = $("#disciplineName").val();
@@ -476,6 +501,7 @@ $(document).ready(function () {
         $("#aim").val("");
         setDisciplineSelect();
         setCategoriesSelect();
+
     }
     let categoriesListSelect = $("#category");
     let disciplineNameSelect = $("#disciplineName");
@@ -483,6 +509,19 @@ $(document).ready(function () {
     let aimSelect = $("#aim");
     $("#settings-footer").click(function () {
         refreshAim();
+
+    });
+    let deleteEmptyDisciplinesDiv = $("#deleteEmptyDisciplines");
+    deleteEmptyDisciplinesDiv.click(function () {
+        new jBox('Confirm', {
+            confirmButton: 'Potvrdiť',
+            cancelButton: 'Zrušiť',
+            content: "Naozaj chcete vymazať prázdne atletické disciplíny?",
+            confirm: function () {
+                deleteEmptyDisciplines();
+            }
+        }).open();
+
     });
     setDisciplineSelect();
     setCategoriesSelect();
@@ -495,7 +534,7 @@ $(document).ready(function () {
             { "visible": false, "targets": groupColumn }
         ],
         "order": [[ groupColumn, 'asc' ]],
-        "displayLength": 25,
+        "displayLength": 10,
         "drawCallback": function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
@@ -504,7 +543,7 @@ $(document).ready(function () {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr style="font-size: 12px; height: 5px; padding: 0;margin: 0; background-color: cyan" class="group"><td colspan="5">'+group+'</td></tr>'
+                        '<tr style="font-size: 20px;padding: 0; height: 5px;margin: 0; color: white; background-color: #0b5ea0" class="group"><td style="padding-left:20px!important;" colspan="7">'+group+'</td></tr>'
                     );
                     last = group;
                 }
@@ -521,6 +560,7 @@ $(document).ready(function () {
             table.order( [ groupColumn, 'asc' ] ).draw();
         }
     } );
+
 
     function refreshDisciplineTable(){
         $.ajax({
@@ -553,7 +593,6 @@ $(document).ready(function () {
                         cancelButton: 'Zrušiť',
                         content: "Naozaj chcete vymazať túto atletickú disciplínu?",
                         confirm: function () {
-                            console.log(value);
                             deleteDiscipline(value);
                         }
                     }).open();
@@ -573,7 +612,6 @@ $(document).ready(function () {
         });
     }
     function setEditForm(id){
-        clearForm();
         id = {id:id};
         $.ajax({
             type : "POST",
@@ -589,7 +627,7 @@ $(document).ready(function () {
                 $("#category").val(discipline.category);
                 $("#phaseName").val(discipline.phaseName);
                 $("#phaseNumber").val(discipline.phaseNumber);
-                $("#no  te").val(discipline.note);
+                $("#note").val(discipline.note);
                 id = {id:discipline.id};
                 $.ajax({
                     type : "POST",
@@ -601,14 +639,17 @@ $(document).ready(function () {
                     success: function(qualificationSettings){
                         $("#Q").val(qualificationSettings.qbyPlace);
                         $("#q").val(qualificationSettings.qbyTime);
+
                         if(qualificationSettings.disciplineWhere){
-                        $("#aim").val(qualificationSettings.disciplineWhere.id);}else{
+                            aimSelect.val(qualificationSettings.disciplineWhere);}
+                        else{
                             $("#aim").val("null");
                         }
+
                         $("#createDiscipline").addClass("hidden");
                         $("#createAndClose").addClass("hidden");
                         $("#editDiscipline").removeClass("hidden");
-                        refreshAim();
+
                     },
                     error : function(e) {
                         console.log(e)
@@ -685,5 +726,5 @@ $(document).ready(function () {
         $("#createAndClose").removeClass("hidden");
         $("#editDiscipline").addClass("hidden");
     })
-});r
+});
 

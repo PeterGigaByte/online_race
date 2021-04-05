@@ -29,8 +29,6 @@ public class DisciplineRestController {
     public DisciplineRestController(DisciplineService disciplineService, RaceService raceService) {
         this.disciplineService = disciplineService;
         this.raceService = raceService;
-
-
     }
     @ModelAttribute("activeRace")
     public Race activeRace(){
@@ -207,6 +205,11 @@ public class DisciplineRestController {
     public QualificationSettings getQualificationSettings(@RequestBody JsonNode jsonNode){
         return disciplineService.findQualificationSettingsByDisciplineId(jsonNode.get("id").asInt());
     }
+    @GetMapping(value = "/empty/delete")
+    public void deleteEmptyDisciplines(){
+        disciplineService.deleteDisciplineByRaceIdAndParticipantsEquals(activeRace().getId(),0);
+    }
+
 
     /**
      * Funkcia, ktorá nám vloží do listu dáta, ktoré nám vytvárajú filter

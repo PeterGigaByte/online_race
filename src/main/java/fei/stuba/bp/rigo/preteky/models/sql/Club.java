@@ -1,12 +1,11 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * kluby
@@ -14,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "club")
 @Data
+@NoArgsConstructor
 public class Club implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,14 +41,11 @@ public class Club implements Serializable {
     @Column(name = "date_created")
     private Date dateCreated;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name= "participants_id" ,referencedColumnName = "id")
-    private List<Participant> participants = new ArrayList<>();
 
     @Transient
     public String getLogoImage(){
         if(logo==null || id == null){return null;}
-        return "/logos/"+id+"/"+logo;
+        return "/logos/" +id+"/"+logo;
     }
 
 

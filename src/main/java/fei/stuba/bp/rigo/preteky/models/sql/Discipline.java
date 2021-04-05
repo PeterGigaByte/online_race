@@ -5,6 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Calendar;
+
+import static java.lang.String.valueOf;
 
 /**
  * disciplína
@@ -77,5 +80,12 @@ public class Discipline implements Serializable {
         this.phaseName = phaseName;
         this.phaseNumber = phaseNumber;
 
+    }
+    public String getDayMonth(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(disciplineDate);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DATE);
+        return String.valueOf(day)+'.'+String.valueOf(month)+'.';
     }
 }
