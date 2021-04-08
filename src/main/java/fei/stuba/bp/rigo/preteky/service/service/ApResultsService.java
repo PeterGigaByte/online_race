@@ -2,6 +2,7 @@ package fei.stuba.bp.rigo.preteky.service.service;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
 import fei.stuba.bp.rigo.preteky.models.sql.Bib;
+import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.ResultStartList;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface ApResultsService {
     void saveBib(Bib bib);
     void saveResultStartList(ResultStartList resultStartList);
     List<ResultStartList> findAllByDisciplineRaceIdAndDisciplineId(int idRace,int idDiscipline);
+    Map<Athlete, ResultStartList> findAllByDisciplineRaceIdMap(int id);
+    Map<Discipline,List<ResultStartList>> mapResultsToDiscipline(int activeRace);
+    Map<Discipline, List<ResultStartList>> findAllByDisciplineRaceAndTypeIdMap(int idRace, String type);
 }

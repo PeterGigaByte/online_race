@@ -21,7 +21,7 @@ public class PretekyApplication {
         SpringApplication.run(PretekyApplication.class, args);
 
         List<PhaseTest> phasesTestList = createSimulationParameters();
-        createCsv(phasesTestList);
+
 
         readLSTRslt(phasesTestList);
         readLSTRRSLT(phasesTestList);
@@ -34,43 +34,7 @@ public class PretekyApplication {
 
     // klasický import / export / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / **
 
-    public static void createCsv(List<PhaseTest> phasesTestList){
-        try{
-            String path = "C:\\Bakalarska Práca\\Projekt folder\\csv\\STARTLIST.csv";
-            FileOutputStream file = new FileOutputStream(path);
-            OutputStreamWriter fileWriter = new OutputStreamWriter(file,"Cp1250");
 
-            System.out.println("New file created !!");
-
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("Event Code;Date;Time;Lane/order;Bib No\r\n");
-            //stringBuilder.append(";"); // nový stĺpec
-            //stringBuilder.append("\r\n"); //nový riadok
-            for (PhaseTest phaseTest : phasesTestList){
-                stringBuilder.append(phaseTest.getIdPhase()).append(";");
-                stringBuilder.append(phaseTest.getDate()).append(";");
-                stringBuilder.append(phaseTest.getTime()).append(";;;;;;");
-                stringBuilder.append(phaseTest.getLength()).append(";");
-                stringBuilder.append(phaseTest.getNameOfPhase()).append(";;");
-                stringBuilder.append(phaseTest.getSponsor()).append("\r\n");
-                System.out.println("Discipline details written !!");
-                for (ParticipantTest participantTest : phaseTest.getParticipants()){
-                    stringBuilder.append(";;;");
-                    stringBuilder.append(participantTest.getLane()).append(";");
-                    stringBuilder.append(participantTest.getBib()).append(";");
-                    stringBuilder.append(participantTest.getLastName()).append(";");
-                    stringBuilder.append(participantTest.getFirstName()).append(";");
-                    stringBuilder.append(participantTest.getShortCutOfClub()).append("\r\n");
-                    System.out.println("Participants details written !!");
-                }
-            }
-            fileWriter.write(stringBuilder.toString());
-            fileWriter.close();
-            System.out.println("File closed !!");
-        }catch (Exception e){
-            System.out.println("function createCsv threw exception: "+"'"+e.getMessage()+"'");
-        }
-    }
     public static List<PhaseTest> createSimulationParameters(){
         String[] firstNames = {"Peter","Jano","Miro","Marián","Stano","Patrik","Milan","Jozef"};
         String[] lastNames = {"Ščasný","Maječka","Vajenský","Trajenský","Lombardský","Parížsky","Šalátový","Majonézový"};

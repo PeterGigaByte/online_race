@@ -18,4 +18,5 @@ public interface DisciplineRepository extends JpaRepository<Discipline, Integer>
     List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndCategoryAndDisciplineNameOrderByDisciplineTime(Date disciplineDate, int race_id, String category, String disciplineName);
     void deleteDisciplineByRaceIdAndParticipantsEquals(int raceId,int participants);
     Discipline findDisciplinesById(int id);
+    List<Discipline> findDisciplinesByRaceIdAndDisciplineTypeOrderByDisciplineTime(Integer id,String type);
 }

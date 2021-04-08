@@ -141,7 +141,7 @@ $(document).ready(function() {
                     .draw();
             });
             $(".addAthletes").click(function () {
-                let id = $(this).parents("div")[0];
+                let id = $(this).parents("div")[3];
                 $("#id").val(id.attributes.item(0).value);
             });
             let clubs = $("#clubs");
@@ -419,6 +419,7 @@ $(document).ready(function() {
             data : JSON.stringify(addForm),
             dataType: 'text',
             success: function(result){
+                location.reload();
                 console.log(result);
             },
             error : function(e) {
@@ -452,10 +453,59 @@ $(document).ready(function() {
         });
         let discipline = {};
         discipline ["id"] = $("#id").val();
+        console.log($("#id").val());
         addForm.push(discipline);
-
-
     }
+    $(".rightTable").DataTable({
+        "searching": false,
+        "paging":   false,
+        "bInfo": false,
+        "bPaginate": false,
+        "info":  false,
+        select:  false,
+        "ordering": true,
+        "autoWidth": false,
+        "columnDefs" : [{"targets":3, "type":"date-eu"}],
 
+    });
+    function exportCsv() {
+        $.ajax({
+            type : "GET",
+            url : window.location + "/exportStartList",
+            success: function(result){
+                if(result=="Success"){
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'green',
+                    content: 'Štartová listina bola úspešne exportovaná.',
+                    delayOnHover: true,
+                    showCountdown: true
+                });}
+                else{
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'red',
+                        content: 'Bohužial, nepodarilo sa exportovať prihlášky !!',
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                }
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Bohužial, nepodarilo sa exportovať prihlášky !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log(e)
+
+            }
+        });
+    }
+    $("#exportCsv").click(function () {
+        exportCsv();
+    });
 } );
 

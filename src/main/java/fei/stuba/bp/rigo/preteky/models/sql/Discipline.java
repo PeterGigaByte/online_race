@@ -88,4 +88,12 @@ public class Discipline implements Serializable {
         int day = cal.get(Calendar.DATE);
         return String.valueOf(day)+'.'+String.valueOf(month)+'.';
     }
+    public String getDateForCSV(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(disciplineDate);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DATE);
+        int year = cal.get(Calendar.YEAR);
+        return String.valueOf(day)+'.'+String.valueOf(month)+'.'+String.valueOf(year);
+    }
 }

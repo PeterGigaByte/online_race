@@ -1,6 +1,7 @@
 package fei.stuba.bp.rigo.preteky.web.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import fei.stuba.bp.rigo.preteky.csvFilesImplementation.ExportStartList;
 import fei.stuba.bp.rigo.preteky.models.sql.*;
 import fei.stuba.bp.rigo.preteky.service.service.ApResultsService;
 import fei.stuba.bp.rigo.preteky.service.service.ClubParticipantsService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class ApplicationsRest {
     private DisciplineService disciplineService;
     private ApResultsService apResultsService;
     private ClubParticipantsService clubParticipantsService;
+    private ExportStartList exportStartList = new ExportStartList();
     @ModelAttribute("activeRace")
     public Race activeRace(){
         if(raceService.getActiveRace().size()>0){
@@ -35,6 +38,7 @@ public class ApplicationsRest {
         this.disciplineService = disciplineService;
         this.apResultsService = apResultsService;
         this.clubParticipantsService = clubParticipantsService;
+        exportStartList.createDisciplinesLength();
     }
     @PostMapping(value = "/athletes")
     public List<ClubTransfer> getAthletes(@RequestBody JsonNode jsonNode) {
@@ -76,5 +80,14 @@ public class ApplicationsRest {
     @GetMapping(value = "/bibNumbers")
     public Map<Athlete, Bib> getBibs(){
         return apResultsService.findByRaceIdMap(activeRace().getId());
+    }
+    @GetMapping("/exportStartList")
+    public String exportCsv(){
+        int activeRace = activeRace().getId();
+        Date date = activeRace().getStartDate();
+        exportStartList.setStartList(apResultsService.findAllByDisciplineRaceAndTypeIdMap(activeRace,"run"));
+        exportStartList.setBibs(apResultsService.findByRaceIdMap(activeRace));
+        exportStartList.setClubs(clubParticipantsService.findRealClubs(date,date,date));
+        return exportStartList.createCsv(activeRace);
     }
 }

@@ -1,3 +1,0 @@
-"Event";"Round";"Heat";"Date";"Hour";"Wind";"Temp";"File";"Official"
-   0;   0;  1;"   15.08.2020";" 15:56:01.2365";"   1.5 m/s";"       N/A";" ";"Official";
-   0;   0;  2;"   15.08.2020";" 16:00:46.9260";"   0.1 m/s";"       N/A";" ";"Official";
