@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping(value = "/applications")
 public class Applications {
     private RaceService raceService;
     private DisciplineService disciplineService;
@@ -41,7 +44,7 @@ public class Applications {
         }
     }
 
-    @GetMapping("/applications")
+    @GetMapping("")
     public String disciplines(Model model){
         List<Discipline> disciplineList = disciplineService.findDisciplinesByRaceId(activeRace().getId());
         Map<Discipline,List<ResultStartList>> map = new LinkedHashMap<>();
@@ -55,5 +58,6 @@ public class Applications {
 
         return "applications/applications";
     }
+
 
 }

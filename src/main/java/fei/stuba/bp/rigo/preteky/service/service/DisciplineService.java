@@ -21,5 +21,7 @@ public interface DisciplineService {
     Discipline findDisciplineById(int id);
     void deleteDiscipline(int id);
     void deleteDisciplineByRaceIdAndParticipantsEquals(int raceId,int participants);
-
+    void changeCameraNumbering(int raceId);
+    List<Discipline> findDisciplinesRaceIdTypeASC(int id,String type);
+    List<Discipline> findDisciplinesByRaceIdAndCategoryAndPhaseNameAndDisciplineNameOrderByPhaseNumberDesc(int raceId, String category, String phaseName, String disciplineName);
 }

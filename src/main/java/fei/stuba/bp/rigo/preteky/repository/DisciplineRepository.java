@@ -12,6 +12,7 @@ public interface DisciplineRepository extends JpaRepository<Discipline, Integer>
     List<Discipline> findDisciplinesByDisciplineNameAndCategoryAndRaceIdAndIdIsNot(String disciplineName,String category,int idRace, int idDiscipline);
     List<Discipline> findDisciplinesByDisciplineNameAndCategoryAndRaceIdAndIdIsNotAndPhaseNameAndPhaseNumber(String disciplineName,String category,int idRace, int idDiscipline,String phaseName,int phaseNumber);
     List<Discipline> findDisciplinesByRaceIdOrderByCameraIdDesc(int id);
+    List<Discipline> findDisciplinesByRaceIdAndDisciplineTypeOrderByCameraIdDesc(int id,String type);
     List<Discipline> findDisciplinesByDisciplineDateAndRaceIdOrderByDisciplineTime(Date date, int id);
     List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndDisciplineNameOrderByDisciplineTime(Date disciplineDate, int race_id, String disciplineName);
     List<Discipline> findDisciplinesByDisciplineDateAndRaceIdAndCategoryOrderByDisciplineTime(Date disciplineDate, int race_id, String category);
@@ -19,4 +20,5 @@ public interface DisciplineRepository extends JpaRepository<Discipline, Integer>
     void deleteDisciplineByRaceIdAndParticipantsEquals(int raceId,int participants);
     Discipline findDisciplinesById(int id);
     List<Discipline> findDisciplinesByRaceIdAndDisciplineTypeOrderByDisciplineTime(Integer id,String type);
+    List<Discipline> findDisciplinesByRaceIdAndCategoryAndPhaseNameAndDisciplineNameOrderByPhaseNumberDesc(int raceId, String category, String phaseName, String disciplineName);
 }

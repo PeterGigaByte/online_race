@@ -725,6 +725,43 @@ $(document).ready(function () {
         $("#createDiscipline").removeClass("hidden");
         $("#createAndClose").removeClass("hidden");
         $("#editDiscipline").addClass("hidden");
-    })
+    });
+    $("#cameraNumbering").click(function (){
+        new jBox('Confirm', {
+            confirmButton: 'Potvrdiť',
+            cancelButton: 'Zrušiť',
+            content: "Naozaj chcete prečíslovať id kamery?",
+            confirm: function () {
+                cameraNumbering();
+            }
+        }).open();
+
+    });
+    function cameraNumbering() {
+        $.ajax({
+            type : "GET",
+            url : window.location + "/camera/numbering",
+            success: function(result){
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'green',
+                    content: 'Čísla id kamery boli úspešne upravené.',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                refreshDisciplineTable();
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Id čísla kamery neboli upravené !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log(e)
+            }
+        });
+    }
 });
 

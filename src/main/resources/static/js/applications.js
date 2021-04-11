@@ -419,10 +419,26 @@ $(document).ready(function() {
             data : JSON.stringify(addForm),
             dataType: 'text',
             success: function(result){
-                location.reload();
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'green',
+                    content: 'Atléti boli úspesne pridaný.',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 500);
                 console.log(result);
             },
             error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Atlétov sa nepodarilo pridať !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
                 console.log(e)
             }
         });
@@ -453,9 +469,24 @@ $(document).ready(function() {
         });
         let discipline = {};
         discipline ["id"] = $("#id").val();
-        console.log($("#id").val());
         addForm.push(discipline);
+        console.log(addForm);
     }
+    const createdCell = function(cell) {
+        let original;
+        cell.setAttribute('contenteditable', true);
+        cell.setAttribute('spellcheck', false);
+        cell.addEventListener("focus", function(e) {
+            original = e.target.textContent
+        });
+        cell.addEventListener("blur", function(e) {
+            if (original !== e.target.textContent) {
+                const row = table.row(e.target.parentElement);
+                row.invalidate();
+            }
+        })
+    };
+
     $(".rightTable").DataTable({
         "searching": false,
         "paging":   false,
@@ -465,7 +496,8 @@ $(document).ready(function() {
         select:  false,
         "ordering": true,
         "autoWidth": false,
-        "columnDefs" : [{"targets":3, "type":"date-eu"}],
+        "columnDefs" : [{"targets":3, "type":"date-eu"},{ "targets": 0, createdCell: createdCell},{ "targets": 1, createdCell: createdCell},{ "targets": 5, createdCell: createdCell}],
+
 
     });
     function exportCsv() {
@@ -507,5 +539,175 @@ $(document).ready(function() {
     $("#exportCsv").click(function () {
         exportCsv();
     });
+
+    $(".saveAthletes").click(function () {
+        let saveTable = $(this).closest('table');
+        let tbody = saveTable.find("tbody > tr > td");
+        if(tbody.length == 1){
+            console.log("empty");
+            return;
+        }
+        let disciplineId = this.attributes.item(0).value;
+        let tableForm = saveTable.tableToJSON({
+            headings:{0:"Line",1:"Bib",2:"Meno",3:"Dátum narodenia",4:"Klub",5:"Štartový výkon"},
+            extractor : {
+                0 : function(cellIndex, $cell) {
+                    return $cell.text();
+                },
+                1 : function(cellIndex, $cell) {
+                    return $cell.text();
+                },
+                2 : function(cellIndex, $cell) {
+                    return $cell.attr('value');
+                },
+                3 : function(cellIndex, $cell) {
+                    return $cell.text();
+                },
+                4 : function(cellIndex, $cell) {
+                    return $cell.text();
+                },
+                5 : function(cellIndex, $cell) {
+                    return $cell.text();
+                },
+            }
+
+        });
+        tableForm.splice(0,1);tableForm.splice(0,1);
+        let discipline = {};
+        discipline ["id"] = disciplineId;
+        tableForm.push(discipline);
+        ajaxEditApplications(tableForm)
+    });
+    function ajaxEditApplications(tableForm) {
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            accept: 'text/plain',
+            url : window.location + "/edit",
+            data : JSON.stringify(tableForm),
+            dataType: 'text',
+            success: function(result){
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'green',
+                    content: 'Prihlášky boli úspešne editované.',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+               setTimeout(function () {
+                    location.reload();
+               }, 500);
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Nepodarilo sa upraviť prihlášky !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log(e);
+            }
+        });
+    }
+    $(".deleteButton").click(function () {
+        let startResultId = {id:this.attributes.item(0).value};
+        new jBox('Confirm', {
+            confirmButton: 'Potvrdiť',
+            cancelButton: 'Zrušiť',
+            content: "Naozaj vymazať pretekára zo štartovej listiny?",
+            confirm: function () {
+                ajaxDeleteStartList(startResultId);
+            }
+        }).open();
+    });
+    function ajaxDeleteStartList(startResultId){
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            accept: 'text/plain',
+            url : window.location + "/delete/StartList/",
+            data : JSON.stringify(startResultId),
+            dataType: 'text',
+            success: function(result){
+                if(result=="success"){
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'green',
+                        content: 'Atlét bol zmazaný zo štartovej listiny.',
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                    setTimeout(function () {
+                        location.reload();
+                    }, 500);
+                }
+                else{
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'red',
+                        content: 'Bohužial, nepodarilo sa vymazať atléta!!',
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                }
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Bohužial, nepodarilo sa vymazať atléta!!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log(e)
+
+            }
+        });
+    }
+    $(".split").click(function () {
+        let disciplineId = {id:this.attributes.item(0).value};
+        new jBox('Confirm', {
+            confirmButton: 'Potvrdiť',
+            cancelButton: 'Zrušiť',
+            content: "Naozaj chcete rozdeliť pretekárov do viacerých disciplín a určiť dráhy pretekárom?",
+            confirm: function () {
+                console.log("confirmed "+ disciplineId);
+                ajaxSplitAthletes(disciplineId);
+            }
+        }).open();
+    });
+    function ajaxSplitAthletes(id) {
+        $.ajax({
+            type : "POST",
+            contentType : "application/json",
+            accept: 'text/plain',
+            url : window.location + "/splitAthletes",
+            data : JSON.stringify(id),
+            dataType: 'text',
+            success: function(result){
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'green',
+                    content: 'Atléti boli úspešne rozdelený.',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 500);
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Nepodarilo sa rozdeliť atlétov !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log(e);
+            }
+        });
+    }
 } );
 

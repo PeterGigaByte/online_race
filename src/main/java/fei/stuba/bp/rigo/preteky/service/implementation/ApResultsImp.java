@@ -88,4 +88,24 @@ public class ApResultsImp implements ApResultsService {
         return map;
     }
 
+    @Override
+    public ResultStartList findById(int id) {
+       return resultStartListRepository.findById(id);
+    }
+
+    @Override
+    public Bib findByRaceIdAndBib(int id, int bib) {
+        return bibRepository.findByRaceIdAndBib(id,bib);
+    }
+    @Override
+    public void deleteStartList(int id) {
+        Discipline discipline = resultStartListRepository.findById(id).getDiscipline();
+        discipline.setParticipants(discipline.getParticipants()-1);
+        disciplineRepository.save(discipline);
+        resultStartListRepository.deleteById(id);
+    }
+    @Override
+    public List <ResultStartList> findResultStartListByDisciplineId(int disciplineId){
+        return resultStartListRepository.findResultStartListByDisciplineIdOrderByStartPerformanceAsc(disciplineId);
+    }
 }

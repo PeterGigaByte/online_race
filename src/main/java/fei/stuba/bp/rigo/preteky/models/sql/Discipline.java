@@ -79,7 +79,6 @@ public class Discipline implements Serializable {
         this.disciplineDate = disciplineDate;
         this.phaseName = phaseName;
         this.phaseNumber = phaseNumber;
-
     }
     public String getDayMonth(){
         Calendar cal = Calendar.getInstance();

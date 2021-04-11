@@ -116,7 +116,7 @@ public class DisciplineRestController {
                 java.sql.Date date = new java.sql.Date(format.parse(jsonNodes.get("date").asText()).getTime());
                 Integer idCamera=null;
                 if(jsonNodes.get("disciplineType").asText().equals("run")){
-                    List<Discipline> disciplines= disciplineService.findDisciplinesByRaceIdOrderByCameraIdDesc(activeRace().getId());
+                    List<Discipline> disciplines= disciplineService.findDisciplinesRaceIdTypeASC(activeRace().getId(),"run");
                     if(!disciplines.isEmpty()){
                         at.set(disciplines.get(0).getCameraId());
                     }else {
@@ -208,6 +208,10 @@ public class DisciplineRestController {
     @GetMapping(value = "/empty/delete")
     public void deleteEmptyDisciplines(){
         disciplineService.deleteDisciplineByRaceIdAndParticipantsEquals(activeRace().getId(),0);
+    }
+    @GetMapping(value = "/camera/numbering")
+    public void changeCameraNumbering(){
+        disciplineService.changeCameraNumbering(activeRace().getId());
     }
 
 

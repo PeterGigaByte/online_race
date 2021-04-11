@@ -2,6 +2,7 @@ package fei.stuba.bp.rigo.preteky.service.implementation;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.QualificationSettings;
+import fei.stuba.bp.rigo.preteky.models.sql.Race;
 import fei.stuba.bp.rigo.preteky.repository.DisciplineRepository;
 import fei.stuba.bp.rigo.preteky.repository.QualificationSettingsDisciplineRepository;
 import fei.stuba.bp.rigo.preteky.service.service.DisciplineService;
@@ -91,10 +92,27 @@ public class DisciplineImp implements DisciplineService {
         disciplineRepository.deleteDisciplineByRaceIdAndParticipantsEquals(raceId,participants);
 
     }
-
     @Override
     public Discipline findDisciplineById(int id) {
         return disciplineRepository.findDisciplinesById(id);
+    }
+    @Override
+    public void changeCameraNumbering(int raceId){
+        List<Discipline> disciplines = disciplineRepository.findDisciplinesByRaceIdAndDisciplineTypeOrderByDisciplineTime(raceId,"run");
+        int i = 1;
+        for (Discipline d : disciplines) {
+            d.setCameraId(i);
+            disciplineRepository.save(d);
+            i++;
+        }
+    }
+    public List<Discipline> findDisciplinesRaceIdTypeASC(int id,String type){
+        return disciplineRepository.findDisciplinesByRaceIdAndDisciplineTypeOrderByCameraIdDesc(id,type);
+    }
+
+    @Override
+    public List<Discipline> findDisciplinesByRaceIdAndCategoryAndPhaseNameAndDisciplineNameOrderByPhaseNumberDesc(int raceId, String category, String phaseName, String disciplineName) {
+        return disciplineRepository.findDisciplinesByRaceIdAndCategoryAndPhaseNameAndDisciplineNameOrderByPhaseNumberDesc(raceId,category,phaseName,disciplineName);
     }
 
 

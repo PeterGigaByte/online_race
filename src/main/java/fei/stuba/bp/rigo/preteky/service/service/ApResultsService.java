@@ -19,4 +19,8 @@ public interface ApResultsService {
     Map<Athlete, ResultStartList> findAllByDisciplineRaceIdMap(int id);
     Map<Discipline,List<ResultStartList>> mapResultsToDiscipline(int activeRace);
     Map<Discipline, List<ResultStartList>> findAllByDisciplineRaceAndTypeIdMap(int idRace, String type);
+    ResultStartList findById(int id);
+    Bib findByRaceIdAndBib(int id, int bib);
+    void deleteStartList(int id);
+    List <ResultStartList> findResultStartListByDisciplineId(int disciplineId);
 }

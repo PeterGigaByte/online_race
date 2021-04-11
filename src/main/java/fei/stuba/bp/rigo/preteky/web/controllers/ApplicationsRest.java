@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/applications")
@@ -24,6 +25,8 @@ public class ApplicationsRest {
     private ApResultsService apResultsService;
     private ClubParticipantsService clubParticipantsService;
     private ExportStartList exportStartList = new ExportStartList();
+    private AtomicInteger at = new AtomicInteger(0);
+
     @ModelAttribute("activeRace")
     public Race activeRace(){
         if(raceService.getActiveRace().size()>0){
@@ -52,23 +55,36 @@ public class ApplicationsRest {
     @PostMapping(value = "/save")
     public String saveAthletes(@RequestBody JsonNode jsonNode) {
         int disciplineId = jsonNode.get(jsonNode.size()-1).get("id").asInt();
-        System.out.println("disciplineId: "+disciplineId);
         for (int i = 0; i<jsonNode.size()-1; i++){
             int line = jsonNode.get(i).get("Dráha").asInt();
             int bib = jsonNode.get(i).get("Číslo").asInt();
             int idAthlete = jsonNode.get(i).get("Zmazať").asInt();
+            Double startPerformance = jsonNode.get(i).get("Štartový výkon").asDouble();
             if(apResultsService.findByAthleteIdAndDisciplineId(idAthlete,disciplineId).isEmpty()){
                 ResultStartList resultStartList = new ResultStartList();
                 resultStartList.setAthlete(clubParticipantsService.findAthlete(idAthlete));
-                resultStartList.setDiscipline(disciplineService.findDisciplineById(disciplineId));
+                Discipline discipline = disciplineService.findDisciplineById(disciplineId);
+                resultStartList.setDiscipline(discipline);
+                discipline.setParticipants(discipline.getParticipants()+1);
+                disciplineService.saveDiscipline(discipline);
                 resultStartList.setLine(line);
+                resultStartList.setStartPerformance(startPerformance);
                 apResultsService.saveResultStartList(resultStartList);
                 Bib bibR = apResultsService.findByRaceIdAndAthleteId(activeRace().getId(),idAthlete);
+                Bib bibCheck = apResultsService.findByRaceIdAndBib(activeRace().getId(),bib);
                 if (bibR!=null){
-                    bibR.setBib(bib);
+                    if(bibCheck!=null && !bibCheck.getId().equals(bibR.getId())){
+                        System.out.println("faiulure");
+                    }else{
+                        bibR.setBib(bib);
+                    }
                 }else{
                     bibR = new Bib();
-                    bibR.setBib(bib);
+                    if(bibCheck!=null && !bibCheck.getId().equals(bibR.getId())){
+                        bibR.setBib(0);
+                    }else{
+                        bibR.setBib(bib);
+                    }
                     bibR.setAthlete(resultStartList.getAthlete());
                     bibR.setRace(activeRace());
                 }
@@ -89,5 +105,115 @@ public class ApplicationsRest {
         exportStartList.setBibs(apResultsService.findByRaceIdMap(activeRace));
         exportStartList.setClubs(clubParticipantsService.findRealClubs(date,date,date));
         return exportStartList.createCsv(activeRace);
+    }
+    @PostMapping(value = "/edit")
+    public String editApplications(@RequestBody JsonNode jsonNode){
+        int disciplineId = jsonNode.get(jsonNode.size()-1).get("id").asInt();
+        for (int i = 0; i<jsonNode.size()-1; i++){
+            int line = jsonNode.get(i).get("Line").asInt();
+            int bib = jsonNode.get(i).get("Bib").asInt();
+            int idStartResult = jsonNode.get(i).get("Meno").asInt();
+            Double startPerformance = jsonNode.get(i).get("Štartový výkon").asDouble();
+            ResultStartList resultStartList = apResultsService.findById(idStartResult);
+            if(resultStartList!=null){
+                resultStartList.setLine(line);
+                resultStartList.setStartPerformance(startPerformance);
+                apResultsService.saveResultStartList(resultStartList);
+                Bib bibR = apResultsService.findByRaceIdAndAthleteId(activeRace().getId(),resultStartList.getAthlete().getId());
+                Bib bibCheck = apResultsService.findByRaceIdAndBib(activeRace().getId(),bib);
+                if (bibR!=null){
+                    if(bibCheck!=null && !bibCheck.getId().equals(bibR.getId())){
+                        System.out.println("faiulure");
+                    }
+                    else{
+                        bibR.setBib(bib);
+                    }
+                }else{
+                    bibR = new Bib();
+                    if(bibCheck!=null && !bibCheck.getId().equals(bibR.getId())){
+                        bibR.setBib(0);
+                    }else{
+                        bibR.setBib(bib);
+                    }
+                    bibR.setAthlete(resultStartList.getAthlete());
+                    bibR.setRace(activeRace());
+                }
+                apResultsService.saveBib(bibR);
+            }
+        }
+        return "success";
+    }
+    @PostMapping(value = "/delete/StartList/")
+    public String deleteStartList(@RequestBody JsonNode jsonNode){
+        apResultsService.deleteStartList(jsonNode.get("id").asInt());
+        return "success";
+    }
+    @PostMapping("/splitAthletes")
+    public String splitAthletes(@RequestBody JsonNode jsonNode){
+        int disciplineId = jsonNode.get("id").asInt();
+        List<ResultStartList> resultStartList = apResultsService.findResultStartListByDisciplineId(disciplineId);
+        Discipline discipline = disciplineService.findDisciplineById(disciplineId);
+        QualificationSettings qualificationSettings = disciplineService.findQualificationSettingsByDisciplineId(disciplineId);
+        Track track = discipline.getRace().getSettings().getTrack();
+        List<Discipline> disciplines= disciplineService.findDisciplinesRaceIdTypeASC(activeRace().getId(),"run");
+        List<Discipline> disciplinesNumber = disciplineService.findDisciplinesByRaceIdAndCategoryAndPhaseNameAndDisciplineNameOrderByPhaseNumberDesc(discipline.getRace().getId(),discipline.getCategory(),discipline.getPhaseName(),discipline.getDisciplineName());
+        List<Discipline> disciplineList = new ArrayList<>();
+        disciplineList.add(discipline);
+        int maxNum = disciplinesNumber.get(0).getPhaseNumber();
+        at.set(disciplines.get(0).getCameraId());
+        if(resultStartList.size() > track.getNumberOfTracks()){
+            int generateDisciplines = resultStartList.size()/track.getNumberOfTracks();
+            for (int i = 0; i<generateDisciplines;i++){
+                Discipline generatedDiscipline = new Discipline();
+                generatedDiscipline.setRace(discipline.getRace());
+                generatedDiscipline.setDisciplineType(discipline.getDisciplineType());
+                generatedDiscipline.setDisciplineName(discipline.getDisciplineName());
+                generatedDiscipline.setDisciplineDate(discipline.getDisciplineDate());
+                generatedDiscipline.setCategory(discipline.getCategory());
+                generatedDiscipline.setDisciplineTime(discipline.getDisciplineTime());
+                generatedDiscipline.setPhaseName(discipline.getPhaseName());
+                generatedDiscipline.setCameraId(at.incrementAndGet());
+                generatedDiscipline.setParticipants(0);
+                generatedDiscipline.setNote(discipline.getNote());
+                maxNum++;
+                generatedDiscipline.setPhaseNumber(maxNum);
+                disciplineService.saveDiscipline(generatedDiscipline);
+                QualificationSettings settings = new QualificationSettings();
+                settings.setDiscipline(generatedDiscipline);
+                settings.setQByTime(qualificationSettings.getQByTime());
+                settings.setQByPlace(qualificationSettings.getQByPlace());
+                settings.setDisciplineWhere(qualificationSettings.getDisciplineWhere());
+                disciplineService.saveQualificationSettings(settings);
+                disciplineList.add(generatedDiscipline);
+            }
+            int counter = 0;
+            for (ResultStartList resultStart: resultStartList) {
+                if(counter>generateDisciplines){
+                    counter = 0;
+                }
+                resultStart.setDiscipline(disciplineList.get(counter));
+                apResultsService.saveResultStartList(resultStart);
+                disciplineList.get(counter).setParticipants(disciplineList.get(counter).getParticipants()+1);
+                counter++;
+            }
+            for (Discipline discipline1: disciplineList){
+                sortByStarPerformance(track,apResultsService.findResultStartListByDisciplineId(discipline1.getId()));
+            }
+            //TODO split resultStartList
+
+            System.out.println("success");
+        }else{
+            sortByStarPerformance(track,resultStartList);
+        }
+        return "success";
+    }
+    private void sortByStarPerformance(Track track, List<ResultStartList> resultStartList){
+        int i=1;
+        for (ResultStartList resultStart: resultStartList) {
+            Map<Integer,Integer> lines = track.returnMapOfTracks();
+            resultStart.setLine(lines.get(i));
+            apResultsService.saveResultStartList(resultStart);
+            i++;
+        }
     }
 }

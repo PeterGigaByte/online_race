@@ -26,7 +26,7 @@ public class ResultStartList implements Serializable {
     private Discipline discipline;
 
     @Column(name = "start_performance")
-    private Integer startPerformance;
+    private Double startPerformance;
 
     @Column(name = "result_performance")
     private Integer resultPerformance;

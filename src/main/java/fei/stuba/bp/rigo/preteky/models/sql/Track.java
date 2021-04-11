@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "track")
@@ -56,7 +60,15 @@ public class Track implements Serializable {
 
     @Column(name = "type_track")
     private Integer typeTrack = 1;
-
+    public Map<Integer, Integer> returnMapOfTracks(){
+        List<Integer> lines = new ArrayList<>();
+        lines.add(one);lines.add(two);lines.add(three);lines.add(four);lines.add(five);lines.add(six);lines.add(seven);lines.add(eight);lines.add(nine);lines.add(ten);
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i<numberOfTracks;i++){
+            map.put(lines.get(i),i+1);
+        }
+        return map;
+    }
     public void setNumberOfTracks(Integer numberOfTracks) {
         this.numberOfTracks = numberOfTracks;
         setTracks();
