@@ -108,4 +108,10 @@ public class ApResultsImp implements ApResultsService {
     public List <ResultStartList> findResultStartListByDisciplineId(int disciplineId){
         return resultStartListRepository.findResultStartListByDisciplineIdOrderByStartPerformanceAsc(disciplineId);
     }
+
+    @Override
+    public List<ResultStartList> findAllByDisciplineIdOrderByResultPerformanceAsc(int id) {
+        return resultStartListRepository.findAllByDisciplineIdOrderByResultPerformanceAsc(id);
+    }
+
 }

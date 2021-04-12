@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -59,7 +60,9 @@ public class ApplicationsRest {
             int line = jsonNode.get(i).get("Dráha").asInt();
             int bib = jsonNode.get(i).get("Číslo").asInt();
             int idAthlete = jsonNode.get(i).get("Zmazať").asInt();
-            Double startPerformance = jsonNode.get(i).get("Štartový výkon").asDouble();
+            String startPerformance = jsonNode.get(i).get("Štartový výkon").asText();
+            int hours = startPerformance.split(":").length;
+            int hundreds = startPerformance.split(".").length;
             if(apResultsService.findByAthleteIdAndDisciplineId(idAthlete,disciplineId).isEmpty()){
                 ResultStartList resultStartList = new ResultStartList();
                 resultStartList.setAthlete(clubParticipantsService.findAthlete(idAthlete));
@@ -68,7 +71,7 @@ public class ApplicationsRest {
                 discipline.setParticipants(discipline.getParticipants()+1);
                 disciplineService.saveDiscipline(discipline);
                 resultStartList.setLine(line);
-                resultStartList.setStartPerformance(startPerformance);
+                //resultStartList.setStartPerformance(startPerformance);
                 apResultsService.saveResultStartList(resultStartList);
                 Bib bibR = apResultsService.findByRaceIdAndAthleteId(activeRace().getId(),idAthlete);
                 Bib bibCheck = apResultsService.findByRaceIdAndBib(activeRace().getId(),bib);
@@ -108,7 +111,6 @@ public class ApplicationsRest {
     }
     @PostMapping(value = "/edit")
     public String editApplications(@RequestBody JsonNode jsonNode){
-        int disciplineId = jsonNode.get(jsonNode.size()-1).get("id").asInt();
         for (int i = 0; i<jsonNode.size()-1; i++){
             int line = jsonNode.get(i).get("Line").asInt();
             int bib = jsonNode.get(i).get("Bib").asInt();
@@ -117,7 +119,12 @@ public class ApplicationsRest {
             ResultStartList resultStartList = apResultsService.findById(idStartResult);
             if(resultStartList!=null){
                 resultStartList.setLine(line);
-                resultStartList.setStartPerformance(startPerformance);
+                if(!resultStartList.getDiscipline().getDisciplineType().equals("run")){
+                    resultStartList.setStartPerformance(startPerformance);
+                }
+                else if(!jsonNode.get(i).get("Štartový výkon").asText().equals(resultStartList.getTimeStartPerformance())){
+                    resultStartList.setStartPerformance(startPerformance);
+                }
                 apResultsService.saveResultStartList(resultStartList);
                 Bib bibR = apResultsService.findByRaceIdAndAthleteId(activeRace().getId(),resultStartList.getAthlete().getId());
                 Bib bibCheck = apResultsService.findByRaceIdAndBib(activeRace().getId(),bib);

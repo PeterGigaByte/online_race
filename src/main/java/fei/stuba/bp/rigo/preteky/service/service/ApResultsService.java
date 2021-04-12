@@ -23,4 +23,5 @@ public interface ApResultsService {
     Bib findByRaceIdAndBib(int id, int bib);
     void deleteStartList(int id);
     List <ResultStartList> findResultStartListByDisciplineId(int disciplineId);
+    List<ResultStartList> findAllByDisciplineIdOrderByResultPerformanceAsc(int id);
 }

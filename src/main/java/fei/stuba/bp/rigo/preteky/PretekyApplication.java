@@ -1,6 +1,10 @@
 package fei.stuba.bp.rigo.preteky;
 
 import com.opencsv.*;
+import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
+import fei.stuba.bp.rigo.preteky.models.sql.Bib;
+import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
+import fei.stuba.bp.rigo.preteky.models.sql.ResultStartList;
 import fei.stuba.bp.rigo.preteky.models.testModels.ParticipantTest;
 import fei.stuba.bp.rigo.preteky.models.testModels.PhaseTest;
 import org.springframework.boot.SpringApplication;
@@ -10,26 +14,34 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.sql.Time;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 public class PretekyApplication {
 
+
     public static void main(String[] args) {
+
         SpringApplication.run(PretekyApplication.class, args);
+        String time = "1:1:00.5";
 
-        List<PhaseTest> phasesTestList = createSimulationParameters();
 
 
-        readLSTRslt(phasesTestList);
-        readLSTRRSLT(phasesTestList);
+        //List<PhaseTest> phasesTestList = createSimulationParameters();
 
+        //readLSTRslt(phasesTestList);
+        //readLSTRRSLT(phasesTestList);
+/*
         phasesTestList.forEach(x -> {
             x.getParticipants().forEach(y -> System.out.println(y.toString()));
             System.out.println(x.getNameOfPhase()+"; "+x.getWind()+"; "+x.getStatus()+"\n");
         });
+*/
     }
 
     // klasický import / export / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / ** / **
@@ -52,7 +64,7 @@ public class PretekyApplication {
         try{
             CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build(); // custom separator
             try(CSVReader reader = new CSVReaderBuilder(
-                    new FileReader("C:\\Bakalarska Práca\\Projekt folder\\csv\\LSTRslt.txt"))
+                    new FileReader("C:\\Users\\Peter\\Desktop\\camera\\64\\LSTRslt.txt"))
                     .withCSVParser(csvParser)   // custom CSV parser
                     .withSkipLines(1)           // skip the first line, header info
                     .build()){
@@ -88,7 +100,7 @@ public class PretekyApplication {
         try{
             CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build(); // custom separator
             try (CSVReader reader = new CSVReaderBuilder(
-                    new FileReader("C:\\Bakalarska Práca\\Projekt folder\\csv\\LSTRRSLT.txt"))
+                    new FileReader("C:\\Users\\Peter\\Desktop\\camera\\64\\LSTRRSLT.txt"))
                     .withCSVParser(csvParser)   // custom CSV parser
                     .withSkipLines(1)           // skip the first line, header info
                     .build()) {

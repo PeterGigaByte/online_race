@@ -498,7 +498,6 @@ $(document).ready(function() {
         "autoWidth": false,
         "columnDefs" : [{"targets":3, "type":"date-eu"},{ "targets": 0, createdCell: createdCell},{ "targets": 1, createdCell: createdCell},{ "targets": 5, createdCell: createdCell}],
 
-
     });
     function exportCsv() {
         $.ajax({
@@ -709,5 +708,18 @@ $(document).ready(function() {
             }
         });
     }
+    new jBox('Tooltip', {
+        attach: '#Tooltip-2',
+        theme: 'TooltipBorderThick',
+        width: 200,
+        position: {
+            x: 'left',
+            y: 'center'
+        },
+        outside: 'x',
+        pointer: 'top:15',
+        content: 'Id závodu: ' + $("#raceId").text(),
+        animation: 'move'
+    });
 } );
 

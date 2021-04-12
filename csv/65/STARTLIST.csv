@@ -1,22 +1,7 @@
 Event Code;Date;Time;Lane/order;Bib No
 1;11.3.2021;06:00;;;;;;60;60 m Muži Rozbeh 1;;Peter Rigo
-;;;0;32;Rigo;Peter;ŠOGNR
-;;;0;33;Lord;Martin;ŠOGNR
-;;;0;22;Kopecký;Miro;ŠOGNR
-;;;0;21;Hraško;Janko;ŠOGNR
-;;;0;15;Richter;Erik;ŠOGNR
-;;;0;13;Ondrej;Mirko;ŠOGNR
-;;;0;31;Suves;Milan;ŠOGNR
-;;;0;12;Paldan;Marian;STUBA
-;;;0;23;Reso;Andrej;STUBA
-;;;0;6;Lehocký;Ján;STUBA
-;;;0;4;Vajda;Jano;ASKTT
-2;11.3.2021;10:00;;;;;;40;40 m Dorastenci Beh 1;;Peter Rigo
-;;;6;32;Rigo;Peter;ŠOGNR
-;;;7;22;Kopecký;Miro;ŠOGNR
-;;;1;33;Lord;Martin;ŠOGNR
-;;;3;15;Richter;Erik;ŠOGNR
-;;;4;21;Hraško;Janko;ŠOGNR
-;;;8;31;Suves;Milan;ŠOGNR
-;;;5;13;Ondrej;Mirko;ŠOGNR
-;;;2;12;Paldan;Marian;STUBA
+2;11.3.2021;06:00;;;;;;60;60 m Muži Rozbeh 2;;Peter Rigo
+3;11.3.2021;10:00;;;;;;40;40 m Dorastenci Beh 1;;Peter Rigo
+4;11.3.2021;20:00;;;;;;100;100 m Muži Rozbeh 1;;Peter Rigo
+5;11.3.2021;20:00;;;;;;100;100 m Muži Rozbeh 2;;Peter Rigo
+6;11.3.2021;23:00;;;;;;100;100 m Muži Finále 1;;Peter Rigo
