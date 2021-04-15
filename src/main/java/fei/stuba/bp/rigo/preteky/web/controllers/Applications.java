@@ -1,6 +1,5 @@
 package fei.stuba.bp.rigo.preteky.web.controllers;
 
-import fei.stuba.bp.rigo.preteky.csvFilesImplementation.ExportStartList;
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.Race;
 import fei.stuba.bp.rigo.preteky.models.sql.ResultStartList;
@@ -12,10 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

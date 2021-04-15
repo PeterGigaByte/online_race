@@ -3,6 +3,7 @@ package fei.stuba.bp.rigo.preteky.web.controllers;
 import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
 import fei.stuba.bp.rigo.preteky.models.sql.Club;
 import fei.stuba.bp.rigo.preteky.models.sql.ClubTransfer;
+import fei.stuba.bp.rigo.preteky.service.service.ApResultsService;
 import fei.stuba.bp.rigo.preteky.service.service.ClubParticipantsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/athletes")
 public class AthletesController {
     private ClubParticipantsService clubParticipantsService;
+    private ApResultsService apResultsService;
 
-    public AthletesController(ClubParticipantsService clubParticipantsService) {
+    public AthletesController(ClubParticipantsService clubParticipantsService,ApResultsService apResultsService) {
         this.clubParticipantsService = clubParticipantsService;
+        this.apResultsService = apResultsService;
     }
     @GetMapping(value = "/{id}")
     public String athleteDetails(@PathVariable Integer id, Model model) {
@@ -23,6 +26,7 @@ public class AthletesController {
         model.addAttribute("athlete",athlete);
         model.addAttribute("actualClub",getClubForAthlete(athlete));
         model.addAttribute("clubs",clubParticipantsService.findClubTransferByAthleteId(id));
+        model.addAttribute("results",apResultsService.findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(id));
         return "participants&clubs/athlete";
     }
     @PostMapping(value = "/{id}/saveAthlete")

@@ -2,7 +2,6 @@ package fei.stuba.bp.rigo.preteky.service.implementation;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.QualificationSettings;
-import fei.stuba.bp.rigo.preteky.models.sql.Race;
 import fei.stuba.bp.rigo.preteky.repository.DisciplineRepository;
 import fei.stuba.bp.rigo.preteky.repository.QualificationSettingsDisciplineRepository;
 import fei.stuba.bp.rigo.preteky.service.service.DisciplineService;

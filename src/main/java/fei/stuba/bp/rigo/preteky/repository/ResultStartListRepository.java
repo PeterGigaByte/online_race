@@ -1,10 +1,10 @@
 package fei.stuba.bp.rigo.preteky.repository;
 
-import fei.stuba.bp.rigo.preteky.models.sql.*;
+import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
+import fei.stuba.bp.rigo.preteky.models.sql.ResultStartList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,7 +19,5 @@ public interface ResultStartListRepository extends JpaRepository<ResultStartList
     default Map<Athlete, ResultStartList> findAllByDisciplineRaceIdMap(int id) {
         return findAllByDisciplineRaceId(id).stream().collect(Collectors.toMap(ResultStartList::getAthlete, v -> v));
     }
-
-    List<ResultStartList> findAllByDisciplineRaceIdAndDisciplineDisciplineType(int idRace,String type);
-
+    List<ResultStartList> findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(int athleteId);
 }

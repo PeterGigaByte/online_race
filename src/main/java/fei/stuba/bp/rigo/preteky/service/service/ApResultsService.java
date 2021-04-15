@@ -24,4 +24,5 @@ public interface ApResultsService {
     void deleteStartList(int id);
     List <ResultStartList> findResultStartListByDisciplineId(int disciplineId);
     List<ResultStartList> findAllByDisciplineIdOrderByResultPerformanceAsc(int id);
+    List<ResultStartList> findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(int athleteId);
 }

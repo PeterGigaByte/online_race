@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
@@ -22,12 +23,6 @@ public class ExportStartList {
     private Map<Athlete, Bib> bibs;
     private Map<String,String > length;
 
-    public ExportStartList(Map<Discipline, List<ResultStartList>> startList, Map<Athlete, ClubTransfer> clubs, Map<Athlete, Bib> bibs) {
-        this.startList = startList;
-        this.clubs = clubs;
-        this.bibs = bibs;
-        createDisciplinesLength();
-    }
     public void createDisciplinesLength(){
         String[] disciplines = {"40 m", "50 m", "60 m","100 m","150 m","200 m","400 m",
                 "500 m", "600 m", "800 m", "1500 m", "2000 m", "3000 m", "5000 m", "10 000 m",
@@ -47,22 +42,18 @@ public class ExportStartList {
             length.put(discipline,lengths[i]);
             i++;
         }
-
-
     }
     public String createCsv(int activeRace){
         try{
-            Path direct = Paths.get("C:\\Bakalarska Práca\\Projekt folder\\csv\\"+activeRace);
+            String pathToJar = new File("").getAbsolutePath();
+            Path direct = Paths.get(pathToJar+"\\camera\\"+activeRace);
 
             //java.nio.file.Files;
             Files.createDirectories(direct);
 
-            String path = "C:\\Bakalarska Práca\\Projekt folder\\csv\\"+activeRace+"\\STARTLIST.csv";
+            String path = pathToJar+"\\camera\\"+activeRace+"\\STARTLIST.csv";
             FileOutputStream file = new FileOutputStream(path);
             OutputStreamWriter fileWriter = new OutputStreamWriter(file,"Cp1250");
-
-
-
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("Event Code;Date;Time;Lane/order;Bib No\r\n");
             for (Discipline discipline : startList.keySet()){
@@ -81,12 +72,10 @@ public class ExportStartList {
                     stringBuilder.append(athlete.getSurname()).append(";");
                     stringBuilder.append(athlete.getFirstName()).append(";");
                     stringBuilder.append(clubs.get(athlete).getClub().getShortcutClubName()).append("\r\n");
-
                 }
             }
             fileWriter.write(stringBuilder.toString());
             fileWriter.close();
-
             return "Success";
         }catch (Exception e){
             System.out.println("function createCsv threw exception: "+"'"+e.getMessage()+"'");

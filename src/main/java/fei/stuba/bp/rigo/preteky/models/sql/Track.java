@@ -1,7 +1,6 @@
 package fei.stuba.bp.rigo.preteky.models.sql;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

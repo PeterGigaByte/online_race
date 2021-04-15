@@ -87,7 +87,7 @@
                         <configuration>
                             <classifier>spring-boot</classifier>
                             <mainClass>
-                                com.baeldung.executable.ExecutableMavenJar
+                                fei.stuba.bp.rigo.preteky.PretekyApplication
                             </mainClass>
                         </configuration>
                     </execution>

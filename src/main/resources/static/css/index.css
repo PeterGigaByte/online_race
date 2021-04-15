@@ -69,7 +69,8 @@ tr:nth-child(even) {
     display: inline;
 }
 a:hover{
-    opacity: 0.5;
+    cursor: pointer;
+    opacity: 0.9;
 }
 a:link,a:visited{
     text-decoration: none;
@@ -509,5 +510,19 @@ input {
     text-decoration: underline;
 }
 
-
+.div-button:hover{
+    text-decoration: underline!important;
+}
+.split:hover,.saveAthletes:hover,.addAthletes:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+.input-hover:hover{
+    cursor: pointer;
+    background-color: #d4d8d9;
+}
+.input-hover:focus{
+    cursor: text;
+    background-color: white;
+}
 

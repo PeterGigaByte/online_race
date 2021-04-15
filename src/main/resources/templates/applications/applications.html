@@ -38,7 +38,7 @@
     <a href="/disciplines">Disciplíny</a>
     <a class="active" href="/applications">Prihlášky</a>
     <a href="/results">Výsledky</a>
-    <a href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
+    <a  onclick="openNav()">Databáza klubov a pretekárov</a>
     <a href="/disciplines/schedule">Časový poriadok</a>
     <a id="Tooltip-2" style="float: right" class="target">Informácie</a>
 </div>
@@ -46,7 +46,7 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="/athletes">Pretekári</a>
     <a href="/clubs">Kluby</a>
-    <a href="#">Stiahnuť databázu</a>
+    <a >Stiahnuť databázu</a>
     <a href="/contact">Kontakt</a>
 </div>
 
@@ -142,12 +142,12 @@
             <tbody>
                 <tr th:each="startList : ${entry.value}" >
                      <span th:if="${entry.key.disciplineType=='run'}">
-                        <td style="width: 5%" th:text="${startList.line}"></td>
+                        <td class="input-hover" style="width: 5%" th:text="${startList.line}"></td>
                      </span>
                     <span th:if="${entry.key.disciplineType!='run'}">
                      <td class="hidden">Line</td>
                 </span>
-                    <td style="width: 10%">
+                    <td class="input-hover" style="width: 10%">
                         <span th:if="${#maps.containsKey(bibMap,startList.athlete)}">
                             <span  th:text="${bibMap.get(startList.athlete).bib}"></span>
                         </span>
@@ -160,7 +160,7 @@
                             <span  th:text="${clubs.get(startList.athlete).club.clubName}"></span>
                         </span>
                     </td>
-                    <td style="width: 20%" ><span th:if="${startList.discipline.disciplineType=='run'}">
+                    <td style="width: 20%" class="input-hover" ><span th:if="${startList.discipline.disciplineType=='run'}">
                         <span th:text="${startList.getTimeStartPerformance()}"></span>
                     </span>
                         <span th:if="${startList.discipline.disciplineType!='run'}" > <span th:text="${startList.startPerformance}"></span></span>

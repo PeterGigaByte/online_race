@@ -56,7 +56,7 @@ public class ResultStartList implements Serializable {
         df.setMaximumFractionDigits(2);
         if(input==null || input==0.0){
             return null;
-        }else {
+        }else if(input < 86400.0) {
             double timeS = input;
             int hours=0;
             int minutes=0;
@@ -94,6 +94,8 @@ public class ResultStartList implements Serializable {
             }else{
                 return String.valueOf(df.format(timeS));
             }
+        }else{
+            return "Too big";
         }
     }
 }

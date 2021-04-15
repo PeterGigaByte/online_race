@@ -114,4 +114,9 @@ public class ApResultsImp implements ApResultsService {
         return resultStartListRepository.findAllByDisciplineIdOrderByResultPerformanceAsc(id);
     }
 
+    @Override
+    public List<ResultStartList> findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(int athleteId) {
+        return resultStartListRepository.findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(athleteId);
+    }
+
 }

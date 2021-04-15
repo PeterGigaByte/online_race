@@ -8,12 +8,11 @@ import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
 import fei.stuba.bp.rigo.preteky.models.sql.Bib;
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.ResultStartList;
-import fei.stuba.bp.rigo.preteky.models.testModels.ParticipantTest;
-import fei.stuba.bp.rigo.preteky.models.testModels.PhaseTest;
 import fei.stuba.bp.rigo.preteky.service.service.ApResultsService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.List;
@@ -25,16 +24,10 @@ public class ImportResults {
     private Map<Discipline,List<ResultStartList>> startList;
     private Map<Athlete, Bib> bibs;
     private ApResultsService apResultsService;
-
-    public ImportResults(Map<Discipline, List<ResultStartList>> startList, Map<Athlete, Bib> bibs,ApResultsService apResultsService) {
-        this.startList = startList;
-        this.bibs = bibs;
-        this.apResultsService = apResultsService;
-    }
-
     public void readLSTRslt(int activeRace) {
         try{
-            String path = "C:\\Bakalarska Práca\\Projekt folder\\csv\\"+activeRace+"\\LSTRslt.txt";
+            String pathToJar = new File("").getAbsolutePath();
+            String path = pathToJar+"\\camera\\"+activeRace+"\\LSTRslt.txt";
 
             CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build(); // custom separator
             try(CSVReader reader = new CSVReaderBuilder(
@@ -48,7 +41,7 @@ public class ImportResults {
                     int idCamera = Integer.parseInt(x[2].replaceAll("\\s+",""));
                     int bibNo = Integer.parseInt(x[4].replaceAll("\\s+",""));
                     int lane = Integer.parseInt(x[5].replaceAll("\\s+",""));
-                    int status = Integer.parseInt(x[6].replaceAll("\\s+",""));
+                    //int status = Integer.parseInt(x[6].replaceAll("\\s+",""));
                     String time = x[8].replaceAll("\\s+","");
                     int result = Integer.parseInt(x[9].replaceAll("\\s+",""));
                     for (Discipline discipline : startList.keySet()) {

@@ -1,5 +1,4 @@
 package fei.stuba.bp.rigo.preteky.web.controllers;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import fei.stuba.bp.rigo.preteky.csvFilesImplementation.ExportStartList;
 import fei.stuba.bp.rigo.preteky.models.sql.*;
@@ -7,13 +6,9 @@ import fei.stuba.bp.rigo.preteky.service.service.ApResultsService;
 import fei.stuba.bp.rigo.preteky.service.service.ClubParticipantsService;
 import fei.stuba.bp.rigo.preteky.service.service.DisciplineService;
 import fei.stuba.bp.rigo.preteky.service.service.RaceService;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Date;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,9 +44,7 @@ public class ApplicationsRest {
         int clubId = jsonNode.get("idClub").asInt();
         String gender = jsonNode.get("gender").asText();
         Date date = activeRace().getStartDate();
-        List<ClubTransfer> clubTransfers = clubParticipantsService.findRealAthletesOfClub(date, date,clubId,gender, date,clubId,gender);
-        System.out.println(clubTransfers);
-        return clubTransfers ;
+        return clubParticipantsService.findRealAthletesOfClub(date, date,clubId,gender, date,clubId,gender);
     }
     @PostMapping(value = "/save")
     public String saveAthletes(@RequestBody JsonNode jsonNode) {
@@ -60,9 +53,8 @@ public class ApplicationsRest {
             int line = jsonNode.get(i).get("Dráha").asInt();
             int bib = jsonNode.get(i).get("Číslo").asInt();
             int idAthlete = jsonNode.get(i).get("Zmazať").asInt();
+            //TODO
             String startPerformance = jsonNode.get(i).get("Štartový výkon").asText();
-            int hours = startPerformance.split(":").length;
-            int hundreds = startPerformance.split(".").length;
             if(apResultsService.findByAthleteIdAndDisciplineId(idAthlete,disciplineId).isEmpty()){
                 ResultStartList resultStartList = new ResultStartList();
                 resultStartList.setAthlete(clubParticipantsService.findAthlete(idAthlete));
@@ -169,6 +161,7 @@ public class ApplicationsRest {
         int maxNum = disciplinesNumber.get(0).getPhaseNumber();
         at.set(disciplines.get(0).getCameraId());
         if(resultStartList.size() > track.getNumberOfTracks()){
+            discipline.setParticipants(0);
             int generateDisciplines = resultStartList.size()/track.getNumberOfTracks();
             for (int i = 0; i<generateDisciplines;i++){
                 Discipline generatedDiscipline = new Discipline();
@@ -199,9 +192,10 @@ public class ApplicationsRest {
                     counter = 0;
                 }
                 resultStart.setDiscipline(disciplineList.get(counter));
-                apResultsService.saveResultStartList(resultStart);
                 disciplineList.get(counter).setParticipants(disciplineList.get(counter).getParticipants()+1);
+                apResultsService.saveResultStartList(resultStart);
                 counter++;
+
             }
             for (Discipline discipline1: disciplineList){
                 sortByStarPerformance(track,apResultsService.findResultStartListByDisciplineId(discipline1.getId()));

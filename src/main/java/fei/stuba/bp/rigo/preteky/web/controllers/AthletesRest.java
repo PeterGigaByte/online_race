@@ -47,7 +47,7 @@ public class AthletesRest {
         return "Successs";
     }
     @PostMapping("/getAll")
-    public List<Athlete> getAllAthletes(@RequestBody JsonNode jsonNode){
+    public List<Athlete> getAllAthletes(){
         return clubParticipantsService.findAllAthletes();
     }
     @PostMapping("/delete")
@@ -92,7 +92,7 @@ public class AthletesRest {
         return "Successs";
     }
     @PostMapping("/{id}/deleteTransfer")
-    public String deleteTransfer(@PathVariable int id,@RequestBody JsonNode jsonNode) throws ParseException {
+    public String deleteTransfer(@PathVariable int id,@RequestBody JsonNode jsonNode) {
         clubParticipantsService.deleteTransfer(jsonNode.get("id").asInt());
         return "success";
     }

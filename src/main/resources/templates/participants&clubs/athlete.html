@@ -111,20 +111,26 @@
             </th>
         </tr>
         <tr th:id="first_tr" >
-            <th>Result//TODO</th>
-            <th>Result//TODO</th>
-            <th>Result//TODO</th>
-            <th>Result//TODO</th>
-            <th>Result//TODO</th>
+            <th>Dátum</th>
+            <th>Názov atletického podujatia</th>
+            <th>Miesto</th>
+            <th>Disciplína</th>
+            <th>Poradie</th>
+            <th>Výkon</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr th:each="result: ${results}" >
+            <td th:text="${result.discipline.getDateForCSV()}"></td>
+            <td th:text="${result.discipline.race.raceName}" ></td>
+            <td th:text="${result.discipline.race.place}"></td>
+            <td th:text="${result.discipline.disciplineName}"></td>
+            <td th:text="${result.place}"></td>
+            <td ><span th:if="${result.discipline.disciplineType=='run'}">
+                        <span th:text="${result.getTimeResultPerformance()}"></span>
+                    </span>
+                <span th:if="${result.discipline.disciplineType!='run'}" > <span th:text="${result.resultPerformance}"></span></span>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -147,8 +153,8 @@
         </thead>
         <tbody>
         <tr th:each="club: ${clubs}">
-            <td th:text="${club.since}"></td>
-            <td th:text="${club.to}"></td>
+            <td th:text="${#dates.format(club.since, 'dd.MM.yyyy')}"></td>
+            <td th:text="${#dates.format(club.to, 'dd.MM.yyyy')}"></td>
             <td th:text="${club.club.clubName}"></td>
             <td th:text="${club.reason}"></td>
             <td><img th:value="${club.idTransfer}" style="width: 35px; height: 35px;margin-left: 60px" class="plus delete" th:src="@{/images/delete.png}"></td>

@@ -4,7 +4,6 @@ import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
 import fei.stuba.bp.rigo.preteky.models.sql.Club;
 import fei.stuba.bp.rigo.preteky.models.sql.ClubTransfer;
 import fei.stuba.bp.rigo.preteky.repository.AthleteRepository;
-import fei.stuba.bp.rigo.preteky.repository.BibRepository;
 import fei.stuba.bp.rigo.preteky.repository.ClubRepository;
 import fei.stuba.bp.rigo.preteky.repository.ClubTransferRepository;
 import fei.stuba.bp.rigo.preteky.service.service.ClubParticipantsService;
@@ -25,16 +24,13 @@ public class ClubAthletes implements ClubParticipantsService {
     private AthleteRepository athleteRepository;
     @Autowired
     private ClubTransferRepository clubTransferRepository;
-    @Autowired
-    private BibRepository bibRepository;
 
 
-    public ClubAthletes(ClubRepository clubRepository,AthleteRepository athleteRepository,ClubTransferRepository clubTransferRepository,BibRepository bibRepository){
+    public ClubAthletes(ClubRepository clubRepository, AthleteRepository athleteRepository, ClubTransferRepository clubTransferRepository){
         super();
         this.clubRepository=clubRepository;
         this.athleteRepository=athleteRepository;
         this.clubTransferRepository=clubTransferRepository;
-        this.bibRepository=bibRepository;
     }
 
     @Override

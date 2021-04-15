@@ -7,8 +7,6 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
 
-import static java.lang.String.valueOf;
-
 /**
  * disciplína
  */
@@ -85,7 +83,7 @@ public class Discipline implements Serializable {
         cal.setTime(disciplineDate);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DATE);
-        return String.valueOf(day)+'.'+String.valueOf(month)+'.';
+        return String.valueOf(day)+'.'+ month +'.';
     }
     public String getDateForCSV(){
         Calendar cal = Calendar.getInstance();
@@ -93,6 +91,6 @@ public class Discipline implements Serializable {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DATE);
         int year = cal.get(Calendar.YEAR);
-        return String.valueOf(day)+'.'+String.valueOf(month)+'.'+String.valueOf(year);
+        return String.valueOf(day)+'.'+ month +'.'+String.valueOf(year);
     }
 }

@@ -44,7 +44,7 @@ public class Athlete implements Serializable {
         int day= cal.get(Calendar.DAY_OF_MONTH);
         int month= cal.get(Calendar.MONTH)+1;
         int year= cal.get(Calendar.YEAR);
-        return String.valueOf(day)+"."+String.valueOf(month)+"."+String.valueOf(year);
+        return day +"."+ month +"."+ year;
     }
 
 

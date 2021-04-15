@@ -2,11 +2,9 @@ package fei.stuba.bp.rigo.preteky.repository;
 
 import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
 import fei.stuba.bp.rigo.preteky.models.sql.Bib;
-import fei.stuba.bp.rigo.preteky.models.sql.ClubTransfer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
