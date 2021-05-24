@@ -72,7 +72,7 @@
     </script>
     <div style="height: 20px"></div>
     <select th:id="disciplines" name="discipline" style="height: 200px" class="form-select" size="3" aria-label="size 3 select example">
-        <option th:each="discipline: ${disciplines}" th:text="${discipline.disciplineName+' '+discipline.phaseNumber+' '+discipline.phaseName+' '+discipline.category}" th:value="${discipline.id}"></option>
+        <option th:each="discipline: ${disciplines}" th:text="${discipline.disciplineName+' '+discipline.phaseName+' '+discipline.phaseNumber+' '+discipline.category}" th:value="${discipline.id}"></option>
     </select>
     <div style="height: 20px"></div>
     <div style="width: 100%" class="btn-group" role="group" aria-label="Basic example">
