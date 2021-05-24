@@ -80,7 +80,7 @@ public class ApplicationsRest {
                 }else{
                     bibR = new Bib();
                     if(bibCheck!=null && !bibCheck.getId().equals(bibR.getId())){
-                        bibR.setBib(0);
+                        bibR.setBib(null);
                     }else{
                         bibR.setBib(bib);
                     }
