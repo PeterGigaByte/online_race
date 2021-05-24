@@ -58,7 +58,7 @@ $(document).ready(function() {
         select:  false,
         "ordering": true,
         "autoWidth": false,
-        "columnDefs" : [{"targets":4, "type":"date-eu"},{ targets: 0, type: nameType },{ targets: 6, type: nameType },{ "targets": 6, createdCell: createdCell}],
+        "columnDefs" : [{"targets":4, "type":"date-eu"},{ targets: 0, type: nameType },{ targets: 6, type: nameType },{ "targets": 6, createdCell: createdCell},{ "targets": 7, createdCell: createdCell}],
 
     });
 
@@ -72,7 +72,7 @@ $(document).ready(function() {
         }
         let disciplineId = this.attributes.item(0).value;
         let tableForm = saveTable.tableToJSON({
-            headings:{0:"Poradie",1:"Line",2:"Bib",3:"Meno",4:"Dátum narodenia",5:"Klub",6:"Výkon atléta"},
+            headings:{0:"Poradie",1:"Line",2:"Bib",3:"Meno",4:"Dátum narodenia",5:"Klub",6:"Výkon atléta",7:"Reakčný čas"},
             extractor : {
                 0 : function(cellIndex, $cell) {
                     return $cell.text();
@@ -93,6 +93,9 @@ $(document).ready(function() {
                     return $cell.text();
                 },
                 6 : function(cellIndex, $cell) {
+                    return $cell.text();
+                },
+                7 : function(cellIndex, $cell) {
                     return $cell.text();
                 },
             }
@@ -174,6 +177,52 @@ $(document).ready(function() {
                     animation: 'flip',
                     color: 'red',
                     content: 'Bohužial, nepodarilo sa importovať výsledky !!',
+                    delayOnHover: true,
+                    showCountdown: true
+                });
+                console.log(e)
+
+            }
+        });
+    }
+    $("#setAbsolutOrder").click(function () {
+        setAbsoluteOrder();
+    });
+    function setAbsoluteOrder() {
+        $.ajax({
+            type : "PUT",
+            url : window.location + "/absoluteOrder",
+            async:false,
+            success: function(result){
+                if(result=="success"){
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'green',
+                        content: 'Absolútne poradie bolo určené.',
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                    setTimeout(function () {
+                        location.reload();
+                    }, 500);
+                }
+
+                else{
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'red',
+                        content: 'Bohužial, nepodarilo sa určiť absolútne poradie !!',
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                }
+
+            },
+            error : function(e) {
+                new jBox('Notice', {
+                    animation: 'flip',
+                    color: 'red',
+                    content: 'Bohužial, nepodarilo sa určiť absolútne poradie !!',
                     delayOnHover: true,
                     showCountdown: true
                 });

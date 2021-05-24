@@ -13,15 +13,17 @@ import java.util.List;
 @RequestMapping("/clubs")
 public class ClubsRest {
     private ClubParticipantsService clubParticipantsService;
-
     public ClubsRest(ClubParticipantsService clubParticipantsService) {
 
         this.clubParticipantsService = clubParticipantsService;
     }
-
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "database";
+    }
     @PostMapping("/delete")
     public String deleteClub(@RequestBody JsonNode jsonNode){
-        clubParticipantsService.deleteClub( jsonNode.get("id").asInt());
+        clubParticipantsService.deleteClub(jsonNode.get("id").asInt());
         return "Success";
     }
     @GetMapping("/getAllClubs")

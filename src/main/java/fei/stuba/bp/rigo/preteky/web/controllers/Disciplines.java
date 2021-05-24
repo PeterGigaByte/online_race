@@ -28,6 +28,10 @@ public class Disciplines {
         this.raceService = raceService;
         this.disciplineService = disciplineService;
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "disciplines";
+    }
     @ModelAttribute("activeRace")
     public Race activeRace(){
         if(raceService.getActiveRace().size()>0){

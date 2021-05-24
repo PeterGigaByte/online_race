@@ -50,7 +50,7 @@ public class RaceImp implements RaceService {
     }
     @Override
     public Race getRaceById(Integer id){
-        return raceRepository.getOne(id);
+        return raceRepository.findRaceById(id);
     }
 
     @Override
@@ -111,6 +111,11 @@ public class RaceImp implements RaceService {
     @Override
     public void editRealRace(Race race,Settings settings,Track track){
         raceRepository.save(race);settingsRepository.save(settings);trackRepository.save(track);
+    }
+
+    @Override
+    public List<Race> findAllByStatus(Race.Status status) {
+       return raceRepository.findAllByStatusOrderByStartDateDesc(status);
     }
 
 }

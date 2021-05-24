@@ -23,7 +23,7 @@ public class Relay implements Serializable {
 
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_result_start_list",referencedColumnName = "id")
-    private ResultStartList idResultStartList;
+    private ResultStartList resultStartList;
 
     @Column(name = "sector")
     private Integer sector;

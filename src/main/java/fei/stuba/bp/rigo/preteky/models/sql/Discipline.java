@@ -61,6 +61,9 @@ public class Discipline implements Serializable {
     @Column(name = "phase_number")
     private int phaseNumber;
 
+    @Column(name = "wind")
+    private String wind;
+
 
     public Discipline() {
     }

@@ -21,5 +21,6 @@ public interface RaceService {
     Race getFakeRace();
     Race findByIdFromRepository(Integer id);
     void editRealRace(Race race, Settings settings, Track track);
+    List<Race> findAllByStatus(Race.Status status);
 
 }

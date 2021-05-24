@@ -22,9 +22,14 @@ public class RaceRestController {
     public RaceRestController(RaceService raceService) {
         this.raceService = raceService;
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "races";
+    }
     @GetMapping(value = "/all")
     public List<Race> getRacesResource(){return raceService.listRaces();
     }
+
 
     @PostMapping(value="/save")
     public String saveRace(@RequestBody ObjectNode jsonNodes) throws Exception {

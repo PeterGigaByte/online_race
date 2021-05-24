@@ -7,10 +7,7 @@ import fei.stuba.bp.rigo.preteky.service.service.ApResultsService;
 import fei.stuba.bp.rigo.preteky.service.service.ClubParticipantsService;
 import fei.stuba.bp.rigo.preteky.service.service.DisciplineService;
 import fei.stuba.bp.rigo.preteky.service.service.RaceService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/results")
@@ -29,6 +26,10 @@ public class ResultsRest {
             return raceService.getFakeRace();
         }
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "results";
+    }
     public ResultsRest(RaceService raceService,DisciplineService disciplineService, ApResultsService apResultsService,ClubParticipantsService clubParticipantsService){
         super();
         this.raceService = raceService;
@@ -43,6 +44,12 @@ public class ResultsRest {
         importResults.setBibs(apResultsService.findByRaceIdMap(activeRace));
         importResults.readLSTRslt(activeRace);
         importResults.setApResultsService(apResultsService);
+        return "success";
+    }
+    @PutMapping(value = "/absoluteOrder")
+    public String absoluteOrder(){
+        int activeRace = activeRace().getId();
+        apResultsService.absoluteOrderRun(activeRace);
         return "success";
     }
 }

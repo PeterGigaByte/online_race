@@ -20,6 +20,10 @@ public class AthletesController {
         this.clubParticipantsService = clubParticipantsService;
         this.apResultsService = apResultsService;
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "database";
+    }
     @GetMapping(value = "/{id}")
     public String athleteDetails(@PathVariable Integer id, Model model) {
         Athlete athlete = clubParticipantsService.findAthlete(id);

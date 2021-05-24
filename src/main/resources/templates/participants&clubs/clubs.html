@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 
     <meta charset="UTF-8">
@@ -19,19 +19,11 @@
 </head>
 <body>
 
-<div class="topnav">
-    <a  href="/">Preteky</a>
-    <a href="/disciplines">Disciplíny</a>
-    <a href="/applications">Prihlášky</a>
-    <a  href="/results">Výsledky</a>
-    <a class="active" href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
-    <a href="/disciplines/schedule">Časový poriadok</a>
-</div>
+<div th:replace="~{fragments/navbar :: navigation}"> </div>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="/athletes">Pretekári</a>
     <a href="/clubs">Kluby</a>
-    <a href="#">Stiahnuť databázu</a>
     <a href="/contact">Kontakt</a>
 </div>
 

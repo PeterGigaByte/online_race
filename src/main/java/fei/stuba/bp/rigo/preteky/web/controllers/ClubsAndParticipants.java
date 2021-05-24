@@ -40,6 +40,10 @@ public class ClubsAndParticipants {
         this.disciplineService = disciplineService;
         this.clubParticipantsService = clubParticipantsService;
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "database";
+    }
     @ModelAttribute("newClub")
     public Club newClub(){
         return new Club();

@@ -24,6 +24,10 @@ public class AthletesRest {
     public AthletesRest(ClubParticipantsService clubParticipantsService) {
         this.clubParticipantsService = clubParticipantsService;
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "database";
+    }
     @PostMapping("/save")
     public String saveAthlete(@RequestBody JsonNode jsonNode) throws ParseException {
         if(jsonNode.get("id").asText().equals("")){

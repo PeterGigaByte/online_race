@@ -28,19 +28,11 @@
 </head>
 <body>
 
-    <div class="topnav">
-        <a class="active" href="/">Preteky</a>
-        <a href="/disciplines">Disciplíny</a>
-        <a href="/applications">Prihlášky</a>
-        <a  href="/results">Výsledky</a>
-        <a href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
-        <a href="/disciplines/schedule">Časový poriadok</a>
-    </div>
+<div th:replace="~{fragments/navbar :: navigation}"> </div>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="/athletes">Pretekári</a>
         <a href="/clubs">Kluby</a>
-        <a href="#">Stiahnuť databázu</a>
         <a href="/contact">Kontakt</a>
     </div>
 
@@ -49,7 +41,7 @@
     <main th:id="main">
 
         <div th:class="activeRace">
-            <a href="">
+            <a >
                 <div th:value="${activeRace.id}" th:id="activeRaceId"  th:class="raceService"><span th:id="activeRaceName" th:text="${activeRace.raceName}"></span> - <span th:id="activeRacePlace" th:text="${activeRace.place}"></span> - <span th:id="activeRaceStartDate" th:text="${activeRace.returnStartDate()}"></span> - <span th:id="activeRaceEndDate" th:text="${activeRace.returnEndDate()}"></span></div>
             </a>
         </div>
@@ -96,10 +88,9 @@
             <tbody id="tbody">
             <tr th:each="race: ${races}">
                 <td th:text="${race.returnStartDate()}"></td>
-                <td th:text="${race.raceName}"></td>
+                <td th:style="${race.getStatus().equals('OPENED')} ? 'background-color:#b3ffe0;' : 'background-color:#ffb3b3;'" th:text="${race.raceName}"></td>
                 <td th:text="${race.place}"></td>
                 <td th:text="${race.organizer}"></td>
-
                 <td th:switch="${race.activity}">
                     <span th:case="0">
                         <a th:class="activeButtons"  data-confirm="Naozaj chcete zmeniť aktivitu preteku?" th:href="@{/activeRace/{id}(id=${race.getId()})} "><img style="width: 50px; height: 50px" alt="active" class="activeButton" th:src="@{/images/active.png}"></a>
@@ -108,9 +99,8 @@
                         <img style="width: 50px; height: 50px" alt="active" class="activeButton" th:src="@{/images/activated.png}">
                     </span>
                 </td>
-
                 <td><a th:onclick="'ajaxPostGetRaceById(' + ${race.getId()} + ')'"  ><img style="width: 35px; height: 35px" th:type="button" alt="active"  class="activatedButton" th:src="@{/images/edit.png}"></a></td>
-                <td><a th:value="${race.getId()}" class="deleteButton"  ><img  style="width: 35px; height: 35px" alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></td>
+                <td  ><a th:value="${race.getId()}" class="deleteButton"  ><img  style="width: 35px; height: 35px" alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></td>
             </tr>
             </tbody>
         </table>

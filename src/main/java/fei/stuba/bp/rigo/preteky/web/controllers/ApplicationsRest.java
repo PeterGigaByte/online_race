@@ -31,6 +31,10 @@ public class ApplicationsRest {
             return raceService.getFakeRace();
         }
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "applications";
+    }
     public ApplicationsRest(RaceService raceService,DisciplineService disciplineService, ApResultsService apResultsService,ClubParticipantsService clubParticipantsService){
         super();
         this.raceService = raceService;

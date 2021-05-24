@@ -40,6 +40,10 @@ public class Applications {
             return raceService.getFakeRace();
         }
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "applications";
+    }
 
     @GetMapping("")
     public String disciplines(Model model){
@@ -54,6 +58,20 @@ public class Applications {
         model.addAttribute("clubs",clubParticipantsService.findRealClubs(activeRace().getStartDate(),activeRace().getStartDate(),activeRace().getStartDate()));
 
         return "applications/applications";
+    }
+    @GetMapping(value = "/open")
+    public String openRace(){
+        Race race = activeRace();
+        race.setStatus("OPENED");
+        raceService.save(race);
+        return "redirect:/applications";
+    }
+    @GetMapping(value = "/close")
+    public String closeRace(){
+        Race race = activeRace();
+        race.setStatus("CLOSED");
+        raceService.save(race);
+        return "redirect:/applications";
     }
 
 

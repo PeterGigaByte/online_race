@@ -1,11 +1,9 @@
 package fei.stuba.bp.rigo.preteky.service.implementation;
 
-import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
-import fei.stuba.bp.rigo.preteky.models.sql.Bib;
-import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
-import fei.stuba.bp.rigo.preteky.models.sql.ResultStartList;
+import fei.stuba.bp.rigo.preteky.models.sql.*;
 import fei.stuba.bp.rigo.preteky.repository.BibRepository;
 import fei.stuba.bp.rigo.preteky.repository.DisciplineRepository;
+import fei.stuba.bp.rigo.preteky.repository.RaceRepository;
 import fei.stuba.bp.rigo.preteky.repository.ResultStartListRepository;
 import fei.stuba.bp.rigo.preteky.service.service.ApResultsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +23,13 @@ public class ApResultsImp implements ApResultsService {
     private BibRepository bibRepository;
     @Autowired
     private DisciplineRepository disciplineRepository;
+    @Autowired
+    private RaceRepository raceRepository;
 
-    public ApResultsImp(ResultStartListRepository resultStartListRepository,BibRepository bibRepository) {
+    public ApResultsImp(ResultStartListRepository resultStartListRepository,BibRepository bibRepository,RaceRepository raceRepository) {
         this.resultStartListRepository = resultStartListRepository;
         this.bibRepository=bibRepository;
+        this.raceRepository=raceRepository;
     }
     @Override
     public List<ResultStartList> findResultStartListByRaceId(int id){
@@ -117,6 +118,70 @@ public class ApResultsImp implements ApResultsService {
     @Override
     public List<ResultStartList> findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(int athleteId) {
         return resultStartListRepository.findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(athleteId);
+    }
+    @Override
+    public void absoluteOrderRun (int activeRace) {
+        List<String> allDisciplines = disciplineRepository.disciplineNames(activeRace);
+        List<String> allCategories = disciplineRepository.categories(activeRace);
+        List<String> allPhases = disciplineRepository.phases(activeRace);
+        Race race = raceRepository.findRaceById(activeRace);
+        for (String discipline : allDisciplines) {
+            for (String category : allCategories) {
+                for (String phase : allPhases) {
+                    List<ResultStartList> resultStartLists = resultStartListRepository.findAllByDisciplineRaceIdAndDisciplineCategoryAndDisciplineDisciplineNameAndDisciplinePhaseNameOrderByResultPerformanceAsc(activeRace,category,discipline,phase);
+                    if(!resultStartLists.isEmpty()){
+                        int order = 1;
+                        ResultStartList previous = null;
+                        int points = 11;
+                        for(ResultStartList result: resultStartLists){
+                            if(previous != null && previous.getResultPerformance()!=null && result.getResultPerformance()!=null && previous.getResultPerformance().equals(result.getResultPerformance()) && result.getResultPerformance()!=null && result.getResultPerformance()!=0){
+                                order--;
+                                result.setAbsoluteOrder("="+order +".");
+                                if(race.getSettings().getTypeScoring().equals("club_competition") && points >= 1){
+                                    result.setPoints(points);
+                                    points = pointsDown(points);
+                                }
+                                resultStartListRepository.save(result);
+                                order++;
+                            }
+                            else if(result.getResultPerformance()!=null && result.getResultPerformance()!=0){
+                                result.setAbsoluteOrder(order +".");
+                                order++;
+                                if(race.getSettings().getTypeScoring().equals("club_competition") && points >= 1){
+                                    result.setPoints(points);
+                                    points = pointsDown(points);
+                                }
+                                resultStartListRepository.save(result);
+                            }else{
+                                if(race.getSettings().getTypeScoring().equals("club_competition") && points >= 1){
+                                    result.setPoints(null);
+                                }
+                                result.setAbsoluteOrder(null);
+                                resultStartListRepository.save(result);
+                            }
+                            previous = result;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @Override
+    public void clearResults(ResultStartList resultStartList){
+        resultStartList.setResultPerformance(null);
+        resultStartList.setPlace(null);
+        resultStartList.setAbsoluteOrder(null);
+        resultStartList.setPoints(null);
+        resultStartListRepository.save(resultStartList);
+    }
+    private int pointsDown(int points){
+        if (points==11){
+            points=points-2;
+        }
+        else{
+            points--;
+        }
+        return points;
     }
 
 }

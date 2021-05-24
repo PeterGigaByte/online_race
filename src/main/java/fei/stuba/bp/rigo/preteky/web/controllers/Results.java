@@ -10,10 +10,7 @@ import fei.stuba.bp.rigo.preteky.service.service.DisciplineService;
 import fei.stuba.bp.rigo.preteky.service.service.RaceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +29,18 @@ public class Results {
         this.disciplineService = disciplineService;
         this.apResultsService = apResultsService;
         this.clubParticipantsService = clubParticipantsService;
+    }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "results";
+    }
+    @ModelAttribute("span")
+    public String span(){
+        if(activeRace().getSettings().getReactions()==1){
+            return "5";
+        }else{
+            return "4";
+        }
     }
     @ModelAttribute("activeRace")
     public Race activeRace(){
@@ -54,6 +63,51 @@ public class Results {
         model.addAttribute("clubs",clubParticipantsService.findRealClubs(activeRace().getStartDate(),activeRace().getStartDate(),activeRace().getStartDate()));
         return "results/results";
     }
+    @GetMapping("/results/setDns/{id}")
+    public String setDns(@PathVariable Integer id){
+        ResultStartList resultStartList = apResultsService.findById(id);
+        if(resultStartList!=null && resultStartList.getDiscipline().getDisciplineType().equals("run")){
+            if( resultStartList.getStatus()!= null && resultStartList.getStatus().equals("DNS")){
+                resultStartList.setStatus(null);
+            }else{
+                apResultsService.clearResults(resultStartList);
+                resultStartList.setReaction(null);
+                resultStartList.setStatus("DNS");
+            }
+
+            apResultsService.saveResultStartList(resultStartList);
+        }
+        return "redirect:/results";
+    }
+    @GetMapping("/results/setDnf/{id}")
+    public String setDnf(@PathVariable Integer id){
+        ResultStartList resultStartList = apResultsService.findById(id);
+
+        if(resultStartList!=null && resultStartList.getDiscipline().getDisciplineType().equals("run")){
+            if(resultStartList.getStatus()!= null && resultStartList.getStatus().equals("DNF")){
+                resultStartList.setStatus(null);
+            }else{
+                apResultsService.clearResults(resultStartList);
+                resultStartList.setStatus("DNF");
+            }
+            apResultsService.saveResultStartList(resultStartList);
+        }
+        return "redirect:/results";
+    }
+    @GetMapping("/results/setDq/{id}")
+    public String setDq(@PathVariable Integer id){
+        ResultStartList resultStartList = apResultsService.findById(id);
+        if(resultStartList!=null && resultStartList.getDiscipline().getDisciplineType().equals("run")){
+            if(resultStartList.getStatus()!= null && resultStartList.getStatus().equals("DQ")){
+                resultStartList.setStatus(null);
+            }else{
+                apResultsService.clearResults(resultStartList);
+                resultStartList.setStatus("DQ");
+            }
+            apResultsService.saveResultStartList(resultStartList);
+        }
+        return "redirect:/results";
+    }
     @PostMapping(value = "/results/edit/results")
     public String editResults(@RequestBody JsonNode jsonNode){
         for (int i = 0; i<jsonNode.size()-1; i++){
@@ -70,20 +124,38 @@ public class Results {
                 }
                 resultStartList.setResultPerformance(resultPerformance);
             }
+            if(activeRace().getSettings().getReactions()==1 && resultStartList.getDiscipline().getDisciplineType().equals("run")){
+                String reaction = jsonNode.get(i).get("Reakčný čas").asText();
+                if(!reaction.isEmpty() && !reaction.equals(resultStartList.getReactions())){
+                    Double reactionDouble = Double.valueOf(reaction);
+                    if (reactionDouble <= 9999 && reactionDouble >= -9999){
+                        reactionDouble=reactionDouble/1000;
+                        resultStartList.setReaction(reactionDouble);
+                    }else{
+                        resultStartList.setReaction(null);
+                    }
+                }
+            }
             apResultsService.saveResultStartList(resultStartList);
         }
         int disciplineId = jsonNode.get(jsonNode.size()-1).get("id").asInt();
         List <ResultStartList> resultStartLists = apResultsService.findAllByDisciplineIdOrderByResultPerformanceAsc(disciplineId);
         int order = 1;
+        ResultStartList previous = null;
         for (ResultStartList resultStartList: resultStartLists) {
-            if(resultStartList.getResultPerformance()!=null && resultStartList.getResultPerformance()!=0.0){
+            if(previous != null && previous.getResultPerformance()!=null && resultStartList.getResultPerformance()!=null && previous.getResultPerformance().equals(resultStartList.getResultPerformance()) && resultStartList.getResultPerformance()!=null && resultStartList.getResultPerformance()!=0.0){
+                order--;
+                resultStartList.setPlace(+order +"=.");
+                order++;
+            }
+            else if(resultStartList.getResultPerformance()!=null && resultStartList.getResultPerformance()!=0.0){
                 resultStartList.setPlace(order+".");
+                order++;
             }else{
                 resultStartList.setPlace(null);
-                order--;
             }
 
-            order++;
+            previous = resultStartList;
             apResultsService.saveResultStartList(resultStartList);
         }
         return "redirect:/results";

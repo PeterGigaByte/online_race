@@ -3,6 +3,7 @@ package fei.stuba.bp.rigo.preteky.repository;
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Date;
 import java.util.List;
@@ -21,4 +22,10 @@ public interface DisciplineRepository extends JpaRepository<Discipline, Integer>
     Discipline findDisciplinesById(int id);
     List<Discipline> findDisciplinesByRaceIdAndDisciplineTypeOrderByDisciplineTime(Integer id,String type);
     List<Discipline> findDisciplinesByRaceIdAndCategoryAndPhaseNameAndDisciplineNameOrderByPhaseNumberDesc(int raceId, String category, String phaseName, String disciplineName);
+    @Query("SELECT DISTINCT d.disciplineName FROM Discipline d WHERE d.race.id = (:activeRace)")
+    List<String> disciplineNames(int activeRace);
+    @Query("SELECT DISTINCT d.category FROM Discipline d WHERE d.race.id = (:activeRace)")
+    List<String> categories(int activeRace);
+    @Query("SELECT DISTINCT d.phaseName FROM Discipline d WHERE d.race.id = (:activeRace)")
+    List<String> phases(int activeRace);
 }

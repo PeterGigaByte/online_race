@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 
     <meta charset="UTF-8">
@@ -24,19 +24,11 @@
 </head>
 <body>
 
-<div class="topnav">
-    <a  href="/">Preteky</a>
-    <a href="/disciplines">Disciplíny</a>
-    <a href="/applications">Prihlášky</a>
-    <a  href="/results">Výsledky</a>
-    <a class="active" onclick="openNav()">Databáza klubov a pretekárov</a>
-    <a href="/disciplines/schedule">Časový poriadok</a>
-</div>
+<div th:replace="~{fragments/navbar :: navigation}"> </div>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="/athletes">Pretekári</a>
     <a href="/clubs">Kluby</a>
-    <a >Stiahnuť databázu</a>
     <a href="/contact">Kontakt</a>
 </div>
 
@@ -69,7 +61,7 @@
         <tbody>
         <tr  th:each="athlete: ${athletes}" >
             <td th:text="${athlete.getFirstName()}+' '+ ${athlete.getSurname()}"> </td>
-            <td><span th:if="${clubTransfer.containsKey(athlete)}"><span th:text="${clubTransfer.get(athlete).club.clubName}"></span></span> </td>
+            <td><span th:if="${clubTransfer.containsKey(athlete)}"><span th:text="${clubTransfer.get(athlete).club.shortcutClubName}"></span></span> </td>
             <td th:text="${athlete.returnBirth()}"> </td>
             <td><a th:href="@{/athletes/{id}(id=${athlete.getId()})} "  ><img  style="width: 35px; height: 35px" alt="active" class="activatedButton" th:src="@{/images/Settings-icon.png}"></a></td>
             <td><a th:value="${athlete.getId()}" class="deleteButton"  ><img  style="width: 35px; height: 35px" alt="active" class="activatedButton" th:src="@{/images/delete.png}"></a></td>

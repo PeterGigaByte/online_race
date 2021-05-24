@@ -19,6 +19,10 @@ public class Index {
         super();
         this.raceService = raceService;
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "races";
+    }
 
 
 

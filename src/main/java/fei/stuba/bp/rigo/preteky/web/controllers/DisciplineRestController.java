@@ -38,6 +38,10 @@ public class DisciplineRestController {
             return raceService.getFakeRace();
         }
     }
+    @ModelAttribute("activePage")
+    public String activePage(){
+        return "disciplines";
+    }
 
     /**
      *

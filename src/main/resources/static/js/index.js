@@ -121,6 +121,7 @@ var jBoxLogin = {
             '               </select>' +
             '               <select id="typeScoring2" class="login-textfield" placeholder="Scoring" autocomplete="off"  autocorrect="off" autocapitalize="off" spellcheck="false">' +
             '               <option value="comptetitor_race">Súťaž jednotlivcov</option>'   +
+            '               <option value="club_competition">Súťaž klubov</option>'   +
             '               </select>' +
             '       <div class="login-remember">' +
             '       <div class="form-check">' +

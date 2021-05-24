@@ -55,7 +55,19 @@ public class Race implements Serializable {
 
     @Column(name = "end_date", nullable = false)
     private Date endDate;
+    public enum Status {
+        OPENED, CLOSED
+    }
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.CLOSED;
 
+    public void setStatus(String statusIn){
+        this.status= Status.valueOf(statusIn);
+    }
+    public String getStatus(){
+        return this.status.name();
+    }
     /**
      * typ preteku-
      * True - vonku

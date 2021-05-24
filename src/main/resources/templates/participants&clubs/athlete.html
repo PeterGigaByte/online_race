@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 
     <meta charset="UTF-8">
@@ -23,19 +23,11 @@
 </head>
 <body>
 
-<div class="topnav">
-    <a  href="/">Preteky</a>
-    <a href="/disciplines">Disciplíny</a>
-    <a href="/applications">Prihlášky</a>
-    <a  href="/results">Výsledky</a>
-    <a class="active" href="#" onclick="openNav()">Databáza klubov a pretekárov</a>
-    <a href="/disciplines/schedule">Časový poriadok</a>
-</div>
+<div th:replace="~{fragments/navbar :: navigation}"> </div>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="/athletes">Pretekári</a>
     <a href="/clubs">Kluby</a>
-    <a href="#">Stiahnuť databázu</a>
     <a href="/contact">Kontakt</a>
 </div>
 
@@ -44,7 +36,7 @@
 <main th:id="main">
     <div th:class="heading_t">
         <!-- aktivny pretek -->
-        <div  th:class="addRace">
+        <div  th:class="addRace" style="width: 30%">
             <a>
                 <label style="color: blue" th:class="div-button">
                     <span th:text="${athlete.firstName+' '+athlete.surname}" style="font-size: 50px"></span>
@@ -124,10 +116,10 @@
             <td th:text="${result.discipline.getDateForCSV()}"></td>
             <td th:text="${result.discipline.race.raceName}" ></td>
             <td th:text="${result.discipline.race.place}"></td>
-            <td th:text="${result.discipline.disciplineName}"></td>
+            <td th:text="${result.discipline.disciplineName +' '+ result.discipline.phaseName+' '+ result.discipline.phaseNumber}"></td>
             <td th:text="${result.place}"></td>
             <td ><span th:if="${result.discipline.disciplineType=='run'}">
-                        <span th:text="${result.getTimeResultPerformance()}"></span>
+                        <span th:text="${result.status!=null ? result.status : result.getTimeResultPerformance()}"></span>
                     </span>
                 <span th:if="${result.discipline.disciplineType!='run'}" > <span th:text="${result.resultPerformance}"></span></span>
             </td>
