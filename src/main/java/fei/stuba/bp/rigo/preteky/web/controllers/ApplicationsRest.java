@@ -80,7 +80,7 @@ public class ApplicationsRest {
                 }else{
                     bibR = new Bib();
                     if(bibCheck!=null && !bibCheck.getId().equals(bibR.getId())){
-                        bibR.setBib(null);
+                        bibR.setBib(0);
                     }else{
                         bibR.setBib(bib);
                     }
@@ -108,8 +108,14 @@ public class ApplicationsRest {
     @PostMapping(value = "/edit")
     public String editApplications(@RequestBody JsonNode jsonNode){
         for (int i = 0; i<jsonNode.size()-1; i++){
-            int line = jsonNode.get(i).get("Line").asInt();
-            int bib = jsonNode.get(i).get("Bib").asInt();
+            Integer line=null;
+            if(!jsonNode.get(i).get("Line").asText().equals("")){
+                line = jsonNode.get(i).get("Line").asInt();
+            }
+            Integer bib=null;
+            if(!jsonNode.get(i).get("Bib").asText().equals("")){
+                bib = jsonNode.get(i).get("Bib").asInt();
+            }
             int idStartResult = jsonNode.get(i).get("Meno").asInt();
             Double startPerformance = jsonNode.get(i).get("Štartový výkon").asDouble();
             ResultStartList resultStartList = apResultsService.findById(idStartResult);
@@ -123,7 +129,11 @@ public class ApplicationsRest {
                 }
                 apResultsService.saveResultStartList(resultStartList);
                 Bib bibR = apResultsService.findByRaceIdAndAthleteId(activeRace().getId(),resultStartList.getAthlete().getId());
-                Bib bibCheck = apResultsService.findByRaceIdAndBib(activeRace().getId(),bib);
+                Bib bibCheck=null;
+                if(bib !=null){
+                    bibCheck = apResultsService.findByRaceIdAndBib(activeRace().getId(),bib);
+                }
+
                 if (bibR!=null){
                     if(bibCheck!=null && !bibCheck.getId().equals(bibR.getId())){
                         System.out.println("faiulure");
