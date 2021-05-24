@@ -90,7 +90,7 @@
                 <tr style="background-color: #0b5ea0; color: white;">
                     <th style="  padding-left:20px;" th:text="${entry.key.disciplineName +
                 ',  '+entry.key.getDayMonth()+' - '+entry.key.disciplineTime+
-                ', '+entry.key.phaseName+' - '+entry.key.phaseNumber}" th:colspan="${span}">
+                ', '+entry.key.phaseName+' - '+entry.key.phaseNumber}" th:colspan="${entry.key.disciplineType=='run' ? span : '5'}">
                     </th>
                     <th>
                      <span th:if="${entry.key.cameraId!=null}">
@@ -110,14 +110,14 @@
                      <th style="width: 5%">Line</th>
                 </span>
                     <span th:if="${entry.key.disciplineType!='run'}">
-                     <td  class="hidden">Line</td>
+                     <th  class="hidden">Line</th>
                 </span>
                     <th style="width: 10%">Bib</th>
                     <th>Meno</th>
                     <th>Dátum narodenia</th>
                     <th>Klub</th>
                     <th>Výkon atléta</th>
-                    <span th:if="${race.getSettings().getReactions()==1}">
+                    <span th:if="${race.getSettings().getReactions()==1 && entry.key.disciplineType=='run'}">
                      <th>Štartová reakcia</th>
                      </span>
                     <span th:if="${race.getSettings().getTypeScoring()=='club_competition'}">
@@ -156,7 +156,7 @@
                      <td th:text="${startList.getReactions()}"></td>
                      </span>
                     <span th:if="${race.getSettings().getTypeScoring()=='club_competition'}">
-                     <td th:text="${startList.points}"></td>
+                     <td  style="width: 20%" th:text="${startList.points}"></td>
                      </span>
                 </tr>
                 </tbody>
