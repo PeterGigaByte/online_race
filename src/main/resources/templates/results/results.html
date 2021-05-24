@@ -101,18 +101,19 @@
                 <tr style="background-color: #0b5ea0; color: white;">
                     <th style="  padding-left:20px;" th:text="${entry.key.disciplineName +
                 ',  '+entry.key.getDayMonth()+' - '+entry.key.disciplineTime+
-                ', '+entry.key.phaseName+' - '+entry.key.phaseNumber}" th:colspan="${span}">
+                ', '+entry.key.phaseName+' - '+entry.key.phaseNumber}" th:colspan="${entry.key.disciplineType=='run' ? span : '4'}">
                     </th>
-                    <span th:if="${entry.key.cameraId!=null}">
-                    <th colspan="1">
 
+                    <th colspan="1">
+                        <span th:if="${entry.key.cameraId!=null}">
                         <span th:text="${entry.key.cameraId}">
                         </span>
                         <span>
                             <img  alt="addAthletes" class="plus" th:src="@{/images/camera.png}">
                     </span>
+                            </span>
                      </th>
-                         </span>
+
                     <th>
                      <span th:if="${entry.key.cameraId!=null}">
                     <span th:text="${entry.key.wind}"></span>
@@ -132,18 +133,21 @@
                      <th style="width: 5%">Line</th>
                 </span>
                     <span th:if="${entry.key.disciplineType!='run'}">
-                     <td  class="hidden">Line</td>
+                     <th  class="hidden">Line</th>
                 </span>
                     <th style="width: 10%">Bib</th>
                     <th>Meno</th>
                     <th>Dátum narodenia</th>
                     <th>Klub</th>
-                    <th th:colspan="${entry.key.disciplineType=='run' ? '1' : '2'}">Výkon atléta</th>
+                    <th th:colspan="${entry.key.disciplineType=='run' ? '1' : '1'}">Výkon atléta</th>
                     <span th:if="${activeRace.getSettings().getReactions()==1 && entry.key.disciplineType=='run'}">
                      <th style="width: 20%">Reakčný čas</th>
                 </span>
-                    <span th:if="${activeRace.getSettings().getReactions()!=1 || entry.key.disciplineType!='run'}">
-                     <th  class="hidden">Reakčný čas</th>
+                    <span th:if="${ entry.key.disciplineType!='run'}">
+                     <th class="nosort" style="width: 20%" ></th>
+                </span>
+                    <span th:if="${activeRace.getSettings().getReactions()!=1 && entry.key.disciplineType=='run'}">
+                     <th class="hidden" style="width: 20%" ></th>
                 </span>
                     <th class="hidden"></th>
                 </tr>
@@ -155,7 +159,7 @@
                         <td th:class="${startList.status == null ? '' : 'redC'}" style="width: 5%" th:text="${startList.line}"></td>
                      </span>
                     <span th:if="${entry.key.disciplineType!='run'}">
-                     <td th:class="${startList.status == null ? '' : 'redC'}" class="hidden">Line</td>
+                     <td th:class="${startList.status == null ? '' : 'redC'}" style="display: none">Line</td>
                 </span>
                     <td th:class="${startList.status == null ? '' : 'redC'}" style="width: 10%">
                         <span th:if="${#maps.containsKey(bibMap,startList.athlete)}">
@@ -175,8 +179,8 @@
                     </span>
                         <span th:if="${startList.discipline.disciplineType!='run'}" > <span th:text="${startList.resultPerformance}"></span></span>
                     </td>
-                    <td th:class="${startList.status == null ? '' : 'redC'}" class="input-hover" th:if="${activeRace.getSettings().getReactions()==1 && startList.discipline.disciplineType=='run' ? 'display:block' : 'display:none'}"  style="width: 20%" th:text="${startList.getReactions()}"></td>
-                    <td  th:if="${startList.discipline.disciplineType=='run' ? 'display:block' : 'display:none'}" >
+                    <td th:class="${startList.status == null ? '' : 'redC'}" class="input-hover" th:style="${activeRace.getSettings().getReactions()==1 && startList.discipline.disciplineType=='run' ? 'width: 20%;' : 'display:none'}"  th:text="${startList.getReactions()}"></td>
+                    <td  th:style="${startList.discipline.disciplineType=='run' ? '' : 'display:none'}" >
                         <div  style="display: inline-block; width: 200px"  class="btn-group btn-group-toggle" data-toggle="buttons">
                             <label th:onclick="'window.location.href=\'/results/setDns/' + ${startList.id} + '\''"  th:class="'btn btn-secondary '+${startList.status == 'DNS' ? 'active' : ''}"  >
                                 <a  style="color: white" th:name="${startList.id}"> DNS</a>

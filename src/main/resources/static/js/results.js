@@ -58,7 +58,10 @@ $(document).ready(function() {
         select:  false,
         "ordering": true,
         "autoWidth": false,
-        "columnDefs" : [{"targets":4, "type":"date-eu"},{ targets: 0, type: nameType },{ targets: 6, type: nameType },{ "targets": 6, createdCell: createdCell},{ "targets": 7, createdCell: createdCell}],
+        "columnDefs" : [{
+            'bSortable': false,
+            'aTargets': ['nosort']
+        },{"targets":4, "type":"date-eu"},{ targets: 0, type: nameType },{ targets: 6, type: nameType },{ "targets": 6, createdCell: createdCell},{ "targets": 7, createdCell: createdCell}],
 
     });
 
