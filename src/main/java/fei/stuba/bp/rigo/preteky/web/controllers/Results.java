@@ -36,7 +36,7 @@ public class Results {
     }
     @ModelAttribute("span")
     public String span(){
-        if(activeRace().getSettings().getReactions()==1){
+        if(activeRace()!=null && activeRace().getSettings().getReactions()==1){
             return "5";
         }else{
             return "4";
