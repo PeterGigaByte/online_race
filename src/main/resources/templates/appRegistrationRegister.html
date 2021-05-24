@@ -65,7 +65,7 @@
             }else if(choice == "female"){
                 $.each(athletesWomen,function (i,athlete) {
                     $('#athletes')
-                        .append('<option value="'+athlete["athlete"]["id"]+'">'+athlete["athlete"]["firstName"]+'</option>')
+                        .append('<option value="'+athlete["athlete"]["id"]+'">'+athlete["athlete"]["firstName"]+" "+athlete["athlete"]["surname"]+" "+athlete["athlete"]["dateBirth"]+'</option>')
                 })
             }
         });
