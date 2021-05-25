@@ -58,17 +58,29 @@ public class RoleController {
     @PostMapping(value = "/edit/{id}")
     public String roles(@PathVariable int id, @ModelAttribute User user,@ModelAttribute Roles roles){
         Set<Role> rolesSet = new HashSet<>();
+
         if(roles.getAdmin()){
-            rolesSet.add(new Role("ADMIN"));
+            Role role = rolesRepository.findByName("ADMIN");
+            if(role == null){
+                role = rolesRepository.save(new Role("ADMIN"));
+            }
+            rolesSet.add(role);
         }
         if(roles.getSupervisor()){
-            rolesSet.add(new Role("SUPERVISOR"));
+            Role role = rolesRepository.findByName("SUPERVISOR");
+            if(role == null){
+                role = rolesRepository.save(new Role("SUPERVISOR"));
+            }
+            rolesSet.add(role);
         }
         if(roles.getRegistered()){
-            rolesSet.add(new Role("REGISTERED"));
+            Role role = rolesRepository.findByName("REGISTERED");
+            if(role == null){
+                role = rolesRepository.save(new Role("REGISTERED"));
+            }
+            rolesSet.add(role);
         }
         user.setRoles(rolesSet);
-
         usersRepository.save(user);
         return "redirect:/roles/edit/"+id;
     }
