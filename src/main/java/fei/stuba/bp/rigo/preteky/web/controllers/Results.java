@@ -139,7 +139,12 @@ public class Results {
             apResultsService.saveResultStartList(resultStartList);
         }
         int disciplineId = jsonNode.get(jsonNode.size()-1).get("id").asInt();
-        List <ResultStartList> resultStartLists = apResultsService.findAllByDisciplineIdOrderByResultPerformanceAsc(disciplineId);
+        List <ResultStartList> resultStartLists;
+        if(!disciplineService.findDisciplineById(disciplineId).getDisciplineType().equals("run")){
+            resultStartLists = apResultsService.findResultStartListByDisciplineIdOrderByResultPerformanceDesc(disciplineId);
+        }else{
+            resultStartLists = apResultsService.findAllByDisciplineIdOrderByResultPerformanceAsc(disciplineId);
+        }
         int order = 1;
         ResultStartList previous = null;
         for (ResultStartList resultStartList: resultStartLists) {

@@ -14,6 +14,7 @@ public interface ResultStartListRepository extends JpaRepository<ResultStartList
     List<ResultStartList> findAllByDisciplineRaceId(int id);
     List<ResultStartList> findAllByDisciplineIdOrderByResultPerformanceAsc(int id);
     List<ResultStartList> findResultStartListByDisciplineIdOrderByStartPerformanceAsc(int id);
+    List<ResultStartList> findResultStartListByDisciplineIdOrderByResultPerformanceDesc(int id);
     List<ResultStartList> findByAthleteIdAndDisciplineId(int idAthlete, int idDiscipline);
     List<ResultStartList> findAllByDisciplineRaceIdAndDisciplineId(int idRace,int idDiscipline);
     default Map<Athlete, ResultStartList> findAllByDisciplineRaceIdMap(int id) {
@@ -21,4 +22,5 @@ public interface ResultStartListRepository extends JpaRepository<ResultStartList
     }
     List<ResultStartList> findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(int athleteId);
     List<ResultStartList> findAllByDisciplineRaceIdAndDisciplineCategoryAndDisciplineDisciplineNameAndDisciplinePhaseNameOrderByResultPerformanceAsc(int raceId, String category, String disciplineName, String phaseName );
+    List<ResultStartList> findAllByDisciplineRaceIdAndDisciplineCategoryAndDisciplineDisciplineNameAndDisciplinePhaseNameOrderByResultPerformanceDesc(int raceId, String category, String disciplineName, String phaseName );
 }

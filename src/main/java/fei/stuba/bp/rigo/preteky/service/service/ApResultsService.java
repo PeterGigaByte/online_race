@@ -25,6 +25,7 @@ public interface ApResultsService {
     List <ResultStartList> findResultStartListByDisciplineId(int disciplineId);
     List<ResultStartList> findAllByDisciplineIdOrderByResultPerformanceAsc(int id);
     List<ResultStartList> findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(int athleteId);
+    List<ResultStartList> findResultStartListByDisciplineIdOrderByResultPerformanceDesc(int id);
     void absoluteOrderRun (int activeRace);
     void clearResults(ResultStartList resultStartList);
 }
