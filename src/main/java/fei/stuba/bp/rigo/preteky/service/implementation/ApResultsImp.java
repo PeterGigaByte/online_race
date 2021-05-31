@@ -1,10 +1,7 @@
 package fei.stuba.bp.rigo.preteky.service.implementation;
 
 import fei.stuba.bp.rigo.preteky.models.sql.*;
-import fei.stuba.bp.rigo.preteky.repository.BibRepository;
-import fei.stuba.bp.rigo.preteky.repository.DisciplineRepository;
-import fei.stuba.bp.rigo.preteky.repository.RaceRepository;
-import fei.stuba.bp.rigo.preteky.repository.ResultStartListRepository;
+import fei.stuba.bp.rigo.preteky.repository.*;
 import fei.stuba.bp.rigo.preteky.service.service.ApResultsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,11 +22,14 @@ public class ApResultsImp implements ApResultsService {
     private DisciplineRepository disciplineRepository;
     @Autowired
     private RaceRepository raceRepository;
+    @Autowired
+    private AttemptRepository attemptRepository;
 
-    public ApResultsImp(ResultStartListRepository resultStartListRepository,BibRepository bibRepository,RaceRepository raceRepository) {
+    public ApResultsImp(ResultStartListRepository resultStartListRepository,BibRepository bibRepository,RaceRepository raceRepository, AttemptRepository attemptRepository) {
         this.resultStartListRepository = resultStartListRepository;
         this.bibRepository=bibRepository;
         this.raceRepository=raceRepository;
+        this.attemptRepository=attemptRepository;
     }
     @Override
     public List<ResultStartList> findResultStartListByRaceId(int id){
@@ -191,4 +191,100 @@ public class ApResultsImp implements ApResultsService {
     public List<ResultStartList> findResultStartListByDisciplineIdOrderByResultPerformanceDesc(int id) {
         return resultStartListRepository.findResultStartListByDisciplineIdOrderByResultPerformanceDesc(id);
     }
+    @Override
+    public Integer getAttemptsNumber(Discipline discipline){
+        Integer attempts = attemptRepository.countByResultStartListDisciplineId(discipline.getId());
+        Integer athletes = resultStartListRepository.countByDisciplineId(discipline.getId());
+        if(athletes == 0){
+            return 0;
+        }
+        return attempts/athletes;
+    }
+    @Override
+    public void createAttempts (Discipline discipline, Integer numAttempts){
+        if (numAttempts == null || numAttempts>10 || numAttempts < 0){
+            return;
+        }
+        if(discipline != null && !discipline.getDisciplineType().equals("run")){
+            Integer attempts = attemptRepository.countByResultStartListDisciplineId(discipline.getId());
+            Integer athletes = resultStartListRepository.countByDisciplineId(discipline.getId());
+            if(athletes == 0){
+                return;
+            }
+            if(attempts/athletes!=numAttempts){
+                List <ResultStartList> resultStartList = resultStartListRepository.findAllResultStartListByDisciplineId(discipline.getId());
+                if(!resultStartList.isEmpty()){
+                    for (ResultStartList resultStartListContent : resultStartList){
+                        Integer attemptsOfResult = attemptRepository.countByResultStartListId(resultStartListContent.getId());
+                        if(!attemptsOfResult.equals(numAttempts)){
+                            if(numAttempts>attemptsOfResult){
+                                while (!numAttempts.equals(attemptsOfResult)){
+                                    attemptRepository.save(new Attempt(resultStartListContent));
+                                    attemptsOfResult++;
+                                }
+                            }else{
+                                List<Attempt> attemptList = attemptRepository.findAllByResultStartListIdOrderByIdAttemptDesc(resultStartListContent.getId());
+                                while (!numAttempts.equals(attemptsOfResult)){
+                                    attemptRepository.delete(attemptList.get(0));
+                                    attemptList.remove(0);
+                                    attemptsOfResult--;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @Override
+    public Map<Integer,List<Attempt>> getAttemptMapping(List<ResultStartList> resultStartLists){
+        if(resultStartLists.isEmpty()){
+            return null;
+        }
+        Map<Integer,List<Attempt>> map = new LinkedHashMap<>();
+        for (ResultStartList resultStartList: resultStartLists){
+            map.put(resultStartList.getId(),attemptRepository.findAllByResultStartListIdOrderByIdAttemptAsc(resultStartList.getId()));
+        }
+        return map;
+    }
+    @Override
+    public Attempt getAttempt(Integer id){
+        return attemptRepository.findByIdAttempt(id);
+    }
+    @Override
+    public void saveAttempt(Attempt attempt){
+        attemptRepository.save(attempt);
+    }
+    @Override
+    public void orderTechnicalDiscipline(Integer disciplineId){
+        List<ResultStartList> resultStartList = resultStartListRepository.findAllResultStartListByDisciplineId(disciplineId);
+        for (ResultStartList resultStartList1 : resultStartList){
+            resultStartList1.setResultPerformance( attemptRepository.findAllByResultStartListIdOrderByPerformanceDesc(resultStartList1.getId()).get(0).getPerformance());
+            resultStartListRepository.save(resultStartList1);
+        }
+        resultStartList = this.findResultStartListByDisciplineIdOrderByResultPerformanceDesc(disciplineId);
+        orderPlace(resultStartList);
+    }
+    @Override
+    public void orderPlace(List<ResultStartList> resultStartLists){
+        int order = 1;
+        ResultStartList previous = null;
+        for (ResultStartList resultStartList: resultStartLists) {
+            if(previous != null && previous.getResultPerformance()!=null && resultStartList.getResultPerformance()!=null && previous.getResultPerformance().equals(resultStartList.getResultPerformance()) && resultStartList.getResultPerformance()!=null && resultStartList.getResultPerformance()!=0.0){
+                order--;
+                resultStartList.setPlace(+order +"=.");
+                order++;
+            }
+            else if(resultStartList.getResultPerformance()!=null && resultStartList.getResultPerformance()!=0.0){
+                resultStartList.setPlace(order+".");
+                order++;
+            }else{
+                resultStartList.setPlace(null);
+            }
+
+            previous = resultStartList;
+            this.saveResultStartList(resultStartList);
+        }
+    }
+
 }

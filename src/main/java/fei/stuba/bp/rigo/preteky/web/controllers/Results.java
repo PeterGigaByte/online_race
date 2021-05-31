@@ -1,6 +1,8 @@
 package fei.stuba.bp.rigo.preteky.web.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import fei.stuba.bp.rigo.preteky.models.FormAttempts;
+import fei.stuba.bp.rigo.preteky.models.sql.Attempt;
 import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
 import fei.stuba.bp.rigo.preteky.models.sql.Race;
 import fei.stuba.bp.rigo.preteky.models.sql.ResultStartList;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,24 +148,59 @@ public class Results {
         }else{
             resultStartLists = apResultsService.findAllByDisciplineIdOrderByResultPerformanceAsc(disciplineId);
         }
-        int order = 1;
-        ResultStartList previous = null;
-        for (ResultStartList resultStartList: resultStartLists) {
-            if(previous != null && previous.getResultPerformance()!=null && resultStartList.getResultPerformance()!=null && previous.getResultPerformance().equals(resultStartList.getResultPerformance()) && resultStartList.getResultPerformance()!=null && resultStartList.getResultPerformance()!=0.0){
-                order--;
-                resultStartList.setPlace(+order +"=.");
-                order++;
-            }
-            else if(resultStartList.getResultPerformance()!=null && resultStartList.getResultPerformance()!=0.0){
-                resultStartList.setPlace(order+".");
-                order++;
-            }else{
-                resultStartList.setPlace(null);
-            }
-
-            previous = resultStartList;
-            apResultsService.saveResultStartList(resultStartList);
-        }
+        apResultsService.orderPlace( resultStartLists);
         return "redirect:/results";
     }
+    @GetMapping(value = "/results/attempts/{raceId}/{disciplineId}")
+    public String showAttempts(@PathVariable Integer raceId,@PathVariable Integer disciplineId,Model model){
+        Race activeRace = raceService.getRaceById(raceId);
+        Discipline discipline = disciplineService.findDisciplineById(disciplineId);
+        if(activeRace == null || discipline == null || discipline.getDisciplineType().equals("run") || activeRace.getActivity()!=1 || !discipline.getRace().getId().equals(raceId)){
+            return "redirect:/";
+        }
+        Integer numberOfAttempts = apResultsService.getAttemptsNumber(discipline);
+        if(numberOfAttempts==null){
+            numberOfAttempts=0;
+        }
+        model.addAttribute("activeRace",activeRace);
+        model.addAttribute("discipline",discipline);
+        model.addAttribute("numberOfAttempts",numberOfAttempts);
+        List<ResultStartList> resultStartListList = apResultsService.findAllByDisciplineRaceIdAndDisciplineId(raceId,disciplineId);
+        Map<Integer, Double> attemptMap = new HashMap<>();
+        Map<Integer, List<Attempt>> mappedAttempts = apResultsService.getAttemptMapping(resultStartListList);
+        for (List<Attempt> attemptList : mappedAttempts.values()){
+            for (Attempt attempt: attemptList){
+                attemptMap.put(attempt.getIdAttempt(),attempt.getPerformance());
+            }
+        }
+        FormAttempts formAttempts = new FormAttempts(mappedAttempts,attemptMap,resultStartListList);
+        model.addAttribute("attempts",formAttempts);
+        model.addAttribute("bibMap",apResultsService.findByRaceIdMap(activeRace.getId()));
+        model.addAttribute("clubs",clubParticipantsService.findRealClubs(activeRace().getStartDate(),activeRace().getStartDate(),activeRace().getStartDate()));
+        return "attempt/attempts";
+    }
+    @PostMapping(value = "/results/attempts/{raceId}/{disciplineId}")
+    public String updateAttempts(@PathVariable Integer raceId,@PathVariable Integer disciplineId,Model model,@RequestParam Integer attempt){
+        apResultsService.createAttempts(disciplineService.findDisciplineById(disciplineId),attempt);
+        return "redirect:/results/attempts/"+raceId+"/"+disciplineId;
+    }
+    @PostMapping(value = "/results/attempts/{raceId}/{disciplineId}/editResults")
+    public String editAttemptResults(@PathVariable Integer raceId, @PathVariable Integer disciplineId, @ModelAttribute("attempts") FormAttempts attempts){
+        Race activeRace = raceService.getRaceById(raceId);
+        Discipline discipline = disciplineService.findDisciplineById(disciplineId);
+        if(activeRace == null || discipline == null || discipline.getDisciplineType().equals("run") || activeRace.getActivity()!=1 || !discipline.getRace().getId().equals(raceId)){
+            return "redirect:/";
+        }
+        for (Integer idAttempt:attempts.getAttemptMap().keySet()){
+            Attempt attempt = apResultsService.getAttempt(idAttempt);
+            attempt.setPerformance(attempts.getAttemptMap().get(idAttempt));
+            apResultsService.saveAttempt(attempt);
+        }
+        apResultsService.orderTechnicalDiscipline(disciplineId);
+
+        return "redirect:/results/attempts/"+raceId+"/"+disciplineId;
+    }
+
+
+
 }

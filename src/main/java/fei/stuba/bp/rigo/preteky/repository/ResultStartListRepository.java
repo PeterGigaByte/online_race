@@ -23,4 +23,6 @@ public interface ResultStartListRepository extends JpaRepository<ResultStartList
     List<ResultStartList> findAllByAthleteIdOrderByDisciplineDisciplineDateAsc(int athleteId);
     List<ResultStartList> findAllByDisciplineRaceIdAndDisciplineCategoryAndDisciplineDisciplineNameAndDisciplinePhaseNameOrderByResultPerformanceAsc(int raceId, String category, String disciplineName, String phaseName );
     List<ResultStartList> findAllByDisciplineRaceIdAndDisciplineCategoryAndDisciplineDisciplineNameAndDisciplinePhaseNameOrderByResultPerformanceDesc(int raceId, String category, String disciplineName, String phaseName );
+    Integer countByDisciplineId(Integer id);
+    List<ResultStartList> findAllResultStartListByDisciplineId(Integer id);
 }

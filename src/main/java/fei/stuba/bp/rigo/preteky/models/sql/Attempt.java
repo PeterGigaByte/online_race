@@ -9,10 +9,9 @@ import java.io.Serializable;
 @Data
 @Table(name = "attempt")
 public class Attempt implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_attempt", nullable = false)
     private Integer idAttempt;
 
@@ -21,12 +20,15 @@ public class Attempt implements Serializable {
     private ResultStartList resultStartList;
 
     @Column(name = "performance")
-    private String performance;
+    private Double performance;
 
     @Column(name = "num")
     private Integer num;
 
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    public Attempt() {
+    }
 
+    public Attempt(ResultStartList resultStartList) {
+        this.resultStartList = resultStartList;
+    }
 }

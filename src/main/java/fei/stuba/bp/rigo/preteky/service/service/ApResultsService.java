@@ -1,9 +1,6 @@
 package fei.stuba.bp.rigo.preteky.service.service;
 
-import fei.stuba.bp.rigo.preteky.models.sql.Athlete;
-import fei.stuba.bp.rigo.preteky.models.sql.Bib;
-import fei.stuba.bp.rigo.preteky.models.sql.Discipline;
-import fei.stuba.bp.rigo.preteky.models.sql.ResultStartList;
+import fei.stuba.bp.rigo.preteky.models.sql.*;
 
 import java.util.List;
 import java.util.Map;
@@ -28,4 +25,11 @@ public interface ApResultsService {
     List<ResultStartList> findResultStartListByDisciplineIdOrderByResultPerformanceDesc(int id);
     void absoluteOrderRun (int activeRace);
     void clearResults(ResultStartList resultStartList);
+    void createAttempts (Discipline discipline, Integer numAttempts);
+    Integer getAttemptsNumber(Discipline discipline);
+    Map<Integer,List<Attempt>> getAttemptMapping(List<ResultStartList> resultStartLists);
+    Attempt getAttempt(Integer id);
+    void saveAttempt(Attempt attempt);
+    void orderTechnicalDiscipline(Integer disciplineId);
+    void orderPlace(List<ResultStartList> resultStartLists);
 }
