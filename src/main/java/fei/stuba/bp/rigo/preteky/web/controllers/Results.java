@@ -167,6 +167,7 @@ public class Results {
         model.addAttribute("numberOfAttempts",numberOfAttempts);
         List<ResultStartList> resultStartListList = apResultsService.findAllByDisciplineRaceIdAndDisciplineId(raceId,disciplineId);
         Map<Integer, Double> attemptMap = new HashMap<>();
+        if(!resultStartListList.isEmpty()){
         Map<Integer, List<Attempt>> mappedAttempts = apResultsService.getAttemptMapping(resultStartListList);
         for (List<Attempt> attemptList : mappedAttempts.values()){
             for (Attempt attempt: attemptList){
@@ -178,6 +179,9 @@ public class Results {
         model.addAttribute("bibMap",apResultsService.findByRaceIdMap(activeRace.getId()));
         model.addAttribute("clubs",clubParticipantsService.findRealClubs(activeRace().getStartDate(),activeRace().getStartDate(),activeRace().getStartDate()));
         return "attempt/attempts";
+        }else{
+            return "redirect:/applications";
+        }
     }
     @PostMapping(value = "/results/attempts/{raceId}/{disciplineId}")
     public String updateAttempts(@PathVariable Integer raceId,@PathVariable Integer disciplineId,Model model,@RequestParam Integer attempt){
