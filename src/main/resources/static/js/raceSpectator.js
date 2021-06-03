@@ -42,7 +42,9 @@ $(document).ready(function() {
         select:  false,
         "ordering": true,
         "autoWidth": false,
-        "columnDefs" : [{"targets":3, "type":"date-eu"},{ targets: 0, type: nameType },{ targets: 6, type: nameType },{
+        "columnDefs" : [{
+            'bSortable': false,
+            'aTargets': ['nosort']},{"targets":3, "type":"date-eu"},{ targets: 0, type: nameType },{ targets: 6, type: nameType },{
             "targets": [3],
             "orderable": false
         }],

@@ -46,6 +46,8 @@ public class ApplicationRegistrationRestController {
             resultStartList.setDiscipline(discipline1);
             resultStartList.setAthlete(clubParticipantsService.findAthlete(athlete));
             apResultsService.saveResultStartList(resultStartList);
+            discipline1.setParticipants(discipline1.getParticipants()+1);
+            disciplineService.saveDiscipline(discipline1);
             return "success";
         }else{
             return "error-alreadyExist";
@@ -69,6 +71,8 @@ public class ApplicationRegistrationRestController {
         List<ResultStartList> resultStartList = apResultsService.findByAthleteIdAndDisciplineId(athlete,discipline);
         if(resultStartList.size()==1){
             apResultsService.deleteStartList(resultStartList.get(0).getId());
+            discipline1.setParticipants(discipline1.getParticipants()-1);
+            disciplineService.saveDiscipline(discipline1);
             return "success";
         }
         else{

@@ -98,9 +98,9 @@
                      </span>
                     </th>
                     <span th:if="${entry.key.cameraId!=null}">
-                        <th></th>
+                        <th ></th>
                     </span>
-                    <th>
+                    <th th:colspan="${entry.key.disciplineType!='run' && race.getSettings().getTypeScoring()=='club_competition' ? '2' : '1'}">
                     </th>
                 </tr>
                 <tr>
@@ -108,9 +108,7 @@
                     <span th:if="${entry.key.disciplineType=='run'}">
                      <th style="width: 5%">Line</th>
                 </span>
-                    <span th:if="${entry.key.disciplineType!='run'}">
-                     <th  class="hidden">Line</th>
-                </span>
+
                     <th style="width: 10%">Bib</th>
                     <th>Meno</th>
                     <th>Dátum narodenia</th>
@@ -122,6 +120,9 @@
                     <span th:if="${race.getSettings().getTypeScoring()=='club_competition'}">
                      <th>Body</th>
                      </span>
+                    <span th:if="${entry.key.disciplineType!='run'}">
+                     <th class="nosort" ></th>
+                </span>
                 </tr>
                 </thead>
                 <tbody>

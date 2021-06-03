@@ -32,4 +32,6 @@ public interface ApResultsService {
     void saveAttempt(Attempt attempt);
     void orderTechnicalDiscipline(Integer disciplineId);
     void orderPlace(List<ResultStartList> resultStartLists);
+
+
 }
